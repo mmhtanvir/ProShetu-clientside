@@ -44,3 +44,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 gradle.properties
+/Users/mosalmon/ProShetu/android/gradle.properties
+.env
+.env.*
+!.env.example

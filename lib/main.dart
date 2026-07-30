@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'app/app.dart';
+import 'app/di/injection.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Crisis app: no runtime font fetches, ever. Fonts must be bundled
-  // (add Manrope files under assets/fonts when available); this flag
-  // guarantees offline-first behavior and avoids first-frame jank.
+  // Load environment configuration
+  const env = String.fromEnvironment(
+    'ENV',
+    defaultValue: 'development',
+  );
+
+  await dotenv.load(
+    fileName: '.env.$env',
+  );
+
+  // Crisis app: no runtime font fetching.
+  // Fonts must be bundled locally.
   GoogleFonts.config.allowRuntimeFetching = false;
 
+  // Configure device orientation
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
 
-  runApp(const ProviderScope(child: ProShetuApp()));
+  // Initialize dependency injection
+  await configureDependencies();
+
+  runApp(
+    const ProviderScope(
+      child: ProShetuApp(),
+    ),
+  );
 }

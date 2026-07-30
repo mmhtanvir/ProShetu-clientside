@@ -427,4 +427,19 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get vaultToday => 'আজ';
+
+  @override
+  String get commonBack => 'ফিরে যান';
+
+  @override
+  String get mapDetailsCreatedBy => 'তৈরি করেছেন';
+
+  @override
+  String get mapDetailsLookingFor => 'যা প্রয়োজন';
+
+  @override
+  String get mapDetailsCopyNumber => 'নম্বর কপি করুন';
+
+  @override
+  String get mapNumberCopied => 'নম্বর কপি হয়েছে';
 }
