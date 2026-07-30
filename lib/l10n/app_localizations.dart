@@ -535,6 +535,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap to change'**
   String get authCaptureTapToChange;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navChats.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get navChats;
+
+  /// No description provided for @navSos.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS'**
+  String get navSos;
+
+  /// No description provided for @navMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get navMap;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @greetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning,'**
+  String get greetingMorning;
+
+  /// No description provided for @greetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon,'**
+  String get greetingAfternoon;
+
+  /// No description provided for @greetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening,'**
+  String get greetingEvening;
+
+  /// No description provided for @dashNetworkStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Network Status'**
+  String get dashNetworkStatus;
+
+  /// No description provided for @dashDevicesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devices'**
+  String dashDevicesCount(String count);
+
+  /// No description provided for @dashNearbyOnMesh.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby on Mesh'**
+  String get dashNearbyOnMesh;
+
+  /// No description provided for @dashConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get dashConnect;
+
+  /// No description provided for @dashInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet'**
+  String get dashInternet;
+
+  /// No description provided for @dashGps.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS'**
+  String get dashGps;
+
+  /// No description provided for @statusOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get statusOffline;
+
+  /// No description provided for @statusOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get statusOnline;
+
+  /// No description provided for @statusLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get statusLocked;
+
+  /// No description provided for @dashActiveAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Alert'**
+  String get dashActiveAlert;
+
+  /// No description provided for @chatsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search By Name Or Number'**
+  String get chatsSearchHint;
+
+  /// No description provided for @chatsActivePeople.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Active People'**
+  String chatsActivePeople(String count);
+
+  /// No description provided for @chatsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Chats'**
+  String get chatsAll;
+
+  /// No description provided for @composerVisibleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a Visible message'**
+  String get composerVisibleLabel;
+
+  /// No description provided for @composerEncryptedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted Message Here'**
+  String get composerEncryptedHint;
+
+  /// No description provided for @commonSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get commonSend;
+
+  /// No description provided for @comingSoonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoonTitle;
+
+  /// No description provided for @comingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This screen arrives in an upcoming build.'**
+  String get comingSoonMessage;
+
+  /// No description provided for @sosCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a SOS Alert'**
+  String get sosCreateTitle;
+
+  /// No description provided for @sosTypeNatural.
+  ///
+  /// In en, this message translates to:
+  /// **'Natural Disaster'**
+  String get sosTypeNatural;
+
+  /// No description provided for @sosTypeProtest.
+  ///
+  /// In en, this message translates to:
+  /// **'Protest / Distress'**
+  String get sosTypeProtest;
+
+  /// No description provided for @sosTypeInNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'In Need'**
+  String get sosTypeInNeed;
+
+  /// No description provided for @sosTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Type'**
+  String get sosTypeLabel;
+
+  /// No description provided for @sosName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get sosName;
+
+  /// No description provided for @sosNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get sosNumber;
+
+  /// No description provided for @sosLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get sosLocation;
+
+  /// No description provided for @sosDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get sosDescription;
+
+  /// No description provided for @sosOptionalSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'(Optional)'**
+  String get sosOptionalSuffix;
+
+  /// No description provided for @sosDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter About The SOS'**
+  String get sosDescriptionHint;
+
+  /// No description provided for @sosLookingFor.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you looking for?'**
+  String get sosLookingFor;
+
+  /// No description provided for @sosLookingForHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter The Help You Are Looking For'**
+  String get sosLookingForHint;
+
+  /// No description provided for @sosCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create SOS Alert'**
+  String get sosCreate;
+
+  /// No description provided for @sosSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your SOS Alert has been successfully created! Stay safe and keep your device charged.'**
+  String get sosSuccessBody;
+
+  /// No description provided for @profileKycVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'KYC Verified'**
+  String get profileKycVerified;
+
+  /// No description provided for @profileVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Blackbox Vault'**
+  String get profileVault;
+
+  /// No description provided for @profileSecuritySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Security & Identity'**
+  String get profileSecuritySection;
+
+  /// No description provided for @profileEncryptionKeys.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption Keys'**
+  String get profileEncryptionKeys;
+
+  /// No description provided for @profileTrustedDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted Devices'**
+  String get profileTrustedDevices;
+
+  /// No description provided for @profileDevicesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devices'**
+  String profileDevicesCount(String count);
+
+  /// No description provided for @profileActivityLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Log'**
+  String get profileActivityLog;
+
+  /// No description provided for @profilePrefsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get profilePrefsSection;
+
+  /// No description provided for @profileLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get profileLanguage;
+
+  /// No description provided for @profileAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get profileAppearance;
+
+  /// No description provided for @profileNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get profileNotifications;
+
+  /// No description provided for @profileLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get profileLogout;
+
+  /// No description provided for @profileDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get profileDeleteAccount;
+
+  /// No description provided for @profileDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account?'**
+  String get profileDeleteConfirmTitle;
+
+  /// No description provided for @profileDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently removes your account, keys, and vault contents from this device.'**
+  String get profileDeleteConfirmBody;
+
+  /// No description provided for @commonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get commonDelete;
+
+  /// No description provided for @vaultEnterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your encryption PIN'**
+  String get vaultEnterPin;
+
+  /// No description provided for @vaultWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN. Try again.'**
+  String get vaultWrongPin;
+
+  /// No description provided for @vaultToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get vaultToday;
 }
 
 class _AppLocalizationsDelegate

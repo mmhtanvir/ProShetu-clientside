@@ -62,6 +62,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           context.goNamed(AppRoutes.onboarding);
         case SplashDestination.login:
           context.goNamed(AppRoutes.login);
+        case SplashDestination.home:
+          context.goNamed(AppRoutes.home);
         case SplashDestination.pending:
           break;
       }

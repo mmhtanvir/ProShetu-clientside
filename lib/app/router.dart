@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/widgets/app_status_view.dart';
+import '../features/connectivity/presentation/screens/dashboard_screen.dart';
+import '../features/connectivity/presentation/screens/nearby_mesh_screen.dart';
+import '../features/coordination/presentation/screens/map_screen.dart';
+import '../features/messaging/presentation/screens/chats_screen.dart';
+import '../features/messaging/presentation/screens/conversation_screen.dart';
 import '../features/onboarding/presentation/screens/identity_capture_screen.dart';
 import '../features/onboarding/presentation/screens/identity_choice_screen.dart';
 import '../features/onboarding/presentation/screens/identity_success_screen.dart';
@@ -13,7 +17,13 @@ import '../features/onboarding/presentation/screens/signup_screen.dart';
 import '../features/onboarding/presentation/screens/splash_screen.dart';
 import '../features/onboarding/presentation/screens/trusted_contacts_screen.dart';
 import '../features/onboarding/presentation/screens/verify_phone_screen.dart';
-import '../l10n/app_localizations.dart';
+import '../features/panic/presentation/screens/sos_form_screen.dart';
+import '../features/panic/presentation/screens/sos_success_screen.dart';
+import '../features/panic/presentation/screens/sos_type_screen.dart';
+import '../features/settings/presentation/screens/vault_gallery_screen.dart';
+import '../features/settings/presentation/screens/vault_lock_screen.dart';
+import '../features/settings/presentation/screens/profile_screen.dart';
+import 'shell.dart';
 
 /// Route names & paths in one place. Screens navigate by name, never
 /// by raw string, so paths can evolve safely.
@@ -42,18 +52,44 @@ abstract final class AppRoutes {
   static const String trustedContacts = 'trusted-contacts';
   static const String trustedContactsPath = '/setup/trusted-contacts';
 
+  // Shell tabs.
   static const String home = 'home';
   static const String homePath = '/home';
+  static const String chats = 'chats';
+  static const String chatsPath = '/chats';
+  static const String map = 'map';
+  static const String mapPath = '/map';
+  static const String profile = 'profile';
+  static const String profilePath = '/profile';
 
-  // Reserved for upcoming flows.
+  // Above-shell screens.
+  static const String nearbyMesh = 'nearby-mesh';
+  static const String nearbyMeshPath = '/home/nearby';
+  static const String conversation = 'conversation';
+  static const String conversationPath = '/chats/:id';
+  static const String sos = 'sos';
+  static const String sosPath = '/sos';
+  static const String sosForm = 'sos-form';
+  static const String sosFormPath = '/sos/form';
+  static const String sosSuccess = 'sos-success';
+  static const String sosSuccessPath = '/sos/success';
+  static const String vaultLock = 'vault-lock';
+  static const String vaultLockPath = '/profile/vault';
+  static const String vaultGallery = 'vault-gallery';
+  static const String vaultGalleryPath = '/profile/vault/gallery';
+
+  // Reserved.
   static const String lock = 'lock';
   static const String lockPath = '/lock';
 }
+
+final GlobalKey<NavigatorState> _rootKey = GlobalKey<NavigatorState>();
 
 /// Router provider. Riverpod-owned so redirects can later read auth,
 /// lock and wipe state reactively.
 final routerProvider = Provider<GoRouter>((Ref ref) {
   return GoRouter(
+    navigatorKey: _rootKey,
     initialLocation: AppRoutes.splashPath,
     debugLogDiagnostics: false,
     routes: [
@@ -108,33 +144,95 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
         name: AppRoutes.trustedContacts,
         builder: (_, __) => const TrustedContactsScreen(),
       ),
+
+      // ── Tab shell ────────────────────────────────────────────
+      StatefulShellRoute.indexedStack(
+        builder: (_, __, StatefulNavigationShell shell) =>
+            AppShell(navigationShell: shell),
+        branches: [
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: AppRoutes.homePath,
+              name: AppRoutes.home,
+              builder: (_, __) => const DashboardScreen(),
+              routes: [
+                GoRoute(
+                  path: 'nearby',
+                  name: AppRoutes.nearbyMesh,
+                  parentNavigatorKey: _rootKey, // covers the bottom bar
+                  builder: (_, __) => const NearbyMeshScreen(),
+                ),
+              ],
+            ),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: AppRoutes.chatsPath,
+              name: AppRoutes.chats,
+              builder: (_, __) => const ChatsScreen(),
+              routes: [
+                GoRoute(
+                  path: ':id',
+                  name: AppRoutes.conversation,
+                  parentNavigatorKey: _rootKey,
+                  builder: (BuildContext context, GoRouterState state) =>
+                      ConversationScreen(
+                    chatId: state.pathParameters['id'] ?? '',
+                    peerName: state.extra as String? ?? '',
+                  ),
+                ),
+              ],
+            ),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: AppRoutes.mapPath,
+              name: AppRoutes.map,
+              builder: (_, __) => const MapScreen(),
+            ),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: AppRoutes.profilePath,
+              name: AppRoutes.profile,
+              builder: (_, __) => const ProfileScreen(),
+            ),
+          ]),
+        ],
+      ),
+
       GoRoute(
-        path: AppRoutes.homePath,
-        name: AppRoutes.home,
-        builder: (_, __) => const _HomePlaceholderScreen(),
+        path: AppRoutes.sosPath,
+        name: AppRoutes.sos,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const SosTypeScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.sosFormPath,
+        name: AppRoutes.sosForm,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const SosFormScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.sosSuccessPath,
+        name: AppRoutes.sosSuccess,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const SosSuccessScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.vaultLockPath,
+        name: AppRoutes.vaultLock,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const VaultLockScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.vaultGalleryPath,
+        name: AppRoutes.vaultGallery,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const VaultGalleryScreen(),
       ),
     ],
     // redirect: hook point for auth / lock-screen / emergency-wipe
     // guards. Left inert until session state exists.
   );
 });
-
-/// Temporary landing target so the setup flow has somewhere to go.
-/// Replaced by the real home screen when its design arrives.
-class _HomePlaceholderScreen extends StatelessWidget {
-  const _HomePlaceholderScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    final AppLocalizations l10n = AppLocalizations.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: AppStatusView.empty(
-          icon: Icons.shield_outlined,
-          title: l10n.homePlaceholderTitle,
-          message: l10n.homePlaceholderMessage,
-        ),
-      ),
-    );
-  }
-}

@@ -22,6 +22,7 @@ final class AuthRepositoryImpl implements AuthRepository {
 
   static const String _pinKey = 'encryption_pin_v1';
   static const String _contactsKey = 'trusted_contacts_v1';
+  static const String _sessionKey = 'session_v1';
 
   static Future<void> _network() =>
       Future<void>.delayed(const Duration(milliseconds: 600));
@@ -68,8 +69,33 @@ final class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<bool> verifyPin(String pin) async {
+    try {
+      return await _storage.read(key: _pinKey) == pin;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
   Future<void> saveTrustedContacts(List<String> contacts) =>
       _storage.write(key: _contactsKey, value: jsonEncode(contacts));
+
+  @override
+  Future<void> saveSession() =>
+      _storage.write(key: _sessionKey, value: 'true');
+
+  @override
+  Future<bool> hasSession() async {
+    try {
+      return await _storage.read(key: _sessionKey) == 'true';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<void> clearSession() => _storage.delete(key: _sessionKey);
 
   @override
   Future<bool> hasCompletedSecuritySetup() async {

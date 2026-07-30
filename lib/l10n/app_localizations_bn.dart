@@ -239,4 +239,192 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get authCaptureTapToChange => 'পরিবর্তন করতে চাপুন';
+
+  @override
+  String get navHome => 'হোম';
+
+  @override
+  String get navChats => 'চ্যাট';
+
+  @override
+  String get navSos => 'SOS';
+
+  @override
+  String get navMap => 'ম্যাপ';
+
+  @override
+  String get navProfile => 'প্রোফাইল';
+
+  @override
+  String get greetingMorning => 'সুপ্রভাত,';
+
+  @override
+  String get greetingAfternoon => 'শুভ অপরাহ্ন,';
+
+  @override
+  String get greetingEvening => 'শুভ সন্ধ্যা,';
+
+  @override
+  String get dashNetworkStatus => 'নেটওয়ার্ক স্ট্যাটাস';
+
+  @override
+  String dashDevicesCount(String count) {
+    return '$countটি ডিভাইস';
+  }
+
+  @override
+  String get dashNearbyOnMesh => 'কাছাকাছি মেশে';
+
+  @override
+  String get dashConnect => 'সংযুক্ত হন';
+
+  @override
+  String get dashInternet => 'ইন্টারনেট';
+
+  @override
+  String get dashGps => 'GPS';
+
+  @override
+  String get statusOffline => 'অফলাইন';
+
+  @override
+  String get statusOnline => 'অনলাইন';
+
+  @override
+  String get statusLocked => 'লকড';
+
+  @override
+  String get dashActiveAlert => 'সক্রিয় সতর্কতা';
+
+  @override
+  String get chatsSearchHint => 'নাম বা নম্বর দিয়ে খুঁজুন';
+
+  @override
+  String chatsActivePeople(String count) {
+    return '$count জন সক্রিয়';
+  }
+
+  @override
+  String get chatsAll => 'সব চ্যাট';
+
+  @override
+  String get composerVisibleLabel => 'একটি দৃশ্যমান বার্তা লিখুন';
+
+  @override
+  String get composerEncryptedHint => 'এনক্রিপ্টেড বার্তা এখানে';
+
+  @override
+  String get commonSend => 'পাঠান';
+
+  @override
+  String get comingSoonTitle => 'শীঘ্রই আসছে';
+
+  @override
+  String get comingSoonMessage => 'এই স্ক্রিনটি পরবর্তী বিল্ডে আসবে।';
+
+  @override
+  String get sosCreateTitle => 'SOS সতর্কতা তৈরি করুন';
+
+  @override
+  String get sosTypeNatural => 'প্রাকৃতিক দুর্যোগ';
+
+  @override
+  String get sosTypeProtest => 'প্রতিবাদ / বিপদ';
+
+  @override
+  String get sosTypeInNeed => 'সাহায্য প্রয়োজন';
+
+  @override
+  String get sosTypeLabel => 'SOS ধরন';
+
+  @override
+  String get sosName => 'নাম';
+
+  @override
+  String get sosNumber => 'নম্বর';
+
+  @override
+  String get sosLocation => 'অবস্থান';
+
+  @override
+  String get sosDescription => 'বিবরণ';
+
+  @override
+  String get sosOptionalSuffix => '(ঐচ্ছিক)';
+
+  @override
+  String get sosDescriptionHint => 'SOS সম্পর্কে লিখুন';
+
+  @override
+  String get sosLookingFor => 'আপনি কী খুঁজছেন?';
+
+  @override
+  String get sosLookingForHint => 'যে সাহায্য দরকার তা লিখুন';
+
+  @override
+  String get sosCreate => 'SOS সতর্কতা তৈরি করুন';
+
+  @override
+  String get sosSuccessBody =>
+      'আপনার SOS সতর্কতা সফলভাবে তৈরি হয়েছে! নিরাপদ থাকুন এবং ডিভাইস চার্জে রাখুন।';
+
+  @override
+  String get profileKycVerified => 'KYC যাচাইকৃত';
+
+  @override
+  String get profileVault => 'ব্ল্যাকবক্স ভল্ট';
+
+  @override
+  String get profileSecuritySection => 'নিরাপত্তা ও পরিচয়';
+
+  @override
+  String get profileEncryptionKeys => 'এনক্রিপশন কী';
+
+  @override
+  String get profileTrustedDevices => 'বিশ্বস্ত ডিভাইস';
+
+  @override
+  String profileDevicesCount(String count) {
+    return '$countটি ডিভাইস';
+  }
+
+  @override
+  String get profileActivityLog => 'কার্যকলাপ লগ';
+
+  @override
+  String get profilePrefsSection => 'পছন্দসমূহ';
+
+  @override
+  String get profileLanguage => 'ভাষা';
+
+  @override
+  String get profileAppearance => 'চেহারা';
+
+  @override
+  String get profileNotifications => 'বিজ্ঞপ্তি';
+
+  @override
+  String get profileLogout => 'লগআউট';
+
+  @override
+  String get profileDeleteAccount => 'অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get profileDeleteConfirmTitle => 'অ্যাকাউন্ট মুছবেন?';
+
+  @override
+  String get profileDeleteConfirmBody =>
+      'এটি এই ডিভাইস থেকে আপনার অ্যাকাউন্ট, কী ও ভল্টের সব কিছু স্থায়ীভাবে মুছে ফেলবে।';
+
+  @override
+  String get commonDelete => 'মুছুন';
+
+  @override
+  String get vaultEnterPin => 'আপনার এনক্রিপশন পিন দিন';
+
+  @override
+  String get vaultWrongPin => 'ভুল পিন। আবার চেষ্টা করুন।';
+
+  @override
+  String get vaultToday => 'আজ';
 }

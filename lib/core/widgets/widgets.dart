@@ -1,4 +1,6 @@
 /// Barrel file for the shared widget library.
+export 'app_avatar.dart';
+export 'app_bottom_nav.dart';
 export 'app_bottom_sheet.dart';
 export 'app_button.dart';
 export 'app_card.dart';

@@ -96,5 +96,86 @@
   "authCaptureBackLabel": "Back side",
   "authCaptureDocumentLabel": "Document photo",
   "authCaptureTapToCapture": "Tap to capture",
-  "authCaptureTapToChange": "Tap to change"
+  "authCaptureTapToChange": "Tap to change",
+  "navHome": "Home",
+  "navChats": "Chats",
+  "navSos": "SOS",
+  "navMap": "Map",
+  "navProfile": "Profile",
+  "greetingMorning": "Good morning,",
+  "greetingAfternoon": "Good afternoon,",
+  "greetingEvening": "Good evening,",
+  "dashNetworkStatus": "Network Status",
+  "dashDevicesCount": "{count} devices",
+  "@dashDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "dashNearbyOnMesh": "Nearby on Mesh",
+  "dashConnect": "Connect",
+  "dashInternet": "Internet",
+  "dashGps": "GPS",
+  "statusOffline": "Offline",
+  "statusOnline": "Online",
+  "statusLocked": "Locked",
+  "dashActiveAlert": "Active Alert",
+  "chatsSearchHint": "Search By Name Or Number",
+  "chatsActivePeople": "{count} Active People",
+  "@chatsActivePeople": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "chatsAll": "All Chats",
+  "composerVisibleLabel": "Please enter a Visible message",
+  "composerEncryptedHint": "Encrypted Message Here",
+  "commonSend": "Send",
+  "comingSoonTitle": "Coming soon",
+  "comingSoonMessage": "This screen arrives in an upcoming build.",
+  "sosCreateTitle": "Create a SOS Alert",
+  "sosTypeNatural": "Natural Disaster",
+  "sosTypeProtest": "Protest / Distress",
+  "sosTypeInNeed": "In Need",
+  "sosTypeLabel": "SOS Type",
+  "sosName": "Name",
+  "sosNumber": "Number",
+  "sosLocation": "Location",
+  "sosDescription": "Description",
+  "sosOptionalSuffix": "(Optional)",
+  "sosDescriptionHint": "Enter About The SOS",
+  "sosLookingFor": "What are you looking for?",
+  "sosLookingForHint": "Enter The Help You Are Looking For",
+  "sosCreate": "Create SOS Alert",
+  "sosSuccessBody": "Your SOS Alert has been successfully created! Stay safe and keep your device charged.",
+  "profileKycVerified": "KYC Verified",
+  "profileVault": "Blackbox Vault",
+  "profileSecuritySection": "Security & Identity",
+  "profileEncryptionKeys": "Encryption Keys",
+  "profileTrustedDevices": "Trusted Devices",
+  "profileDevicesCount": "{count} devices",
+  "@profileDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "profileActivityLog": "Activity Log",
+  "profilePrefsSection": "Preferences",
+  "profileLanguage": "Language",
+  "profileAppearance": "Appearance",
+  "profileNotifications": "Notifications",
+  "profileLogout": "Logout",
+  "profileDeleteAccount": "Delete Account",
+  "profileDeleteConfirmTitle": "Delete account?",
+  "profileDeleteConfirmBody": "This permanently removes your account, keys, and vault contents from this device.",
+  "commonDelete": "Delete",
+  "vaultEnterPin": "Enter your encryption PIN",
+  "vaultWrongPin": "Incorrect PIN. Try again.",
+  "vaultToday": "Today"
 }

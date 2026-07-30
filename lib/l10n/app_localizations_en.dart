@@ -243,4 +243,192 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authCaptureTapToChange => 'Tap to change';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navChats => 'Chats';
+
+  @override
+  String get navSos => 'SOS';
+
+  @override
+  String get navMap => 'Map';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get greetingMorning => 'Good morning,';
+
+  @override
+  String get greetingAfternoon => 'Good afternoon,';
+
+  @override
+  String get greetingEvening => 'Good evening,';
+
+  @override
+  String get dashNetworkStatus => 'Network Status';
+
+  @override
+  String dashDevicesCount(String count) {
+    return '$count devices';
+  }
+
+  @override
+  String get dashNearbyOnMesh => 'Nearby on Mesh';
+
+  @override
+  String get dashConnect => 'Connect';
+
+  @override
+  String get dashInternet => 'Internet';
+
+  @override
+  String get dashGps => 'GPS';
+
+  @override
+  String get statusOffline => 'Offline';
+
+  @override
+  String get statusOnline => 'Online';
+
+  @override
+  String get statusLocked => 'Locked';
+
+  @override
+  String get dashActiveAlert => 'Active Alert';
+
+  @override
+  String get chatsSearchHint => 'Search By Name Or Number';
+
+  @override
+  String chatsActivePeople(String count) {
+    return '$count Active People';
+  }
+
+  @override
+  String get chatsAll => 'All Chats';
+
+  @override
+  String get composerVisibleLabel => 'Please enter a Visible message';
+
+  @override
+  String get composerEncryptedHint => 'Encrypted Message Here';
+
+  @override
+  String get commonSend => 'Send';
+
+  @override
+  String get comingSoonTitle => 'Coming soon';
+
+  @override
+  String get comingSoonMessage => 'This screen arrives in an upcoming build.';
+
+  @override
+  String get sosCreateTitle => 'Create a SOS Alert';
+
+  @override
+  String get sosTypeNatural => 'Natural Disaster';
+
+  @override
+  String get sosTypeProtest => 'Protest / Distress';
+
+  @override
+  String get sosTypeInNeed => 'In Need';
+
+  @override
+  String get sosTypeLabel => 'SOS Type';
+
+  @override
+  String get sosName => 'Name';
+
+  @override
+  String get sosNumber => 'Number';
+
+  @override
+  String get sosLocation => 'Location';
+
+  @override
+  String get sosDescription => 'Description';
+
+  @override
+  String get sosOptionalSuffix => '(Optional)';
+
+  @override
+  String get sosDescriptionHint => 'Enter About The SOS';
+
+  @override
+  String get sosLookingFor => 'What are you looking for?';
+
+  @override
+  String get sosLookingForHint => 'Enter The Help You Are Looking For';
+
+  @override
+  String get sosCreate => 'Create SOS Alert';
+
+  @override
+  String get sosSuccessBody =>
+      'Your SOS Alert has been successfully created! Stay safe and keep your device charged.';
+
+  @override
+  String get profileKycVerified => 'KYC Verified';
+
+  @override
+  String get profileVault => 'Blackbox Vault';
+
+  @override
+  String get profileSecuritySection => 'Security & Identity';
+
+  @override
+  String get profileEncryptionKeys => 'Encryption Keys';
+
+  @override
+  String get profileTrustedDevices => 'Trusted Devices';
+
+  @override
+  String profileDevicesCount(String count) {
+    return '$count devices';
+  }
+
+  @override
+  String get profileActivityLog => 'Activity Log';
+
+  @override
+  String get profilePrefsSection => 'Preferences';
+
+  @override
+  String get profileLanguage => 'Language';
+
+  @override
+  String get profileAppearance => 'Appearance';
+
+  @override
+  String get profileNotifications => 'Notifications';
+
+  @override
+  String get profileLogout => 'Logout';
+
+  @override
+  String get profileDeleteAccount => 'Delete Account';
+
+  @override
+  String get profileDeleteConfirmTitle => 'Delete account?';
+
+  @override
+  String get profileDeleteConfirmBody =>
+      'This permanently removes your account, keys, and vault contents from this device.';
+
+  @override
+  String get commonDelete => 'Delete';
+
+  @override
+  String get vaultEnterPin => 'Enter your encryption PIN';
+
+  @override
+  String get vaultWrongPin => 'Incorrect PIN. Try again.';
+
+  @override
+  String get vaultToday => 'Today';
 }

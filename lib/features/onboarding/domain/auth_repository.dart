@@ -21,7 +21,14 @@ abstract interface class AuthRepository {
 
   Future<void> savePin(String pin);
   Future<bool> hasPin();
+  Future<bool> verifyPin(String pin);
 
   Future<void> saveTrustedContacts(List<String> contacts);
   Future<bool> hasCompletedSecuritySetup();
+
+  /// Persistent session: users stay signed in across launches until
+  /// an explicit logout or emergency wipe.
+  Future<void> saveSession();
+  Future<bool> hasSession();
+  Future<void> clearSession();
 }

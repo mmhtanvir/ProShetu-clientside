@@ -30,7 +30,10 @@ class SecuritySetupController extends AutoDisposeAsyncNotifier<void> {
 
     state = const AsyncLoading();
     try {
-      await ref.read(authRepositoryProvider).saveTrustedContacts(cleaned);
+      final repo = ref.read(authRepositoryProvider);
+      await repo.saveTrustedContacts(cleaned);
+      // Setup complete = signed in; no login step after signup.
+      await repo.saveSession();
       state = const AsyncData(null);
       return true;
     } catch (e, st) {

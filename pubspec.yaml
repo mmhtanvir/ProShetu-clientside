@@ -41,6 +41,9 @@ dependencies:
   # Native camera/gallery capture (identity verification).
   image_picker: ^1.1.2
 
+  # Real map rendering (dashboard preview + Map tab).
+  google_maps_flutter: ^2.9.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

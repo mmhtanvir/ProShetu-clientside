@@ -96,5 +96,86 @@
   "authCaptureBackLabel": "পেছনের দিক",
   "authCaptureDocumentLabel": "নথির ছবি",
   "authCaptureTapToCapture": "ছবি তুলতে চাপুন",
-  "authCaptureTapToChange": "পরিবর্তন করতে চাপুন"
+  "authCaptureTapToChange": "পরিবর্তন করতে চাপুন",
+  "navHome": "হোম",
+  "navChats": "চ্যাট",
+  "navSos": "SOS",
+  "navMap": "ম্যাপ",
+  "navProfile": "প্রোফাইল",
+  "greetingMorning": "সুপ্রভাত,",
+  "greetingAfternoon": "শুভ অপরাহ্ন,",
+  "greetingEvening": "শুভ সন্ধ্যা,",
+  "dashNetworkStatus": "নেটওয়ার্ক স্ট্যাটাস",
+  "dashDevicesCount": "{count}টি ডিভাইস",
+  "@dashDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "dashNearbyOnMesh": "কাছাকাছি মেশে",
+  "dashConnect": "সংযুক্ত হন",
+  "dashInternet": "ইন্টারনেট",
+  "dashGps": "GPS",
+  "statusOffline": "অফলাইন",
+  "statusOnline": "অনলাইন",
+  "statusLocked": "লকড",
+  "dashActiveAlert": "সক্রিয় সতর্কতা",
+  "chatsSearchHint": "নাম বা নম্বর দিয়ে খুঁজুন",
+  "chatsActivePeople": "{count} জন সক্রিয়",
+  "@chatsActivePeople": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "chatsAll": "সব চ্যাট",
+  "composerVisibleLabel": "একটি দৃশ্যমান বার্তা লিখুন",
+  "composerEncryptedHint": "এনক্রিপ্টেড বার্তা এখানে",
+  "commonSend": "পাঠান",
+  "comingSoonTitle": "শীঘ্রই আসছে",
+  "comingSoonMessage": "এই স্ক্রিনটি পরবর্তী বিল্ডে আসবে।",
+  "sosCreateTitle": "SOS সতর্কতা তৈরি করুন",
+  "sosTypeNatural": "প্রাকৃতিক দুর্যোগ",
+  "sosTypeProtest": "প্রতিবাদ / বিপদ",
+  "sosTypeInNeed": "সাহায্য প্রয়োজন",
+  "sosTypeLabel": "SOS ধরন",
+  "sosName": "নাম",
+  "sosNumber": "নম্বর",
+  "sosLocation": "অবস্থান",
+  "sosDescription": "বিবরণ",
+  "sosOptionalSuffix": "(ঐচ্ছিক)",
+  "sosDescriptionHint": "SOS সম্পর্কে লিখুন",
+  "sosLookingFor": "আপনি কী খুঁজছেন?",
+  "sosLookingForHint": "যে সাহায্য দরকার তা লিখুন",
+  "sosCreate": "SOS সতর্কতা তৈরি করুন",
+  "sosSuccessBody": "আপনার SOS সতর্কতা সফলভাবে তৈরি হয়েছে! নিরাপদ থাকুন এবং ডিভাইস চার্জে রাখুন।",
+  "profileKycVerified": "KYC যাচাইকৃত",
+  "profileVault": "ব্ল্যাকবক্স ভল্ট",
+  "profileSecuritySection": "নিরাপত্তা ও পরিচয়",
+  "profileEncryptionKeys": "এনক্রিপশন কী",
+  "profileTrustedDevices": "বিশ্বস্ত ডিভাইস",
+  "profileDevicesCount": "{count}টি ডিভাইস",
+  "@profileDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "profileActivityLog": "কার্যকলাপ লগ",
+  "profilePrefsSection": "পছন্দসমূহ",
+  "profileLanguage": "ভাষা",
+  "profileAppearance": "চেহারা",
+  "profileNotifications": "বিজ্ঞপ্তি",
+  "profileLogout": "লগআউট",
+  "profileDeleteAccount": "অ্যাকাউন্ট মুছুন",
+  "profileDeleteConfirmTitle": "অ্যাকাউন্ট মুছবেন?",
+  "profileDeleteConfirmBody": "এটি এই ডিভাইস থেকে আপনার অ্যাকাউন্ট, কী ও ভল্টের সব কিছু স্থায়ীভাবে মুছে ফেলবে।",
+  "commonDelete": "মুছুন",
+  "vaultEnterPin": "আপনার এনক্রিপশন পিন দিন",
+  "vaultWrongPin": "ভুল পিন। আবার চেষ্টা করুন।",
+  "vaultToday": "আজ"
 }

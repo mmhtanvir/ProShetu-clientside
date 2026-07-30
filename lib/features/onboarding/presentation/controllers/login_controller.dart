@@ -17,6 +17,7 @@ class LoginController extends AutoDisposeAsyncNotifier<void> {
     try {
       final repo = ref.read(authRepositoryProvider);
       await repo.login(phone: phone, password: password);
+      await repo.saveSession(); // Stay signed in across launches.
       final bool done = await repo.hasCompletedSecuritySetup();
       state = const AsyncData(null);
       return done ? PostLoginDestination.home : PostLoginDestination.setPin;

@@ -22,7 +22,12 @@ class IdentityChoiceScreen extends ConsumerWidget {
         ref.watch(identityControllerProvider.select((s) => s.docType));
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.authIdentityTitle)),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => context.goNamed(AppRoutes.signup),
+        ),
+        title: Text(l10n.authIdentityTitle),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -70,7 +75,7 @@ class IdentityChoiceScreen extends ConsumerWidget {
                     pill: true,
                     onPressed: selected == null
                         ? null
-                        : () => context.goNamed(AppRoutes.identityCapture),
+                        : () => context.pushNamed(AppRoutes.identityCapture),
                   ),
                 ],
               ),
