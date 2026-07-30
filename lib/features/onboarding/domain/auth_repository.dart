@@ -1,0 +1,27 @@
+import 'identity_doc_type.dart';
+
+/// Contract for account, verification and security setup.
+/// Presentation depends only on this; transport details live in data/.
+abstract interface class AuthRepository {
+  Future<void> signUp({
+    required String displayName,
+    required String phone,
+    required String password,
+  });
+
+  Future<bool> verifyOtp(String code);
+  Future<void> resendOtp();
+
+  Future<void> submitIdentity({
+    required IdentityDocType docType,
+    required List<String> imagePaths,
+  });
+
+  Future<void> login({required String phone, required String password});
+
+  Future<void> savePin(String pin);
+  Future<bool> hasPin();
+
+  Future<void> saveTrustedContacts(List<String> contacts);
+  Future<bool> hasCompletedSecuritySetup();
+}

@@ -4,7 +4,7 @@ import '../../../../core/constants/app_durations.dart';
 import '../providers/onboarding_providers.dart';
 
 /// Where the app should go after boot.
-enum SplashDestination { pending, onboarding, home }
+enum SplashDestination { pending, onboarding, login }
 
 /// Orchestrates app boot: minimum brand time + first-run check.
 /// Session, lock-state and wipe-flag checks slot in here later.
@@ -25,7 +25,7 @@ class SplashController extends Notifier<SplashDestination> {
     }
 
     state =
-        completed ? SplashDestination.home : SplashDestination.onboarding;
+        completed ? SplashDestination.login : SplashDestination.onboarding;
   }
 }
 

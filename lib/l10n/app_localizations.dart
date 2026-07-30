@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'ProShetu'**
   String get appName;
 
+  /// No description provided for @brandTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure crisis communications'**
+  String get brandTagline;
+
   /// No description provided for @splashTagline.
   ///
   /// In en, this message translates to:
@@ -127,6 +133,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get commonConfirm;
+
+  /// No description provided for @commonContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get commonContinue;
 
   /// No description provided for @commonNext.
   ///
@@ -170,6 +182,30 @@ abstract class AppLocalizations {
   /// **'Nothing here yet'**
   String get emptyGenericTitle;
 
+  /// No description provided for @validationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get validationRequired;
+
+  /// No description provided for @validationPhoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number'**
+  String get validationPhoneInvalid;
+
+  /// No description provided for @validationPasswordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get validationPasswordShort;
+
+  /// No description provided for @validationPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get validationPasswordMismatch;
+
   /// No description provided for @onboardingMeshTitle.
   ///
   /// In en, this message translates to:
@@ -206,6 +242,258 @@ abstract class AppLocalizations {
   /// **'Share safe zones, dangers, shelters, and resources with your mesh network. GPS works without internet. Your community builds the map together.'**
   String get onboardingMapsBody;
 
+  /// No description provided for @authSignupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account.'**
+  String get authSignupTitle;
+
+  /// No description provided for @authDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get authDisplayName;
+
+  /// No description provided for @authDisplayNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Name (Visible To Mesh Peers)'**
+  String get authDisplayNameHint;
+
+  /// No description provided for @authPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get authPhoneNumber;
+
+  /// No description provided for @authPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'+88 01000-000000'**
+  String get authPhoneHint;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A Strong Password'**
+  String get authPasswordHint;
+
+  /// No description provided for @authConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get authConfirmPassword;
+
+  /// No description provided for @authConfirmPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get authConfirmPasswordHint;
+
+  /// No description provided for @authSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get authSignUp;
+
+  /// No description provided for @authHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get authHaveAccount;
+
+  /// No description provided for @authLogInHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In here'**
+  String get authLogInHere;
+
+  /// No description provided for @authVerifyPhoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Phone'**
+  String get authVerifyPhoneTitle;
+
+  /// No description provided for @authOtpSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code to {phone}. Code expires in {time}.'**
+  String authOtpSentTo(String phone, String time);
+
+  /// No description provided for @authOtpExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'The code has expired. Request a new one.'**
+  String get authOtpExpired;
+
+  /// No description provided for @authOtpInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That code is not correct. Try again.'**
+  String get authOtpInvalid;
+
+  /// No description provided for @authVerifyContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify & Continue'**
+  String get authVerifyContinue;
+
+  /// No description provided for @authResendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Code'**
+  String get authResendCode;
+
+  /// No description provided for @authIdentityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity Verification'**
+  String get authIdentityTitle;
+
+  /// No description provided for @authIdentityIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'To access this application, you must be a resident of Bangladesh and provide either your Birth Certificate or NID.'**
+  String get authIdentityIntro;
+
+  /// No description provided for @authNidOption.
+  ///
+  /// In en, this message translates to:
+  /// **'National Identity Card (NID)'**
+  String get authNidOption;
+
+  /// No description provided for @authBirthCertOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth Certificate'**
+  String get authBirthCertOption;
+
+  /// No description provided for @authCaptureNidFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture the front of your National Identity Card (NID) clearly'**
+  String get authCaptureNidFront;
+
+  /// No description provided for @authCaptureNidBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture the back of your National Identity Card (NID) clearly'**
+  String get authCaptureNidBack;
+
+  /// No description provided for @authCaptureBirthCert.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture your Birth Certificate clearly'**
+  String get authCaptureBirthCert;
+
+  /// No description provided for @authCaptureRetake.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake'**
+  String get authCaptureRetake;
+
+  /// No description provided for @authCongratsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations'**
+  String get authCongratsTitle;
+
+  /// No description provided for @authCongratsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {document} has been uploaded successfully! We will review it shortly and finalize your account.'**
+  String authCongratsBody(String document);
+
+  /// No description provided for @authLoginWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back!'**
+  String get authLoginWelcome;
+
+  /// No description provided for @authLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get authLogin;
+
+  /// No description provided for @authNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get authNoAccount;
+
+  /// No description provided for @authSignUpHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up here'**
+  String get authSignUpHere;
+
+  /// No description provided for @pinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Encryption PIN'**
+  String get pinTitle;
+
+  /// No description provided for @pinSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to unlock the app, secret messages and vault'**
+  String get pinSubtitle;
+
+  /// No description provided for @pinChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a 6-digit PIN'**
+  String get pinChoose;
+
+  /// No description provided for @pinNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Establish an \"Encryption PIN\" that discreetly erases data and reveals hidden messages and vault contents.'**
+  String get pinNote;
+
+  /// No description provided for @trustedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted Contacts'**
+  String get trustedTitle;
+
+  /// No description provided for @trustedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add trusted contacts to enhance your security.'**
+  String get trustedSubtitle;
+
+  /// No description provided for @trustedContactLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted Contact {number}'**
+  String trustedContactLabel(String number);
+
+  /// No description provided for @trustedContactHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Your Trusted Contact'**
+  String get trustedContactHint;
+
+  /// No description provided for @trustedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'To complete your profile setup, please add at least one Trusted Contact.'**
+  String get trustedNote;
+
+  /// No description provided for @trustedAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Trusted Contacts'**
+  String get trustedAdd;
+
   /// No description provided for @homePlaceholderTitle.
   ///
   /// In en, this message translates to:
@@ -217,6 +505,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The home experience is coming in the next build.'**
   String get homePlaceholderMessage;
+
+  /// No description provided for @authCaptureFrontLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Front side'**
+  String get authCaptureFrontLabel;
+
+  /// No description provided for @authCaptureBackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Back side'**
+  String get authCaptureBackLabel;
+
+  /// No description provided for @authCaptureDocumentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Document photo'**
+  String get authCaptureDocumentLabel;
+
+  /// No description provided for @authCaptureTapToCapture.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to capture'**
+  String get authCaptureTapToCapture;
+
+  /// No description provided for @authCaptureTapToChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to change'**
+  String get authCaptureTapToChange;
 }
 
 class _AppLocalizationsDelegate

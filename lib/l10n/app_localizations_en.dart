@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appName => 'ProShetu';
 
   @override
+  String get brandTagline => 'Secure crisis communications';
+
+  @override
   String get splashTagline => 'OFFLINE • ENCRYPTED • RESILIENT';
 
   @override
@@ -22,6 +25,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonConfirm => 'Confirm';
+
+  @override
+  String get commonContinue => 'Continue';
 
   @override
   String get commonNext => 'Next';
@@ -46,6 +52,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emptyGenericTitle => 'Nothing here yet';
 
   @override
+  String get validationRequired => 'Required';
+
+  @override
+  String get validationPhoneInvalid => 'Enter a valid phone number';
+
+  @override
+  String get validationPasswordShort => 'Use at least 8 characters';
+
+  @override
+  String get validationPasswordMismatch => 'Passwords do not match';
+
+  @override
   String get onboardingMeshTitle => 'Works When Nothing Else Does';
 
   @override
@@ -67,9 +85,162 @@ class AppLocalizationsEn extends AppLocalizations {
       'Share safe zones, dangers, shelters, and resources with your mesh network. GPS works without internet. Your community builds the map together.';
 
   @override
+  String get authSignupTitle => 'Create Account.';
+
+  @override
+  String get authDisplayName => 'Display Name';
+
+  @override
+  String get authDisplayNameHint => 'Your Name (Visible To Mesh Peers)';
+
+  @override
+  String get authPhoneNumber => 'Phone Number';
+
+  @override
+  String get authPhoneHint => '+88 01000-000000';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authPasswordHint => 'A Strong Password';
+
+  @override
+  String get authConfirmPassword => 'Confirm Password';
+
+  @override
+  String get authConfirmPasswordHint => 'Confirm Password';
+
+  @override
+  String get authSignUp => 'Sign Up';
+
+  @override
+  String get authHaveAccount => 'Already have an account?';
+
+  @override
+  String get authLogInHere => 'Log In here';
+
+  @override
+  String get authVerifyPhoneTitle => 'Verify Phone';
+
+  @override
+  String authOtpSentTo(String phone, String time) {
+    return 'We sent a 6-digit code to $phone. Code expires in $time.';
+  }
+
+  @override
+  String get authOtpExpired => 'The code has expired. Request a new one.';
+
+  @override
+  String get authOtpInvalid => 'That code is not correct. Try again.';
+
+  @override
+  String get authVerifyContinue => 'Verify & Continue';
+
+  @override
+  String get authResendCode => 'Resend Code';
+
+  @override
+  String get authIdentityTitle => 'Identity Verification';
+
+  @override
+  String get authIdentityIntro =>
+      'To access this application, you must be a resident of Bangladesh and provide either your Birth Certificate or NID.';
+
+  @override
+  String get authNidOption => 'National Identity Card (NID)';
+
+  @override
+  String get authBirthCertOption => 'Birth Certificate';
+
+  @override
+  String get authCaptureNidFront =>
+      'Capture the front of your National Identity Card (NID) clearly';
+
+  @override
+  String get authCaptureNidBack =>
+      'Capture the back of your National Identity Card (NID) clearly';
+
+  @override
+  String get authCaptureBirthCert => 'Capture your Birth Certificate clearly';
+
+  @override
+  String get authCaptureRetake => 'Retake';
+
+  @override
+  String get authCongratsTitle => 'Congratulations';
+
+  @override
+  String authCongratsBody(String document) {
+    return 'Your $document has been uploaded successfully! We will review it shortly and finalize your account.';
+  }
+
+  @override
+  String get authLoginWelcome => 'Welcome Back!';
+
+  @override
+  String get authLogin => 'Login';
+
+  @override
+  String get authNoAccount => 'Don\'t have an account?';
+
+  @override
+  String get authSignUpHere => 'Sign Up here';
+
+  @override
+  String get pinTitle => 'Set Encryption PIN';
+
+  @override
+  String get pinSubtitle => 'Used to unlock the app, secret messages and vault';
+
+  @override
+  String get pinChoose => 'Choose a 6-digit PIN';
+
+  @override
+  String get pinNote =>
+      'Establish an \"Encryption PIN\" that discreetly erases data and reveals hidden messages and vault contents.';
+
+  @override
+  String get trustedTitle => 'Trusted Contacts';
+
+  @override
+  String get trustedSubtitle =>
+      'Add trusted contacts to enhance your security.';
+
+  @override
+  String trustedContactLabel(String number) {
+    return 'Trusted Contact $number';
+  }
+
+  @override
+  String get trustedContactHint => 'Enter Your Trusted Contact';
+
+  @override
+  String get trustedNote =>
+      'To complete your profile setup, please add at least one Trusted Contact.';
+
+  @override
+  String get trustedAdd => 'Add Trusted Contacts';
+
+  @override
   String get homePlaceholderTitle => 'You\'re all set';
 
   @override
   String get homePlaceholderMessage =>
       'The home experience is coming in the next build.';
+
+  @override
+  String get authCaptureFrontLabel => 'Front side';
+
+  @override
+  String get authCaptureBackLabel => 'Back side';
+
+  @override
+  String get authCaptureDocumentLabel => 'Document photo';
+
+  @override
+  String get authCaptureTapToCapture => 'Tap to capture';
+
+  @override
+  String get authCaptureTapToChange => 'Tap to change';
 }

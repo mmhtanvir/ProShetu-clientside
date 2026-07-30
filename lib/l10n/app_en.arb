@@ -1,10 +1,12 @@
 {
   "@@locale": "en",
   "appName": "ProShetu",
+  "brandTagline": "Secure crisis communications",
   "splashTagline": "OFFLINE • ENCRYPTED • RESILIENT",
   "commonRetry": "Try again",
   "commonCancel": "Cancel",
   "commonConfirm": "Confirm",
+  "commonContinue": "Continue",
   "commonNext": "Next",
   "commonPrevious": "Previous",
   "commonSkip": "Skip",
@@ -12,12 +14,87 @@
   "errorGenericTitle": "Something went wrong",
   "errorGenericMessage": "The action could not be completed. Check your connection and try again.",
   "emptyGenericTitle": "Nothing here yet",
+  "validationRequired": "Required",
+  "validationPhoneInvalid": "Enter a valid phone number",
+  "validationPasswordShort": "Use at least 8 characters",
+  "validationPasswordMismatch": "Passwords do not match",
   "onboardingMeshTitle": "Works When Nothing Else Does",
   "onboardingMeshBody": "Bluetooth mesh networking keeps you connected even when internet and cell towers are down. Messages hop device-to-device across your community.",
   "onboardingEncryptionTitle": "Military-Grade Encryption",
   "onboardingEncryptionBody": "Every message is encrypted end-to-end before it ever leaves your device. No servers. No backdoors. No one can read your communications.",
   "onboardingMapsTitle": "Offline Crisis Maps",
   "onboardingMapsBody": "Share safe zones, dangers, shelters, and resources with your mesh network. GPS works without internet. Your community builds the map together.",
+  "authSignupTitle": "Create Account.",
+  "authDisplayName": "Display Name",
+  "authDisplayNameHint": "Your Name (Visible To Mesh Peers)",
+  "authPhoneNumber": "Phone Number",
+  "authPhoneHint": "+88 01000-000000",
+  "authPassword": "Password",
+  "authPasswordHint": "A Strong Password",
+  "authConfirmPassword": "Confirm Password",
+  "authConfirmPasswordHint": "Confirm Password",
+  "authSignUp": "Sign Up",
+  "authHaveAccount": "Already have an account?",
+  "authLogInHere": "Log In here",
+  "authVerifyPhoneTitle": "Verify Phone",
+  "authOtpSentTo": "We sent a 6-digit code to {phone}. Code expires in {time}.",
+  "@authOtpSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "authOtpExpired": "The code has expired. Request a new one.",
+  "authOtpInvalid": "That code is not correct. Try again.",
+  "authVerifyContinue": "Verify & Continue",
+  "authResendCode": "Resend Code",
+  "authIdentityTitle": "Identity Verification",
+  "authIdentityIntro": "To access this application, you must be a resident of Bangladesh and provide either your Birth Certificate or NID.",
+  "authNidOption": "National Identity Card (NID)",
+  "authBirthCertOption": "Birth Certificate",
+  "authCaptureNidFront": "Capture the front of your National Identity Card (NID) clearly",
+  "authCaptureNidBack": "Capture the back of your National Identity Card (NID) clearly",
+  "authCaptureBirthCert": "Capture your Birth Certificate clearly",
+  "authCaptureRetake": "Retake",
+  "authCongratsTitle": "Congratulations",
+  "authCongratsBody": "Your {document} has been uploaded successfully! We will review it shortly and finalize your account.",
+  "@authCongratsBody": {
+    "placeholders": {
+      "document": {
+        "type": "String"
+      }
+    }
+  },
+  "authLoginWelcome": "Welcome Back!",
+  "authLogin": "Login",
+  "authNoAccount": "Don't have an account?",
+  "authSignUpHere": "Sign Up here",
+  "pinTitle": "Set Encryption PIN",
+  "pinSubtitle": "Used to unlock the app, secret messages and vault",
+  "pinChoose": "Choose a 6-digit PIN",
+  "pinNote": "Establish an \"Encryption PIN\" that discreetly erases data and reveals hidden messages and vault contents.",
+  "trustedTitle": "Trusted Contacts",
+  "trustedSubtitle": "Add trusted contacts to enhance your security.",
+  "trustedContactLabel": "Trusted Contact {number}",
+  "@trustedContactLabel": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "trustedContactHint": "Enter Your Trusted Contact",
+  "trustedNote": "To complete your profile setup, please add at least one Trusted Contact.",
+  "trustedAdd": "Add Trusted Contacts",
   "homePlaceholderTitle": "You're all set",
-  "homePlaceholderMessage": "The home experience is coming in the next build."
+  "homePlaceholderMessage": "The home experience is coming in the next build.",
+  "authCaptureFrontLabel": "Front side",
+  "authCaptureBackLabel": "Back side",
+  "authCaptureDocumentLabel": "Document photo",
+  "authCaptureTapToCapture": "Tap to capture",
+  "authCaptureTapToChange": "Tap to change"
 }

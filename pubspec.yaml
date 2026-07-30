@@ -1,4 +1,4 @@
-name: ProShetu
+name: proshetu
 description: Offline-first crisis communication platform.
 publish_to: "none"
 version: 0.1.0+1
@@ -37,6 +37,9 @@ dependencies:
   # Typography & i18n.
   google_fonts: ^6.2.1
   intl: any
+
+  # Native camera/gallery capture (identity verification).
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

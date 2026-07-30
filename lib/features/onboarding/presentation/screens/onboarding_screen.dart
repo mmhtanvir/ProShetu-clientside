@@ -14,9 +14,9 @@ import '../widgets/onboarding_page_view.dart';
 
 /// First-run onboarding carousel (3 pages).
 ///
-/// The [PageController] is the single source of truth for the page
-/// index; only the button row listens to it, so swiping never
-/// rebuilds the art or copy of other pages.
+/// Navigation is button-only (swiping is disabled per design).
+/// Only the button row listens to the [PageController], so page
+/// changes never rebuild the art or copy of other pages.
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -50,7 +50,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Future<void> _finish() async {
     await ref.read(onboardingControllerProvider.notifier).complete();
-    if (mounted) context.goNamed(AppRoutes.home);
+    if (mounted) context.goNamed(AppRoutes.signup);
   }
 
   @override
@@ -97,6 +97,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
+                // Design decision: pages advance via buttons only.
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: pages.length,
                 itemBuilder: (BuildContext context, int index) =>
                     OnboardingPageView(data: pages[index]),

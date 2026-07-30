@@ -1,10 +1,12 @@
 {
   "@@locale": "bn",
   "appName": "প্রশেতু",
+  "brandTagline": "নিরাপদ সংকটকালীন যোগাযোগ",
   "splashTagline": "OFFLINE • ENCRYPTED • RESILIENT",
   "commonRetry": "আবার চেষ্টা করুন",
   "commonCancel": "বাতিল",
   "commonConfirm": "নিশ্চিত করুন",
+  "commonContinue": "চালিয়ে যান",
   "commonNext": "পরবর্তী",
   "commonPrevious": "পূর্ববর্তী",
   "commonSkip": "এড়িয়ে যান",
@@ -12,12 +14,87 @@
   "errorGenericTitle": "কিছু একটা সমস্যা হয়েছে",
   "errorGenericMessage": "কাজটি সম্পন্ন করা যায়নি। সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।",
   "emptyGenericTitle": "এখনও কিছু নেই",
+  "validationRequired": "আবশ্যক",
+  "validationPhoneInvalid": "সঠিক ফোন নম্বর দিন",
+  "validationPasswordShort": "অন্তত ৮টি অক্ষর ব্যবহার করুন",
+  "validationPasswordMismatch": "পাসওয়ার্ড মিলছে না",
   "onboardingMeshTitle": "যখন আর কিছুই কাজ করে না",
   "onboardingMeshBody": "ইন্টারনেট ও মোবাইল নেটওয়ার্ক বন্ধ থাকলেও ব্লুটুথ মেশ নেটওয়ার্ক আপনাকে সংযুক্ত রাখে। বার্তা এক ডিভাইস থেকে আরেক ডিভাইসে পৌঁছে যায়।",
   "onboardingEncryptionTitle": "সামরিক-মানের এনক্রিপশন",
   "onboardingEncryptionBody": "প্রতিটি বার্তা ডিভাইস ছাড়ার আগেই এন্ড-টু-এন্ড এনক্রিপ্ট হয়। কোনো সার্ভার নেই। কোনো ব্যাকডোর নেই। কেউ আপনার যোগাযোগ পড়তে পারবে না।",
   "onboardingMapsTitle": "অফলাইন ক্রাইসিস ম্যাপ",
   "onboardingMapsBody": "নিরাপদ এলাকা, বিপদ, আশ্রয়কেন্দ্র ও সম্পদের তথ্য মেশ নেটওয়ার্কে শেয়ার করুন। ইন্টারনেট ছাড়াই GPS কাজ করে। কমিউনিটি মিলে ম্যাপ তৈরি করে।",
+  "authSignupTitle": "অ্যাকাউন্ট তৈরি করুন।",
+  "authDisplayName": "প্রদর্শিত নাম",
+  "authDisplayNameHint": "আপনার নাম (মেশ পিয়ারদের কাছে দৃশ্যমান)",
+  "authPhoneNumber": "ফোন নম্বর",
+  "authPhoneHint": "+৮৮ ০১০০০-০০০০০০",
+  "authPassword": "পাসওয়ার্ড",
+  "authPasswordHint": "একটি শক্তিশালী পাসওয়ার্ড",
+  "authConfirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+  "authConfirmPasswordHint": "পাসওয়ার্ড নিশ্চিত করুন",
+  "authSignUp": "সাইন আপ",
+  "authHaveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?",
+  "authLogInHere": "লগ ইন করুন",
+  "authVerifyPhoneTitle": "ফোন যাচাই",
+  "authOtpSentTo": "আমরা {phone} নম্বরে ৬-সংখ্যার কোড পাঠিয়েছি। কোডের মেয়াদ {time}।",
+  "@authOtpSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "authOtpExpired": "কোডের মেয়াদ শেষ। নতুন কোড নিন।",
+  "authOtpInvalid": "কোডটি সঠিক নয়। আবার চেষ্টা করুন।",
+  "authVerifyContinue": "যাচাই করে এগিয়ে যান",
+  "authResendCode": "কোড আবার পাঠান",
+  "authIdentityTitle": "পরিচয় যাচাই",
+  "authIdentityIntro": "এই অ্যাপ ব্যবহার করতে আপনাকে বাংলাদেশের বাসিন্দা হতে হবে এবং জন্ম নিবন্ধন সনদ অথবা NID দিতে হবে।",
+  "authNidOption": "জাতীয় পরিচয়পত্র (NID)",
+  "authBirthCertOption": "জন্ম নিবন্ধন সনদ",
+  "authCaptureNidFront": "আপনার NID-এর সামনের দিক স্পষ্টভাবে তুলুন",
+  "authCaptureNidBack": "আপনার NID-এর পেছনের দিক স্পষ্টভাবে তুলুন",
+  "authCaptureBirthCert": "আপনার জন্ম নিবন্ধন সনদ স্পষ্টভাবে তুলুন",
+  "authCaptureRetake": "আবার তুলুন",
+  "authCongratsTitle": "অভিনন্দন",
+  "authCongratsBody": "আপনার {document} সফলভাবে আপলোড হয়েছে! আমরা শীঘ্রই পর্যালোচনা করে আপনার অ্যাকাউন্ট চূড়ান্ত করব।",
+  "@authCongratsBody": {
+    "placeholders": {
+      "document": {
+        "type": "String"
+      }
+    }
+  },
+  "authLoginWelcome": "আবার স্বাগতম!",
+  "authLogin": "লগইন",
+  "authNoAccount": "অ্যাকাউন্ট নেই?",
+  "authSignUpHere": "সাইন আপ করুন",
+  "pinTitle": "এনক্রিপশন পিন সেট করুন",
+  "pinSubtitle": "অ্যাপ, গোপন বার্তা ও ভল্ট খুলতে ব্যবহৃত হয়",
+  "pinChoose": "৬-সংখ্যার একটি পিন বেছে নিন",
+  "pinNote": "একটি \"এনক্রিপশন পিন\" সেট করুন যা গোপনে ডেটা মুছে ফেলে এবং লুকানো বার্তা ও ভল্ট প্রকাশ করে।",
+  "trustedTitle": "বিশ্বস্ত পরিচিতি",
+  "trustedSubtitle": "নিরাপত্তা বাড়াতে বিশ্বস্ত পরিচিতি যোগ করুন।",
+  "trustedContactLabel": "বিশ্বস্ত পরিচিতি {number}",
+  "@trustedContactLabel": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "trustedContactHint": "আপনার বিশ্বস্ত পরিচিতি লিখুন",
+  "trustedNote": "প্রোফাইল সেটআপ সম্পূর্ণ করতে অন্তত একটি বিশ্বস্ত পরিচিতি যোগ করুন।",
+  "trustedAdd": "বিশ্বস্ত পরিচিতি যোগ করুন",
   "homePlaceholderTitle": "সব প্রস্তুত",
-  "homePlaceholderMessage": "হোম স্ক্রিন পরবর্তী বিল্ডে আসছে।"
+  "homePlaceholderMessage": "হোম স্ক্রিন পরবর্তী বিল্ডে আসছে।",
+  "authCaptureFrontLabel": "সামনের দিক",
+  "authCaptureBackLabel": "পেছনের দিক",
+  "authCaptureDocumentLabel": "নথির ছবি",
+  "authCaptureTapToCapture": "ছবি তুলতে চাপুন",
+  "authCaptureTapToChange": "পরিবর্তন করতে চাপুন"
 }
