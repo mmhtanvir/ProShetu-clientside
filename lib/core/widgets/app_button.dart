@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_theme.dart';
 
-enum AppButtonVariant { primary, secondary, ghost, danger }
+enum AppButtonVariant {
+  primary,
+  secondary,
+  ghost,
+  danger,
+
+  /// High-contrast against the current background (white pill on the
+  /// dark theme). Used for hero CTAs like onboarding.
+  inverse,
+}
 
 /// The one button used across the app.
 ///
@@ -16,6 +25,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.isLoading = false,
     this.expanded = true,
+    this.pill = false,
     super.key,
   });
 
@@ -30,9 +40,19 @@ class AppButton extends StatelessWidget {
   /// Full-width by default (stress-friendly targets).
   final bool expanded;
 
+  /// Fully rounded ends instead of the default [AppRadius.lg].
+  final bool pill;
+
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final VoidCallback? effectiveOnPressed = isLoading ? null : onPressed;
+
+    final RoundedRectangleBorder? shape = pill
+        ? const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(AppRadius.pill)),
+          )
+        : null;
 
     final Widget child = isLoading
         ? const SizedBox.square(
@@ -51,20 +71,41 @@ class AppButton extends StatelessWidget {
           );
 
     final Widget button = switch (variant) {
-      AppButtonVariant.primary =>
-        FilledButton(onPressed: effectiveOnPressed, child: child),
+      AppButtonVariant.primary => FilledButton(
+          onPressed: effectiveOnPressed,
+          style: FilledButton.styleFrom(shape: shape),
+          child: child,
+        ),
+      AppButtonVariant.inverse => FilledButton(
+          onPressed: effectiveOnPressed,
+          style: FilledButton.styleFrom(
+            backgroundColor:
+                isDark ? Colors.white : AppColors.textPrimaryLight,
+            foregroundColor:
+                isDark ? AppColors.backgroundDark : Colors.white,
+            shape: shape,
+          ),
+          child: child,
+        ),
       AppButtonVariant.danger => FilledButton(
           onPressed: effectiveOnPressed,
           style: FilledButton.styleFrom(
             backgroundColor: AppColors.danger,
             foregroundColor: Colors.white,
+            shape: shape,
           ),
           child: child,
         ),
-      AppButtonVariant.secondary =>
-        OutlinedButton(onPressed: effectiveOnPressed, child: child),
-      AppButtonVariant.ghost =>
-        TextButton(onPressed: effectiveOnPressed, child: child),
+      AppButtonVariant.secondary => OutlinedButton(
+          onPressed: effectiveOnPressed,
+          style: OutlinedButton.styleFrom(shape: shape),
+          child: child,
+        ),
+      AppButtonVariant.ghost => TextButton(
+          onPressed: effectiveOnPressed,
+          style: TextButton.styleFrom(shape: shape),
+          child: child,
+        ),
     };
 
     return expanded ? SizedBox(width: double.infinity, child: button) : button;

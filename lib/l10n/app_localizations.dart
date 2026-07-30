@@ -128,6 +128,24 @@ abstract class AppLocalizations {
   /// **'Confirm'**
   String get commonConfirm;
 
+  /// No description provided for @commonNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get commonNext;
+
+  /// No description provided for @commonPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get commonPrevious;
+
+  /// No description provided for @commonSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get commonSkip;
+
   /// No description provided for @commonLoading.
   ///
   /// In en, this message translates to:
@@ -151,6 +169,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing here yet'**
   String get emptyGenericTitle;
+
+  /// No description provided for @onboardingMeshTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Works When Nothing Else Does'**
+  String get onboardingMeshTitle;
+
+  /// No description provided for @onboardingMeshBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth mesh networking keeps you connected even when internet and cell towers are down. Messages hop device-to-device across your community.'**
+  String get onboardingMeshBody;
+
+  /// No description provided for @onboardingEncryptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Military-Grade Encryption'**
+  String get onboardingEncryptionTitle;
+
+  /// No description provided for @onboardingEncryptionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every message is encrypted end-to-end before it ever leaves your device. No servers. No backdoors. No one can read your communications.'**
+  String get onboardingEncryptionBody;
+
+  /// No description provided for @onboardingMapsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Crisis Maps'**
+  String get onboardingMapsTitle;
+
+  /// No description provided for @onboardingMapsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Share safe zones, dangers, shelters, and resources with your mesh network. GPS works without internet. Your community builds the map together.'**
+  String get onboardingMapsBody;
+
+  /// No description provided for @homePlaceholderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all set'**
+  String get homePlaceholderTitle;
+
+  /// No description provided for @homePlaceholderMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The home experience is coming in the next build.'**
+  String get homePlaceholderMessage;
 }
 
 class _AppLocalizationsDelegate

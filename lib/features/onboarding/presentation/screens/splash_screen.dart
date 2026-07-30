@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../app/router.dart';
 import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/widgets/brand_mark.dart';
@@ -53,9 +55,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final TextTheme text = Theme.of(context).textTheme;
 
     // Controller decides where to go; screen only reacts.
-    ref.listen(splashControllerProvider, (previous, next) {
-      // Navigation hook: when session/lock state exists, route here
-      // via GoRouter based on `next`. Intentionally inert for now.
+    ref.listen<SplashDestination>(splashControllerProvider,
+        (SplashDestination? previous, SplashDestination next) {
+      switch (next) {
+        case SplashDestination.onboarding:
+          context.goNamed(AppRoutes.onboarding);
+        case SplashDestination.home:
+          context.goNamed(AppRoutes.home);
+        case SplashDestination.pending:
+          break;
+      }
     });
 
     return Scaffold(
