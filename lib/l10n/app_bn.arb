@@ -1,0 +1,12 @@
+{
+  "@@locale": "bn",
+  "appName": "প্রশেতু",
+  "splashTagline": "OFFLINE • ENCRYPTED • RESILIENT",
+  "commonRetry": "আবার চেষ্টা করুন",
+  "commonCancel": "বাতিল",
+  "commonConfirm": "নিশ্চিত করুন",
+  "commonLoading": "লোড হচ্ছে",
+  "errorGenericTitle": "কিছু একটা সমস্যা হয়েছে",
+  "errorGenericMessage": "কাজটি সম্পন্ন করা যায়নি। সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।",
+  "emptyGenericTitle": "এখনও কিছু নেই"
+}

@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "appName": "ProShetu",
+  "splashTagline": "OFFLINE • ENCRYPTED • RESILIENT",
+  "commonRetry": "Try again",
+  "commonCancel": "Cancel",
+  "commonConfirm": "Confirm",
+  "commonLoading": "Loading",
+  "errorGenericTitle": "Something went wrong",
+  "errorGenericMessage": "The action could not be completed. Check your connection and try again.",
+  "emptyGenericTitle": "Nothing here yet"
+}

@@ -1,0 +1,54 @@
+name: proshetu
+description: Offline-first crisis communication platform.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management — compile-safe DI + reactive state, no BuildContext coupling.
+  flutter_riverpod: ^2.5.1
+
+  # Declarative routing with guards, redirects, deep links.
+  go_router: ^14.2.0
+
+  # Immutable models + unions (used later for domain entities).
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  equatable: ^2.0.5
+
+  # Networking (configured, never hardcoded).
+  dio: ^5.5.0
+
+  # Secure at-rest storage for keys/tokens (Keystore / Keychain).
+  flutter_secure_storage: ^9.2.2
+
+  # Assets & media.
+  flutter_svg: ^2.0.10
+  cached_network_image: ^3.3.1
+
+  # Typography & i18n.
+  google_fonts: ^6.2.1
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.11
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/icons/
+    - assets/images/
