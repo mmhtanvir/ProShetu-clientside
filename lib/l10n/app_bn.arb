@@ -177,10 +177,5 @@
   "commonDelete": "মুছুন",
   "vaultEnterPin": "আপনার এনক্রিপশন পিন দিন",
   "vaultWrongPin": "ভুল পিন। আবার চেষ্টা করুন।",
-  "vaultToday": "আজ",
-  "commonBack": "ফিরে যান",
-  "mapDetailsCreatedBy": "তৈরি করেছেন",
-  "mapDetailsLookingFor": "যা প্রয়োজন",
-  "mapDetailsCopyNumber": "নম্বর কপি করুন",
-  "mapNumberCopied": "নম্বর কপি হয়েছে"
+  "vaultToday": "আজ"
 }

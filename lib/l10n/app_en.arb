@@ -177,10 +177,5 @@
   "commonDelete": "Delete",
   "vaultEnterPin": "Enter your encryption PIN",
   "vaultWrongPin": "Incorrect PIN. Try again.",
-  "vaultToday": "Today",
-  "commonBack": "Back",
-  "mapDetailsCreatedBy": "Created By",
-  "mapDetailsLookingFor": "Looking For",
-  "mapDetailsCopyNumber": "Copy number",
-  "mapNumberCopied": "Number copied"
+  "vaultToday": "Today"
 }

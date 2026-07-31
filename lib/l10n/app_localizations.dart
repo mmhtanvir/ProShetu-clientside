@@ -895,36 +895,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get vaultToday;
-
-  /// No description provided for @commonBack.
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get commonBack;
-
-  /// No description provided for @mapDetailsCreatedBy.
-  ///
-  /// In en, this message translates to:
-  /// **'Created By'**
-  String get mapDetailsCreatedBy;
-
-  /// No description provided for @mapDetailsLookingFor.
-  ///
-  /// In en, this message translates to:
-  /// **'Looking For'**
-  String get mapDetailsLookingFor;
-
-  /// No description provided for @mapDetailsCopyNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Copy number'**
-  String get mapDetailsCopyNumber;
-
-  /// No description provided for @mapNumberCopied.
-  ///
-  /// In en, this message translates to:
-  /// **'Number copied'**
-  String get mapNumberCopied;
 }
 
 class _AppLocalizationsDelegate

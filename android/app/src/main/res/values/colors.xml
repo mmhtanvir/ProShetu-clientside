@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Matches AppColors.backgroundDark exactly (lib/app/theme/tokens/app_colors.dart)
+         so the native launch screen and the app's own SplashScreen are
+         visually identical — no white flash between OS launch and Flutter's
+         first frame. -->
+    <color name="launch_background">#FF0A0A0C</color>
+	<color name="ic_launcher_background">#0A0A0C</color>
+</resources>

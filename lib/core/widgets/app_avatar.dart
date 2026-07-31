@@ -28,14 +28,7 @@ class AppAvatar extends StatelessWidget {
     Color(0xFF9C6ADE),
   ];
 
-  /// Deterministic per-name color, exposed so other renderers (e.g. the
-  /// map's rasterized marker bitmaps, which can't host this widget
-  /// directly) draw the exact same identity color as this widget.
-  static Color colorForName(String name) =>
-      _palette[name.hashCode.abs() % _palette.length];
-
-  /// Same initials rule as this widget, exposed for reuse.
-  static String initialsForName(String name) {
+  String get _initials {
     final List<String> parts =
         name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
     if (parts.isEmpty) return '?';
@@ -43,11 +36,9 @@ class AppAvatar extends StatelessWidget {
     return (parts.first[0] + parts.last[0]).toUpperCase();
   }
 
-  String get _initials => initialsForName(name);
-
   @override
   Widget build(BuildContext context) {
-    final Color bg = colorForName(name);
+    final Color bg = _palette[name.hashCode.abs() % _palette.length];
 
     return SizedBox(
       width: size,

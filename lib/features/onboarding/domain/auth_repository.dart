@@ -19,6 +19,13 @@ abstract interface class AuthRepository {
 
   Future<void> login({required String phone, required String password});
 
+  /// This device's own registered mailbox_id, or null before signup
+  /// completes. What a "my QR code" screen encodes for pairing.
+  Future<String?> myMailboxId();
+
+  /// This device's own display name, as entered at signup.
+  Future<String?> myDisplayName();
+
   Future<void> savePin(String pin);
   Future<bool> hasPin();
   Future<bool> verifyPin(String pin);

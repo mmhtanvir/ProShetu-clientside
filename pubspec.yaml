@@ -43,7 +43,51 @@ dependencies:
 
   # Real map rendering (dashboard preview + Map tab).
   google_maps_flutter: ^2.9.0
-  flutter_dotenv: ^6.0.1
+
+  # Ed25519/X25519 identity, Blake2b content-addressing, AEAD + KDF for
+  # local private-key-at-rest encryption (backend integration).
+  cryptography: ^2.7.0
+
+  # Device GPS position, needed to pick a coordination geohash shard
+  # when publishing/fetching coordination data.
+  geolocator: ^13.0.1
+
+  # Live push channel (/ws/push) — event/call wake-up hints.
+  # Pinned to 3.x (not 2.x): 2.x pulls in `web ^0.5.0`, which conflicts
+  # with geolocator's `web ^1.0.0` requirement — a real version-solve
+  # failure, not a style preference.
+  web_socket_channel: ^3.0.3
+
+  # Synchronous SHA-256 for the (non-cryptographic) Bloom filter used
+  # in /v1/sync reconciliation — deliberately separate from the async
+  # `cryptography` package used for the actual identity/AEAD crypto.
+  crypto: ^3.0.3
+
+  # Local (not push-service) notifications — used ONLY for new-message
+  # hints. See infrastructure/notifications/notification_service.dart:
+  # coordination/SOS updates are pull-only by design and never notify.
+  flutter_local_notifications: ^18.0.1
+
+  # Voice note recording/playback in the message composer.
+  # record 5.2.x has an upstream bug: its own record_linux and
+  # record_platform_interface sub-packages don't resolve to a mutually
+  # compatible pair (record_linux is missing methods the interface
+  # requires). 6.x fixes this; the AudioRecorder API used in
+  # infrastructure/media/voice_recorder.dart is unchanged.
+  record: ^6.1.2
+  audioplayers: ^6.1.0
+  path_provider: ^2.1.4
+
+  # QR pairing: generating this device's own code and scanning a
+  # peer's to learn their mailbox_id (infrastructure/storage/
+  # contact_directory_store.dart) — the out-of-band exchange that
+  # class's doc comment says nothing populates yet.
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^6.0.2
+
+  # Real-time network state (Wi-Fi / mobile / offline) for the
+  # dashboard's Internet status tile.
+  connectivity_plus: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +96,7 @@ dev_dependencies:
   build_runner: ^2.4.11
   freezed: ^2.5.7
   json_serializable: ^6.8.0
+  flutter_launcher_icons: ^0.14.1
 
 flutter:
   uses-material-design: true
@@ -59,3 +104,23 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#0A0A0C"
+  adaptive_icon_foreground: "assets/icons/app_icon.png"
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#0A0A0C"
+    theme_color: "#0A0A0C"
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"

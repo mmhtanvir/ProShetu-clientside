@@ -1,8 +1,43 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../panic/domain/sos_alert.dart';
+import '../../../../app/di.dart';
+import '../../../../infrastructure/crypto/e2e_placeholder.dart';
+import '../../data/coordination_repository_impl.dart';
+import '../../domain/coordination_repository.dart';
 import '../../domain/crisis_alert.dart';
-import '../../domain/map_marker.dart';
+
+final coordinationRepositoryProvider = Provider<CoordinationRepository>(
+  (Ref ref) => CoordinationRepositoryImpl(ref.watch(apiClientProvider)),
+);
+
+/// REAL round-trip to /v1/coord/{geohash} for a shard. Currently
+/// always returns an empty list: every delta's ciphertext hits
+/// [E2ePlaceholder.decryptFromShard], which throws until the
+/// session/CRDT-merge scheme is implemented (see that file's doc
+/// comment). The map screen still shows mock pins
+/// ([mapMarkersProvider] below) for now — swap it to this provider
+/// once decryption is real.
+final liveCoordinationDeltasProvider =
+    FutureProvider.family<List<Map<String, dynamic>>, String>(
+  (Ref ref, String geohash) async {
+    final List<CoordDelta> deltas = await ref
+        .watch(coordinationRepositoryProvider)
+        .fetchDeltas(geohash: geohash);
+    final List<Map<String, dynamic>> decoded = [];
+    for (final CoordDelta delta in deltas) {
+      try {
+        final List<int> plaintext =
+            await E2ePlaceholder.decryptFromShard(delta.ciphertext);
+        decoded.add({'deltaId': delta.deltaId, 'plaintext': plaintext});
+      } on UnimplementedError {
+        // Expected today — see E2ePlaceholder doc comment. Skip this
+        // delta rather than crash the whole fetch.
+        continue;
+      }
+    }
+    return decoded;
+  },
+);
 
 /// MOCK active alerts until the coordination backend is wired.
 final activeAlertsProvider = Provider<List<CrisisAlert>>((_) => const [
@@ -24,44 +59,5 @@ final activeAlertsProvider = Provider<List<CrisisAlert>>((_) => const [
         title: 'Medical Camp Open — Ramna Park',
         body: 'Free medical support at Ramna Park north gate until 6 PM.',
         ageLabel: '1h ago',
-      ),
-    ]);
-
-/// MOCK published SOS pins until the coordination backend is wired.
-/// Reuses the same mock phone/location the SOS compose form
-/// pre-fills, so map and compose stay consistent.
-final mapMarkersProvider = Provider<List<MapMarker>>((_) => const [
-      MapMarker(
-        id: 'm1',
-        type: SosType.naturalDisaster,
-        reporterName: 'Mahamudul Hasan Tanvir',
-        number: '+88 01600-000000',
-        location: 'Dhanmondi Rd, Gulshan Ave',
-        latitude: 22.2520,
-        longitude: 91.7940,
-        ageLabel: '15m ago',
-        description: 'Earthquake',
-      ),
-      MapMarker(
-        id: 'm2',
-        type: SosType.inNeed,
-        reporterName: 'Mahamudul Hasan Tanvir',
-        number: '+88 01600-000000',
-        location: 'Chittagong Medical College Hospital',
-        latitude: 22.2465,
-        longitude: 91.7970,
-        ageLabel: '32m ago',
-        lookingFor: 'B+ Blood',
-        description: 'As soon as possible',
-      ),
-      MapMarker(
-        id: 'm3',
-        type: SosType.protestDistress,
-        reporterName: 'Rashadujjaman Rabbi',
-        number: '+88 01600-000000',
-        location: 'Dakhin Patenga',
-        latitude: 22.2190,
-        longitude: 91.7910,
-        ageLabel: '16 hr ago',
       ),
     ]);

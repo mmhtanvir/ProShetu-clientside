@@ -5,5 +5,11 @@ import 'chat_models.dart';
 abstract interface class ChatRepository {
   Future<List<ChatSummary>> chats();
   Future<List<ChatMessage>> messages(String chatId);
-  Future<ChatMessage> send(String chatId, String text);
+  Future<ChatMessage> send(String chatId, String text, {String? replyToPreview});
+  Future<ChatMessage> sendVoiceNote(
+    String chatId,
+    String audioPath,
+    Duration duration, {
+    String? replyToPreview,
+  });
 }

@@ -4,6 +4,14 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>GMSApiKey</key>
+	<string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location picks the coarse (~5km) shard your SOS alert and map data publish to. It is never sent as a precise coordinate.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to record voice notes and voice calls.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to scan a contact's QR code to pair with them.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

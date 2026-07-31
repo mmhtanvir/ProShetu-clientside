@@ -10,11 +10,26 @@ class ConversationController
   Future<List<ChatMessage>> build(String chatId) =>
       ref.watch(chatRepositoryProvider).messages(chatId);
 
-  Future<void> send(String text) async {
+  Future<void> send(String text, {String? replyToPreview}) async {
     final String trimmed = text.trim();
     if (trimmed.isEmpty) return;
-    final ChatMessage msg =
-        await ref.read(chatRepositoryProvider).send(arg, trimmed);
+    final ChatMessage msg = await ref
+        .read(chatRepositoryProvider)
+        .send(arg, trimmed, replyToPreview: replyToPreview);
+    state = AsyncData([...state.value ?? const [], msg]);
+  }
+
+  Future<void> sendVoiceNote(
+    String audioPath,
+    Duration duration, {
+    String? replyToPreview,
+  }) async {
+    final ChatMessage msg = await ref.read(chatRepositoryProvider).sendVoiceNote(
+          arg,
+          audioPath,
+          duration,
+          replyToPreview: replyToPreview,
+        );
     state = AsyncData([...state.value ?? const [], msg]);
   }
 }

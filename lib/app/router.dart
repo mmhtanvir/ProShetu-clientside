@@ -5,8 +5,11 @@ import 'package:go_router/go_router.dart';
 import '../features/connectivity/presentation/screens/dashboard_screen.dart';
 import '../features/connectivity/presentation/screens/nearby_mesh_screen.dart';
 import '../features/coordination/presentation/screens/map_screen.dart';
+import '../features/messaging/presentation/screens/add_by_number_screen.dart';
 import '../features/messaging/presentation/screens/chats_screen.dart';
 import '../features/messaging/presentation/screens/conversation_screen.dart';
+import '../features/messaging/presentation/screens/my_qr_screen.dart';
+import '../features/messaging/presentation/screens/scan_qr_screen.dart';
 import '../features/onboarding/presentation/screens/identity_capture_screen.dart';
 import '../features/onboarding/presentation/screens/identity_choice_screen.dart';
 import '../features/onboarding/presentation/screens/identity_success_screen.dart';
@@ -23,6 +26,7 @@ import '../features/panic/presentation/screens/sos_type_screen.dart';
 import '../features/settings/presentation/screens/vault_gallery_screen.dart';
 import '../features/settings/presentation/screens/vault_lock_screen.dart';
 import '../features/settings/presentation/screens/profile_screen.dart';
+import '../features/voice/presentation/screens/call_screen.dart';
 import 'shell.dart';
 
 /// Route names & paths in one place. Screens navigate by name, never
@@ -77,6 +81,14 @@ abstract final class AppRoutes {
   static const String vaultLockPath = '/profile/vault';
   static const String vaultGallery = 'vault-gallery';
   static const String vaultGalleryPath = '/profile/vault/gallery';
+  static const String call = 'call';
+  static const String callPath = '/call';
+  static const String myQr = 'my-qr';
+  static const String myQrPath = '/pairing/my-qr';
+  static const String scanQr = 'scan-qr';
+  static const String scanQrPath = '/pairing/scan-qr';
+  static const String addByNumber = 'add-by-number';
+  static const String addByNumberPath = '/pairing/add-by-number';
 
   // Reserved.
   static const String lock = 'lock';
@@ -230,6 +242,30 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
         name: AppRoutes.vaultGallery,
         parentNavigatorKey: _rootKey,
         builder: (_, __) => const VaultGalleryScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.callPath,
+        name: AppRoutes.call,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const CallScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.myQrPath,
+        name: AppRoutes.myQr,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const MyQrScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.scanQrPath,
+        name: AppRoutes.scanQr,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const ScanQrScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.addByNumberPath,
+        name: AppRoutes.addByNumber,
+        parentNavigatorKey: _rootKey,
+        builder: (_, __) => const AddByNumberScreen(),
       ),
     ],
     // redirect: hook point for auth / lock-screen / emergency-wipe

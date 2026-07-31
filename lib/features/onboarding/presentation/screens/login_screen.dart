@@ -59,6 +59,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final bool loading = ref.watch(loginControllerProvider).isLoading;
 
+    ref.listen<AsyncValue<void>>(loginControllerProvider,
+        (AsyncValue<void>? previous, AsyncValue<void> next) {
+      final Object? error = next.error;
+      if (error == null) return;
+      showAppSnackbar(
+        context,
+        error is StateError ? error.message : error.toString(),
+        kind: AppSnackbarKind.error,
+      );
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Center(

@@ -71,6 +71,17 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final bool loading = ref.watch(signupControllerProvider).isLoading;
 
+    ref.listen<AsyncValue<void>>(signupControllerProvider,
+        (AsyncValue<void>? previous, AsyncValue<void> next) {
+      final Object? error = next.error;
+      if (error == null) return;
+      showAppSnackbar(
+        context,
+        error is StateError ? error.message : error.toString(),
+        kind: AppSnackbarKind.error,
+      );
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Center(

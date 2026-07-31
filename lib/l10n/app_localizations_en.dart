@@ -431,19 +431,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vaultToday => 'Today';
-
-  @override
-  String get commonBack => 'Back';
-
-  @override
-  String get mapDetailsCreatedBy => 'Created By';
-
-  @override
-  String get mapDetailsLookingFor => 'Looking For';
-
-  @override
-  String get mapDetailsCopyNumber => 'Copy number';
-
-  @override
-  String get mapNumberCopied => 'Number copied';
 }

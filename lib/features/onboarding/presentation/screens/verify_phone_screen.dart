@@ -66,7 +66,19 @@ class _VerifyPhoneScreenState extends ConsumerState<VerifyPhoneScreen> {
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 GestureDetector(
-                  onTap: () => _focus.requestFocus(),
+                  onTap: () {
+                    if (_focus.hasFocus) {
+                      // Focus never changes here, so requestFocus() alone
+                      // is a no-op — that's what leaves the keyboard stuck
+                      // closed after it's dismissed once (back button,
+                      // swipe-down) while the hidden field keeps focus.
+                      // Ask the platform to show it directly instead.
+                      SystemChannels.textInput
+                          .invokeMethod<void>('TextInput.show');
+                    } else {
+                      _focus.requestFocus();
+                    }
+                  },
                   child: Stack(
                     alignment: Alignment.center,
                     children: [

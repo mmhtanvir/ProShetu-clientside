@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/router.dart';
 import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/responsive.dart';
-import '../../../../core/widgets/brand_mark.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../controllers/splash_controller.dart';
 
@@ -80,7 +79,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const BrandMark(size: 56),
+                  Image.asset(
+                    'assets/icons/logo1.png',
+                    width: 120,
+                    height: 120,
+                  ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     l10n.appName,
