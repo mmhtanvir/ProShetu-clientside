@@ -28,7 +28,7 @@
   "authDisplayName": "Display Name",
   "authDisplayNameHint": "Your Name (Visible To Mesh Peers)",
   "authPhoneNumber": "Phone Number",
-  "authPhoneHint": "+88 01000-000000",
+  "authPhoneHint": "01000-000000",
   "authPassword": "Password",
   "authPasswordHint": "A Strong Password",
   "authConfirmPassword": "Confirm Password",

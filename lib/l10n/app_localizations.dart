@@ -269,7 +269,7 @@ abstract class AppLocalizations {
   /// No description provided for @authPhoneHint.
   ///
   /// In en, this message translates to:
-  /// **'+88 01000-000000'**
+  /// **'01000-000000'**
   String get authPhoneHint;
 
   /// No description provided for @authPassword.

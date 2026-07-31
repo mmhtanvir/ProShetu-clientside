@@ -20,7 +20,7 @@ class SignupScreen extends ConsumerStatefulWidget {
 
 class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _name = TextEditingController();
-  final _phone = TextEditingController();
+  String _phone = '';
   final _password = TextEditingController();
   final _confirm = TextEditingController();
 
@@ -29,7 +29,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   @override
   void dispose() {
     _name.dispose();
-    _phone.dispose();
     _password.dispose();
     _confirm.dispose();
     super.dispose();
@@ -38,7 +37,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   bool _validate(AppLocalizations l10n) {
     setState(() {
       _nameError = _name.text.trim().isEmpty ? l10n.validationRequired : null;
-      _phoneError = _phone.text.replaceAll(RegExp(r'\D'), '').length < 10
+      _phoneError = _phone.replaceAll(RegExp(r'\D'), '').length < 10
           ? l10n.validationPhoneInvalid
           : null;
       _passwordError =
@@ -58,11 +57,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     final bool ok =
         await ref.read(signupControllerProvider.notifier).submit(
               displayName: _name.text.trim(),
-              phone: _phone.text.trim(),
+              phone: _phone.trim(),
               password: _password.text,
             );
     if (ok && mounted) {
-      context.goNamed(AppRoutes.verifyPhone, extra: _phone.text.trim());
+      context.goNamed(AppRoutes.verifyPhone, extra: _phone.trim());
     }
   }
 
@@ -104,13 +103,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                AppTextField(
-                  controller: _phone,
+                AppPhoneField(
                   label: l10n.authPhoneNumber,
                   hint: l10n.authPhoneHint,
                   errorText: _phoneError,
-                  keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
+                  onChanged: (String value) => _phone = value,
                 ),
                 const SizedBox(height: AppSpacing.md),
                 AppTextField(

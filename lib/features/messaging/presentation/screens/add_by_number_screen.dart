@@ -23,19 +23,13 @@ class AddByNumberScreen extends ConsumerStatefulWidget {
 }
 
 class _AddByNumberScreenState extends ConsumerState<AddByNumberScreen> {
-  final TextEditingController _phone = TextEditingController();
+  String _phone = '';
   bool _loading = false;
   String? _error;
   ({String mailboxId, String displayName})? _result;
 
-  @override
-  void dispose() {
-    _phone.dispose();
-    super.dispose();
-  }
-
   Future<void> _search() async {
-    final String phone = _phone.text.trim();
+    final String phone = _phone.trim();
     if (phone.isEmpty) return;
     setState(() {
       _loading = true;
@@ -99,12 +93,11 @@ class _AddByNumberScreenState extends ConsumerState<AddByNumberScreen> {
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                AppTextField(
-                  controller: _phone,
+                AppPhoneField(
                   label: 'Phone number',
-                  hint: '+1 555 0100',
-                  keyboardType: TextInputType.phone,
+                  hint: '555 0100',
                   textInputAction: TextInputAction.search,
+                  onChanged: (String value) => _phone = value,
                   onSubmitted: (_) => _search(),
                 ),
                 const SizedBox(height: AppSpacing.md),

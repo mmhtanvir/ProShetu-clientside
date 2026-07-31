@@ -4,13 +4,11 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-import java.util.Properties
-
-val localProps = Properties().apply {
-    val f = rootProject.file("local.properties")
-    if (f.exists()) f.inputStream().use { load(it) }
-}
-val mapsApiKey: String = localProps.getProperty("MAPS_API_KEY") ?: ""
+// MAPS_API_KEY lives in android/gradle.properties (Gradle loads that
+// file's keys into project properties automatically — no manual
+// Properties parsing needed, unlike local.properties which only holds
+// Flutter/SDK paths and never had this key).
+val mapsApiKey: String = (project.findProperty("MAPS_API_KEY") as String?) ?: ""
 
 android {
     namespace = "com.example.proshetu"

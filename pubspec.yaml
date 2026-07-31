@@ -34,8 +34,7 @@ dependencies:
   flutter_svg: ^2.0.10
   cached_network_image: ^3.3.1
 
-  # Typography & i18n.
-  google_fonts: ^6.2.1
+  # i18n.
   intl: any
 
   # Native camera/gallery capture (identity verification).
@@ -89,6 +88,13 @@ dependencies:
   # dashboard's Internet status tile.
   connectivity_plus: ^6.1.0
 
+  # Phone-number country code entry: detect the caller's current
+  # country from GPS (reverse-geocoded natively, no Maps/Google API
+  # key involved) to preselect a dial code, with a picker to change
+  # it — used by signup and Add-by-number's phone fields.
+  geocoding: ^4.0.0
+  country_code_picker: ^3.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -104,6 +110,19 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+  fonts:
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-Variable.ttf
+          weight: 400
+        - asset: assets/fonts/Manrope-Variable.ttf
+          weight: 500
+        - asset: assets/fonts/Manrope-Variable.ttf
+          weight: 600
+        - asset: assets/fonts/Manrope-Variable.ttf
+          weight: 700
+        - asset: assets/fonts/Manrope-Variable.ttf
+          weight: 800
 
 flutter_launcher_icons:
   android: true

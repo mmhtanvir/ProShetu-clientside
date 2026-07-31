@@ -2,6 +2,18 @@ import 'package:dio/dio.dart';
 
 import '../crypto/device_keys.dart';
 
+/// Distinguishes "identity not unlocked" from a real connectivity
+/// failure — both used to surface as [DioExceptionType.unknown] with
+/// a [StateError], which [ApiFailureMapper] couldn't tell apart from
+/// an actual network error, so the UI showed a misleading generic
+/// "Network error" for what is really "you're not logged in".
+class IdentityNotUnlockedException implements Exception {
+  const IdentityNotUnlockedException();
+
+  @override
+  String toString() => 'Signed request attempted before identity was unlocked';
+}
+
 /// Attaches `X-Identity` / `X-Nonce` / `X-Signature` to every request
 /// marked `options.extra['signed'] = true`, matching
 /// apps/common/auth.py exactly:
@@ -37,8 +49,7 @@ class SigningInterceptor extends Interceptor {
       return handler.reject(
         DioException(
           requestOptions: options,
-          error: StateError(
-              'Signed request attempted before identity was unlocked'),
+          error: const IdentityNotUnlockedException(),
           type: DioExceptionType.unknown,
         ),
       );

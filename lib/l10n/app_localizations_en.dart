@@ -97,7 +97,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPhoneNumber => 'Phone Number';
 
   @override
-  String get authPhoneHint => '+88 01000-000000';
+  String get authPhoneHint => '01000-000000';
 
   @override
   String get authPassword => 'Password';

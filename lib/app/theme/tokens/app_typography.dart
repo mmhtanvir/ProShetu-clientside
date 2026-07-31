@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Type scale for ProShetu.
 ///
 /// Manrope: geometric, high x-height, excellent legibility at small sizes
 /// and under stress — and it renders Latin + Bengali fallback cleanly.
+/// Bundled as a variable-weight asset (assets/fonts/Manrope-Variable.ttf,
+/// declared in pubspec.yaml) rather than fetched via google_fonts: this is
+/// a crisis app and must render its first frame with zero network calls.
 /// Colors are applied by the theme, not here.
 abstract final class AppTypography {
+  static const String _family = 'Manrope';
+
   static TextTheme textTheme(TextTheme base) {
-    final TextTheme manrope = GoogleFonts.manropeTextTheme(base);
+    final TextTheme manrope = base.apply(fontFamily: _family);
     return manrope.copyWith(
       displaySmall: manrope.displaySmall?.copyWith(
         fontWeight: FontWeight.w800,

@@ -97,7 +97,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get authPhoneNumber => 'ফোন নম্বর';
 
   @override
-  String get authPhoneHint => '+৮৮ ০১০০০-০০০০০০';
+  String get authPhoneHint => '০১০০০-০০০০০০';
 
   @override
   String get authPassword => 'পাসওয়ার্ড';

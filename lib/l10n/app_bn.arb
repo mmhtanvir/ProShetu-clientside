@@ -28,7 +28,7 @@
   "authDisplayName": "প্রদর্শিত নাম",
   "authDisplayNameHint": "আপনার নাম (মেশ পিয়ারদের কাছে দৃশ্যমান)",
   "authPhoneNumber": "ফোন নম্বর",
-  "authPhoneHint": "+৮৮ ০১০০০-০০০০০০",
+  "authPhoneHint": "০১০০০-০০০০০০",
   "authPassword": "পাসওয়ার্ড",
   "authPasswordHint": "একটি শক্তিশালী পাসওয়ার্ড",
   "authConfirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",

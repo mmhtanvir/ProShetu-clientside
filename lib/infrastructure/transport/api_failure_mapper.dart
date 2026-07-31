@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../core/error/failure.dart';
+import 'signing_interceptor.dart';
 
 /// Converts a caught exception (typically from Dio) into the app's
 /// existing [Failure] hierarchy so every repository reports errors
@@ -8,6 +9,12 @@ import '../../core/error/failure.dart';
 abstract final class ApiFailureMapper {
   static Failure map(Object error) {
     if (error is DioException) {
+      if (error.error is IdentityNotUnlockedException) {
+        return CryptoFailure(
+          message: 'Please log in again to continue.',
+          cause: error,
+        );
+      }
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.sendTimeout:

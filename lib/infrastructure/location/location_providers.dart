@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 /// This device's current GPS fix, or null if location isn't available
@@ -23,6 +24,26 @@ final currentPositionProvider = FutureProvider<Position?>((Ref ref) async {
     }
     if (!await Geolocator.isLocationServiceEnabled()) return null;
     return await Geolocator.getCurrentPosition();
+  } catch (_) {
+    return null;
+  }
+});
+
+/// ISO 3166-1 alpha-2 country (e.g. "BD", "US") for the device's
+/// current GPS fix, reverse-geocoded on-device (no Maps/Google API
+/// key involved). Used to preselect a phone number's dial code —
+/// null on any failure (permission denied, no fix, geocoder
+/// unavailable), same "degrade to unfiltered/unset" policy as
+/// [currentPositionProvider] this depends on.
+final currentCountryIsoProvider = FutureProvider<String?>((Ref ref) async {
+  final Position? position = await ref.watch(currentPositionProvider.future);
+  if (position == null) return null;
+  try {
+    final List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+    return placemarks.isEmpty ? null : placemarks.first.isoCountryCode;
   } catch (_) {
     return null;
   }
