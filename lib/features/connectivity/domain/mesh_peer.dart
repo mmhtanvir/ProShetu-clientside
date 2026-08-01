@@ -1,23 +1,40 @@
 import 'package:equatable/equatable.dart';
 
-/// A device/person reachable over the Bluetooth mesh.
+import '../../../infrastructure/mesh/ble_mesh_types.dart';
+
+/// A device reachable over the Bluetooth mesh right now. [mailboxId]/
+/// [name] are null in Phase 1 — see infrastructure/mesh/README.md for
+/// why identity resolution over BLE isn't possible with the plugins
+/// this app uses. [bleDeviceId] is an OS-rotated scan-time id, not a
+/// stable identifier — never used as a storage key.
 class MeshPeer extends Equatable {
   const MeshPeer({
-    required this.id,
-    required this.name,
-    required this.distanceLabel,
-    this.online = true,
+    required this.bleDeviceId,
+    required this.proximity,
+    required this.lastSeenAt,
+    this.mailboxId,
+    this.name,
   });
 
-  final String id;
-  final String name;
+  factory MeshPeer.fromDiscovered(DiscoveredMeshPeer peer) => MeshPeer(
+        bleDeviceId: peer.bleDeviceId,
+        proximity: peer.proximity,
+        lastSeenAt: peer.lastSeenAt,
+        mailboxId: peer.mailboxId,
+        name: peer.displayName,
+      );
 
-  /// Human-readable proximity, e.g. "0.3 km to Central Park".
-  final String distanceLabel;
-  final bool online;
+  final String bleDeviceId;
+  final ProximityBucket proximity;
+  final DateTime lastSeenAt;
+  final String? mailboxId;
+  final String? name;
+
+  bool get isIdentified => mailboxId != null;
 
   @override
-  List<Object?> get props => [id, name, distanceLabel, online];
+  List<Object?> get props =>
+      [bleDeviceId, proximity, lastSeenAt, mailboxId, name];
 }
 
 /// Snapshot of connectivity shown on the dashboard.

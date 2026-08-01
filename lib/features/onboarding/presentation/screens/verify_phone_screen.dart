@@ -104,10 +104,10 @@ class _VerifyPhoneScreenState extends ConsumerState<VerifyPhoneScreen> {
                     ],
                   ),
                 ),
-                if (state.invalidCode) ...[
+                if (state.errorMessage != null) ...[
                   const SizedBox(height: AppSpacing.sm),
                   Text(
-                    l10n.authOtpInvalid,
+                    state.errorMessage!,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodySmall
                         ?.copyWith(color: AppColors.danger),

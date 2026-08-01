@@ -1,26 +1,61 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:geolocator/geolocator.dart';
+
+import '../../../infrastructure/mesh/ble_mesh_repository.dart';
+import '../../../infrastructure/mesh/ble_mesh_types.dart' show DiscoveredMeshPeer, MeshAvailability;
 import '../domain/mesh_peer.dart';
 import '../domain/mesh_repository.dart';
 
-/// MOCK mesh data until infrastructure/mesh lands.
+/// Real mesh discovery, backed by [BleMeshRepository]. Replaces the
+/// previous hardcoded 6-person list — every field here now reflects
+/// an actually-observed device or a real OS check, not a fixture.
 final class MeshRepositoryImpl implements MeshRepository {
-  const MeshRepositoryImpl();
+  MeshRepositoryImpl(this._ble);
 
-  static const List<MeshPeer> _peers = [
-    MeshPeer(id: 'p1', name: 'Emily Tran', distanceLabel: '0.3 km to Central Park'),
-    MeshPeer(id: 'p2', name: 'Michael Lee', distanceLabel: '0.3 km to Riverside Cafe'),
-    MeshPeer(id: 'p3', name: 'Ava Patel', distanceLabel: '0.3 km to the nearest bus stop'),
-    MeshPeer(id: 'p4', name: 'James Kim', distanceLabel: '0.3 km to the library'),
-    MeshPeer(id: 'p5', name: 'Olivia Wong', distanceLabel: '0.3 km to the community center'),
-    MeshPeer(id: 'p6', name: 'Liam Johnson', distanceLabel: '0.3 km to the grocery store'),
-  ];
+  final BleMeshRepository _ble;
 
   @override
-  Future<NetworkStatus> networkStatus() async => NetworkStatus(
-        meshDeviceCount: _peers.length,
-        internetOnline: false,
-        gpsLocked: true,
+  Stream<List<MeshPeer>> nearbyPeers() => _ble.peers.map(
+        (List<DiscoveredMeshPeer> peers) =>
+            peers.map(MeshPeer.fromDiscovered).toList(growable: false),
       );
 
   @override
-  Future<List<MeshPeer>> nearbyPeers() async => _peers;
+  Stream<NetworkStatus> networkStatus() async* {
+    await for (final List<DiscoveredMeshPeer> peers in _ble.peers) {
+      yield NetworkStatus(
+        meshDeviceCount: peers.length,
+        internetOnline: await _isInternetOnline(),
+        gpsLocked: await _isGpsLocked(),
+      );
+    }
+  }
+
+  @override
+  Stream<MeshAvailability> availability() => _ble.availability;
+
+  @override
+  Future<void> start() => _ble.start();
+
+  @override
+  Future<void> stop() => _ble.stop();
+
+  Future<bool> _isInternetOnline() async {
+    final List<ConnectivityResult> results =
+        await Connectivity().checkConnectivity();
+    return results.isNotEmpty && !results.contains(ConnectivityResult.none);
+  }
+
+  Future<bool> _isGpsLocked() async {
+    try {
+      final LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        return false;
+      }
+      return await Geolocator.isLocationServiceEnabled();
+    } catch (_) {
+      return false;
+    }
+  }
 }

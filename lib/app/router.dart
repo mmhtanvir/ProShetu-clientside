@@ -15,6 +15,9 @@ import '../features/onboarding/presentation/screens/identity_choice_screen.dart'
 import '../features/onboarding/presentation/screens/identity_success_screen.dart';
 import '../features/onboarding/presentation/screens/login_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../features/onboarding/presentation/screens/recover_account_screen.dart';
+import '../features/onboarding/presentation/screens/recovery_confirm_screen.dart';
+import '../features/onboarding/presentation/screens/recovery_verify_screen.dart';
 import '../features/onboarding/presentation/screens/set_pin_screen.dart';
 import '../features/onboarding/presentation/screens/signup_screen.dart';
 import '../features/onboarding/presentation/screens/splash_screen.dart';
@@ -51,6 +54,12 @@ abstract final class AppRoutes {
 
   static const String login = 'login';
   static const String loginPath = '/login';
+  static const String recoverAccount = 'recover-account';
+  static const String recoverAccountPath = '/recover';
+  static const String recoveryConfirm = 'recovery-confirm';
+  static const String recoveryConfirmPath = '/recover/confirm';
+  static const String recoveryVerify = 'recovery-verify';
+  static const String recoveryVerifyPath = '/recover/verify';
   static const String setPin = 'set-pin';
   static const String setPinPath = '/setup/pin';
   static const String trustedContacts = 'trusted-contacts';
@@ -145,6 +154,23 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
         path: AppRoutes.loginPath,
         name: AppRoutes.login,
         builder: (_, __) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.recoverAccountPath,
+        name: AppRoutes.recoverAccount,
+        builder: (_, __) => const RecoverAccountScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.recoveryConfirmPath,
+        name: AppRoutes.recoveryConfirm,
+        builder: (BuildContext context, GoRouterState state) =>
+            RecoveryConfirmScreen(phone: state.extra as String? ?? ''),
+      ),
+      GoRoute(
+        path: AppRoutes.recoveryVerifyPath,
+        name: AppRoutes.recoveryVerify,
+        builder: (BuildContext context, GoRouterState state) =>
+            RecoveryVerifyScreen(phone: state.extra as String? ?? ''),
       ),
       GoRoute(
         path: AppRoutes.setPinPath,

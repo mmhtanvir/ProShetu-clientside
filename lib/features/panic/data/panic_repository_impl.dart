@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../core/utils/geohash.dart';
-import '../../../infrastructure/crypto/e2e_placeholder.dart';
+import '../../../infrastructure/crypto/shard_crypto_placeholder.dart';
 import '../../coordination/domain/coordination_repository.dart';
 import '../domain/panic_repository.dart';
 import '../domain/sos_alert.dart';
@@ -17,7 +17,7 @@ import '../domain/sos_alert.dart';
 /// panic screen must not lie about whether help was actually sent.
 ///
 /// The actual payload encryption is the intentionally-unimplemented
-/// E2E seam (infrastructure/crypto/e2e_placeholder.dart): this method
+/// E2E seam (infrastructure/crypto/shard_crypto_placeholder.dart): this method
 /// will throw until that lands. That's correct behaviour, not a bug —
 /// see that file's doc comment.
 final class PanicRepositoryImpl implements PanicRepository {
@@ -48,7 +48,7 @@ final class PanicRepositoryImpl implements PanicRepository {
 
     // Throws (UnimplementedError) until the group-encryption scheme
     // for coordination shards is specified and implemented.
-    final List<int> ciphertext = await E2ePlaceholder.encryptForShard(
+    final List<int> ciphertext = await ShardCryptoPlaceholder.encryptForShard(
       geohash: geohash,
       plaintext: plaintext,
     );

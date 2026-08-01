@@ -40,7 +40,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    final String name = ref.watch(displayNameProvider);
+    final String name = ref.watch(displayNameProvider).valueOrNull ?? '';
+    final String phone = ref.watch(myPhoneProvider).valueOrNull ?? '';
 
     Widget section(String title) => Padding(
           padding: const EdgeInsets.only(
@@ -72,7 +73,7 @@ class ProfileScreen extends ConsumerWidget {
                           Text(name,
                               style: theme.textTheme.titleLarge),
                           Text(
-                            '+88 01600-000000',
+                            phone,
                             style: theme.textTheme.bodySmall?.copyWith(
                                 color:
                                     theme.colorScheme.onSurfaceVariant),
@@ -85,18 +86,18 @@ class ProfileScreen extends ConsumerWidget {
                           horizontal: AppSpacing.xs, vertical: 3),
                       decoration: BoxDecoration(
                         color:
-                            AppColors.success.withValues(alpha: 0.15),
+                            AppColors.warning.withValues(alpha: 0.15),
                         borderRadius: AppRadius.smAll,
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.verified_rounded,
-                              size: 12, color: AppColors.success),
+                          const Icon(Icons.hourglass_empty_rounded,
+                              size: 12, color: AppColors.warning),
                           const SizedBox(width: 3),
                           Text(
-                            l10n.profileKycVerified,
+                            l10n.profileKycPendingReview,
                             style: theme.textTheme.bodySmall?.copyWith(
-                                color: AppColors.success, fontSize: 10),
+                                color: AppColors.warning, fontSize: 10),
                           ),
                         ],
                       ),
@@ -140,14 +141,12 @@ class ProfileScreen extends ConsumerWidget {
                 SettingsTile(
                   icon: Icons.lock_outline_rounded,
                   title: l10n.profileEncryptionKeys,
-                  trailingLabel: 'AES-256',
                   onTap: () {},
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 SettingsTile(
                   icon: Icons.devices_rounded,
                   title: l10n.profileTrustedDevices,
-                  trailingLabel: l10n.profileDevicesCount('2'),
                   onTap: () {},
                 ),
                 const SizedBox(height: AppSpacing.xs),

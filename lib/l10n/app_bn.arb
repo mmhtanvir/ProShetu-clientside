@@ -73,6 +73,15 @@
   "authLogin": "লগইন",
   "authNoAccount": "অ্যাকাউন্ট নেই?",
   "authSignUpHere": "সাইন আপ করুন",
+  "authForgotPassword": "পাসওয়ার্ড ভুলে গেছেন?",
+  "authRecoveryTitle": "অ্যাকাউন্ট পুনরুদ্ধার",
+  "authRecoveryPhoneIntro": "যে অ্যাকাউন্টটি পুনরুদ্ধার করতে চান তার ফোন নম্বর দিন। আমরা আপনাকে একটি যাচাইকরণ কোড পাঠাব।",
+  "authRecoveryWarningTitle": "এটি একটি নতুন নিরাপদ পরিচয় তৈরি করবে",
+  "authRecoveryWarningBody": "এই ডিভাইসে অ্যাক্সেস পুনরুদ্ধার করলে নতুন এনক্রিপশন কী তৈরি হয়। এই ডিভাইসে সংরক্ষিত বার্তাগুলি স্থায়ীভাবে অপঠনযোগ্য হয়ে যাবে। আপনি আগে যাদের সাথে বার্তা আদান-প্রদান করেছেন তাদের আপনার সাথে আবার যোগ করতে হবে (আপনার QR কোড স্ক্যান করে বা আপনার নম্বর দিয়ে) আপনার সাথে যোগাযোগ করার আগে।",
+  "authRecoveryCheckbox": "আমি বুঝতে পারছি এই ডিভাইসে আমার বার্তার ইতিহাস হারিয়ে যাবে এবং আমার পরিচিতিদের আমাকে আবার যোগ করতে হবে",
+  "authRecoveryContinue": "নতুন পরিচয় তৈরি করুন",
+  "authRecoveryNewPassword": "নতুন পাসওয়ার্ড",
+  "authRecoveryNewPasswordHint": "একটি শক্তিশালী পাসওয়ার্ড",
   "pinTitle": "এনক্রিপশন পিন সেট করুন",
   "pinSubtitle": "অ্যাপ, গোপন বার্তা ও ভল্ট খুলতে ব্যবহৃত হয়",
   "pinChoose": "৬-সংখ্যার একটি পিন বেছে নিন",
@@ -90,8 +99,6 @@
   "trustedContactHint": "আপনার বিশ্বস্ত পরিচিতি লিখুন",
   "trustedNote": "প্রোফাইল সেটআপ সম্পূর্ণ করতে অন্তত একটি বিশ্বস্ত পরিচিতি যোগ করুন।",
   "trustedAdd": "বিশ্বস্ত পরিচিতি যোগ করুন",
-  "homePlaceholderTitle": "সব প্রস্তুত",
-  "homePlaceholderMessage": "হোম স্ক্রিন পরবর্তী বিল্ডে আসছে।",
   "authCaptureFrontLabel": "সামনের দিক",
   "authCaptureBackLabel": "পেছনের দিক",
   "authCaptureDocumentLabel": "নথির ছবি",
@@ -116,6 +123,37 @@
   },
   "dashNearbyOnMesh": "কাছাকাছি মেশে",
   "dashConnect": "সংযুক্ত হন",
+  "meshUnknownDevice": "অজানা কাছাকাছি ডিভাইস",
+  "meshUnknownDeviceHint": "এখনও কোনো পরিচিতির সাথে যুক্ত নয়",
+  "meshBluetoothOffTitle": "ব্লুটুথ বন্ধ আছে",
+  "meshBluetoothOffMessage": "কাছাকাছি ProShetu ব্যবহারকারী খুঁজে পেতে ব্লুটুথ চালু করুন।",
+  "meshPermissionDeniedTitle": "ব্লুটুথ অনুমতি প্রয়োজন",
+  "meshPermissionDeniedMessage": "কাছাকাছি ProShetu ব্যবহারকারী খুঁজে পেতে ব্লুটুথ অনুমতি দিন।",
+  "meshUnsupportedTitle": "ব্লুটুথ মেশ অনুপলব্ধ",
+  "meshUnsupportedMessage": "এই ডিভাইসটি ব্লুটুথ লো এনার্জি সমর্থন করে না।",
+  "meshOpenSettings": "সেটিংস খুলুন",
+  "meshEmptyTitle": "এখনো কাছাকাছি কেউ নেই",
+  "meshEmptyMessage": "এই স্ক্রিনটি খোলা রাখুন — কাছাকাছি ProShetu ব্যবহারকারীরা এখানে দেখা যাবে।",
+  "meshProximityVeryClose": "খুব কাছে",
+  "meshProximityNearby": "কাছাকাছি",
+  "meshProximityFar": "দূরে",
+  "meshPeersBadge": "{count}জন",
+  "@meshPeersBadge": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "meshScanningNear": "{place} এর কাছে স্ক্যান হচ্ছে",
+  "@meshScanningNear": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "meshLocationUnavailable": "আপনার অবস্থান অনুপলব্ধ",
   "dashInternet": "ইন্টারনেট",
   "dashGps": "GPS",
   "statusOffline": "অফলাইন",
@@ -145,6 +183,7 @@
   "sosName": "নাম",
   "sosNumber": "নম্বর",
   "sosLocation": "অবস্থান",
+  "sosLocationHint": "আপনার বর্তমান অবস্থান লিখুন",
   "sosDescription": "বিবরণ",
   "sosOptionalSuffix": "(ঐচ্ছিক)",
   "sosDescriptionHint": "SOS সম্পর্কে লিখুন",
@@ -152,7 +191,7 @@
   "sosLookingForHint": "যে সাহায্য দরকার তা লিখুন",
   "sosCreate": "SOS সতর্কতা তৈরি করুন",
   "sosSuccessBody": "আপনার SOS সতর্কতা সফলভাবে তৈরি হয়েছে! নিরাপদ থাকুন এবং ডিভাইস চার্জে রাখুন।",
-  "profileKycVerified": "KYC যাচাইকৃত",
+  "profileKycPendingReview": "পর্যালোচনাধীন",
   "profileVault": "ব্ল্যাকবক্স ভল্ট",
   "profileSecuritySection": "নিরাপত্তা ও পরিচয়",
   "profileEncryptionKeys": "এনক্রিপশন কী",
@@ -177,5 +216,7 @@
   "commonDelete": "মুছুন",
   "vaultEnterPin": "আপনার এনক্রিপশন পিন দিন",
   "vaultWrongPin": "ভুল পিন। আবার চেষ্টা করুন।",
-  "vaultToday": "আজ"
+  "vaultToday": "আজ",
+  "vaultEmptyTitle": "আপনার ভল্ট খালি",
+  "vaultEmptyMessage": "আপনি এখানে সংরক্ষণ করা এনক্রিপ্টেড ছবি ও ফাইল এই জায়গায় দেখা যাবে।"
 }

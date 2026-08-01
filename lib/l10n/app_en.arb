@@ -73,6 +73,15 @@
   "authLogin": "Login",
   "authNoAccount": "Don't have an account?",
   "authSignUpHere": "Sign Up here",
+  "authForgotPassword": "Forgot password?",
+  "authRecoveryTitle": "Recover Account",
+  "authRecoveryPhoneIntro": "Enter the phone number for the account you want to recover. We'll text you a verification code.",
+  "authRecoveryWarningTitle": "This will create a new secure identity",
+  "authRecoveryWarningBody": "Recovering access on this device generates new encryption keys. Messages already stored on this device will become permanently unreadable. Everyone you've messaged before will need to add you again (scan your QR code or your number) before they can reach you.",
+  "authRecoveryCheckbox": "I understand my message history on this device will be lost and my contacts will need to add me again",
+  "authRecoveryContinue": "Create New Identity",
+  "authRecoveryNewPassword": "New Password",
+  "authRecoveryNewPasswordHint": "A Strong Password",
   "pinTitle": "Set Encryption PIN",
   "pinSubtitle": "Used to unlock the app, secret messages and vault",
   "pinChoose": "Choose a 6-digit PIN",
@@ -90,8 +99,6 @@
   "trustedContactHint": "Enter Your Trusted Contact",
   "trustedNote": "To complete your profile setup, please add at least one Trusted Contact.",
   "trustedAdd": "Add Trusted Contacts",
-  "homePlaceholderTitle": "You're all set",
-  "homePlaceholderMessage": "The home experience is coming in the next build.",
   "authCaptureFrontLabel": "Front side",
   "authCaptureBackLabel": "Back side",
   "authCaptureDocumentLabel": "Document photo",
@@ -116,6 +123,37 @@
   },
   "dashNearbyOnMesh": "Nearby on Mesh",
   "dashConnect": "Connect",
+  "meshUnknownDevice": "Unknown nearby device",
+  "meshUnknownDeviceHint": "Not yet linked to a contact",
+  "meshBluetoothOffTitle": "Bluetooth is off",
+  "meshBluetoothOffMessage": "Turn on Bluetooth to discover nearby ProShetu users.",
+  "meshPermissionDeniedTitle": "Bluetooth permission needed",
+  "meshPermissionDeniedMessage": "Grant Bluetooth permission to discover nearby ProShetu users.",
+  "meshUnsupportedTitle": "Bluetooth mesh unavailable",
+  "meshUnsupportedMessage": "This device doesn't support Bluetooth Low Energy.",
+  "meshOpenSettings": "Open Settings",
+  "meshEmptyTitle": "No one nearby yet",
+  "meshEmptyMessage": "Keep this screen open — nearby ProShetu users will appear here.",
+  "meshProximityVeryClose": "Very close",
+  "meshProximityNearby": "Nearby",
+  "meshProximityFar": "Farther away",
+  "meshPeersBadge": "{count} peers",
+  "@meshPeersBadge": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "meshScanningNear": "Scanning near {place}",
+  "@meshScanningNear": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "meshLocationUnavailable": "Your location is unavailable",
   "dashInternet": "Internet",
   "dashGps": "GPS",
   "statusOffline": "Offline",
@@ -145,6 +183,7 @@
   "sosName": "Name",
   "sosNumber": "Number",
   "sosLocation": "Location",
+  "sosLocationHint": "Enter your current location",
   "sosDescription": "Description",
   "sosOptionalSuffix": "(Optional)",
   "sosDescriptionHint": "Enter About The SOS",
@@ -152,7 +191,7 @@
   "sosLookingForHint": "Enter The Help You Are Looking For",
   "sosCreate": "Create SOS Alert",
   "sosSuccessBody": "Your SOS Alert has been successfully created! Stay safe and keep your device charged.",
-  "profileKycVerified": "KYC Verified",
+  "profileKycPendingReview": "Pending review",
   "profileVault": "Blackbox Vault",
   "profileSecuritySection": "Security & Identity",
   "profileEncryptionKeys": "Encryption Keys",
@@ -177,5 +216,7 @@
   "commonDelete": "Delete",
   "vaultEnterPin": "Enter your encryption PIN",
   "vaultWrongPin": "Incorrect PIN. Try again.",
-  "vaultToday": "Today"
+  "vaultToday": "Today",
+  "vaultEmptyTitle": "Your vault is empty",
+  "vaultEmptyMessage": "Encrypted photos and files you save here will appear in this space."
 }

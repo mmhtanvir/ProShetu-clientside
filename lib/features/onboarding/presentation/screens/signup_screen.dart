@@ -23,6 +23,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   String _phone = '';
   final _password = TextEditingController();
   final _confirm = TextEditingController();
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   String? _nameError, _phoneError, _passwordError, _confirmError;
 
@@ -116,8 +118,15 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   label: l10n.authPassword,
                   hint: l10n.authPasswordHint,
                   errorText: _passwordError,
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   textInputAction: TextInputAction.next,
+                  suffix: IconButton(
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined),
+                    onPressed: () => setState(
+                        () => _obscurePassword = !_obscurePassword),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 AppTextField(
@@ -125,9 +134,16 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   label: l10n.authConfirmPassword,
                   hint: l10n.authConfirmPasswordHint,
                   errorText: _confirmError,
-                  obscureText: true,
+                  obscureText: _obscureConfirm,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _submit(),
+                  suffix: IconButton(
+                    icon: Icon(_obscureConfirm
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined),
+                    onPressed: () =>
+                        setState(() => _obscureConfirm = !_obscureConfirm),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 AppButton(

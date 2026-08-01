@@ -3,18 +3,25 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/error/failure.dart';
+import '../../../../core/utils/result.dart';
 import '../providers/onboarding_providers.dart';
 
 class VerifyPhoneState extends Equatable {
   const VerifyPhoneState({
     required this.secondsLeft,
     this.verifying = false,
-    this.invalidCode = false,
+    this.errorMessage,
   });
 
   final int secondsLeft;
   final bool verifying;
-  final bool invalidCode;
+
+  /// The backend's real failure message (wrong/expired code, phone
+  /// already registered, network error, ...) — shown as-is rather
+  /// than collapsed into one generic "invalid code" string, so a
+  /// duplicate-number signup reads as exactly that, not as a typo.
+  final String? errorMessage;
 
   bool get expired => secondsLeft <= 0;
 
@@ -24,16 +31,20 @@ class VerifyPhoneState extends Equatable {
     return '$m:${s.toString().padLeft(2, '0')}';
   }
 
-  VerifyPhoneState copyWith(
-          {int? secondsLeft, bool? verifying, bool? invalidCode}) =>
+  VerifyPhoneState copyWith({
+    int? secondsLeft,
+    bool? verifying,
+    String? errorMessage,
+    bool clearError = false,
+  }) =>
       VerifyPhoneState(
         secondsLeft: secondsLeft ?? this.secondsLeft,
         verifying: verifying ?? this.verifying,
-        invalidCode: invalidCode ?? this.invalidCode,
+        errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       );
 
   @override
-  List<Object?> get props => [secondsLeft, verifying, invalidCode];
+  List<Object?> get props => [secondsLeft, verifying, errorMessage];
 }
 
 /// OTP verification: owns the expiry countdown and the verify call.
@@ -63,10 +74,17 @@ class VerifyPhoneController extends AutoDisposeNotifier<VerifyPhoneState> {
 
   Future<bool> verify(String code) async {
     if (state.expired) return false;
-    state = state.copyWith(verifying: true, invalidCode: false);
-    final bool ok = await ref.read(authRepositoryProvider).verifyOtp(code);
-    state = state.copyWith(verifying: false, invalidCode: !ok);
-    return ok;
+    state = state.copyWith(verifying: true, clearError: true);
+    final Result<Failure, void> result =
+        await ref.read(authRepositoryProvider).verifyOtp(code);
+    switch (result) {
+      case Ok<Failure, void>():
+        state = state.copyWith(verifying: false, clearError: true);
+        return true;
+      case Err<Failure, void>(:final value):
+        state = state.copyWith(verifying: false, errorMessage: value.message);
+        return false;
+    }
   }
 
   Future<void> resend() async {

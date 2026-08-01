@@ -18,6 +18,21 @@
     <!-- Real-time Wi-Fi/mobile/offline detection for the dashboard's
          Internet status tile. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- BLE mesh Phase 1 (proximity discovery only — see
+         lib/infrastructure/mesh/README.md). neverForLocation is honest
+         here: scan results never feed into any location inference
+         anywhere in this app, only proximity buckets. Foreground-only
+         for now, so no background-BLE manifest entries. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <!-- Deliberately optional (required="false"): the app's low-end-
+         device goal means BLE-unsupported hardware should still be
+         installable, just falling back gracefully (see
+         ble_mesh_repository.dart) rather than being excluded from the
+         Play Store listing entirely. -->
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
     <application
         android:label="proshetu"
         android:name="${applicationName}"

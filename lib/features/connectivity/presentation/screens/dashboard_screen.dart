@@ -33,7 +33,7 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    final String name = ref.watch(displayNameProvider);
+    final String name = ref.watch(displayNameProvider).valueOrNull ?? '';
     final statusAsync = ref.watch(networkStatusProvider);
     final peersAsync = ref.watch(nearbyPeersProvider);
     final connectivityAsync = ref.watch(connectivityProvider);
@@ -120,8 +120,11 @@ class DashboardScreen extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: connectivityAsync.when(
-                        // Real, live network state (connectivity_plus) —
-                        // not the mock MeshRepository.internetOnline bit.
+                        // The dedicated live connectivity_plus stream,
+                        // not MeshRepository.networkStatus's own
+                        // internetOnline bit — this one updates
+                        // instantly on network change rather than only
+                        // when the mesh peer count also ticks.
                         data: (results) {
                           final ConnectionKind kind =
                               connectionKindOf(results);

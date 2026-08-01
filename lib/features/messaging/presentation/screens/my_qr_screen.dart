@@ -10,18 +10,25 @@ import '../../../../core/widgets/widgets.dart';
 import '../providers/messaging_providers.dart';
 
 /// This device's own pairing code: a QR encoding {displayName,
-/// mailboxId} — the exact shape [ScanQrScreen] decodes and hands to
-/// ContactDirectoryStore.add(). Scanning this is how a peer learns
-/// this device's mailbox_id without either side ever sharing a phone
-/// number (apps/directory deliberately never links the two).
+/// mailboxId, ed25519Pub, x25519Pub} — the exact shape [ScanQrScreen]
+/// decodes and hands to ContactDirectoryStore.add(). Scanning this is
+/// how a peer learns this device's mailbox_id AND identity public
+/// keys (needed to later resolve a sealed-sender E2E message's
+/// sender) without either side ever sharing a phone number
+/// (apps/directory deliberately never links the two).
 class MyQrScreen extends ConsumerWidget {
   const MyQrScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
-    final AsyncValue<({String? name, String? mailboxId})> infoAsync =
-        ref.watch(myPairingInfoProvider);
+    final AsyncValue<
+        ({
+          String? name,
+          String? mailboxId,
+          String? ed25519Pub,
+          String? x25519Pub
+        })> infoAsync = ref.watch(myPairingInfoProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('My pairing code')),
@@ -40,7 +47,12 @@ class MyQrScreen extends ConsumerWidget {
                   actionLabel: 'Retry',
                   onAction: () => ref.invalidate(myPairingInfoProvider),
                 ),
-                data: (({String? name, String? mailboxId}) info) {
+                data: (({
+                  String? name,
+                  String? mailboxId,
+                  String? ed25519Pub,
+                  String? x25519Pub
+                }) info) {
                   if (info.mailboxId == null) {
                     return const AppStatusView.error(
                       title: 'Not registered yet',
@@ -50,9 +62,11 @@ class MyQrScreen extends ConsumerWidget {
                           'a pairing code.',
                     );
                   }
-                  final String payload = jsonEncode(<String, String>{
+                  final String payload = jsonEncode(<String, String?>{
                     'displayName': info.name ?? 'Unknown',
                     'mailboxId': info.mailboxId!,
+                    'ed25519Pub': info.ed25519Pub,
+                    'x25519Pub': info.x25519Pub,
                   });
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,

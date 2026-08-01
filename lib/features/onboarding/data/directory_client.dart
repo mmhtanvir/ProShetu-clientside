@@ -7,14 +7,40 @@ import '../../../infrastructure/crypto/device_keys.dart';
 import '../../../infrastructure/crypto/hex.dart';
 import '../../../infrastructure/transport/api_client.dart';
 
+/// A peer's fetched prekey bundle — the raw material
+/// infrastructure/crypto/x3dh.dart needs to bootstrap a session.
+/// [oneTimePrekey] may be null if the server's pool was exhausted;
+/// X3DH still works without one (see x3dh.dart), just slightly
+/// weaker.
+class PreKeyBundle {
+  const PreKeyBundle({
+    required this.mailboxId,
+    required this.ed25519Pub,
+    required this.x25519Pub,
+    required this.signedPrekey,
+    required this.signedPrekeySig,
+    this.oneTimePrekey,
+  });
+
+  final String mailboxId;
+  final String ed25519Pub;
+  final String x25519Pub;
+  final String signedPrekey;
+  final String signedPrekeySig;
+  final String? oneTimePrekey;
+
+  static PreKeyBundle fromJson(JsonMap json) => PreKeyBundle(
+        mailboxId: json['mailbox_id'] as String,
+        ed25519Pub: json['ed25519_pub'] as String,
+        x25519Pub: json['x25519_pub'] as String,
+        signedPrekey: json['signed_prekey'] as String,
+        signedPrekeySig: json['signed_prekey_sig'] as String,
+        oneTimePrekey: json['one_time_prekey'] as String?,
+      );
+}
+
 /// Talks to apps/directory: create/return this device's directory
 /// identity, and publish/fetch X3DH prekey bundles.
-///
-/// Publishing a signed prekey bundle is fully specified and safe to
-/// implement for real (standard prekey-publishing crypto). What
-/// still can't be done for real is USING a fetched bundle to derive
-/// an actual session key — that's the unimplemented E2E seam
-/// (infrastructure/crypto/e2e_placeholder.dart).
 class DirectoryClient {
   DirectoryClient(this._api);
 
@@ -51,11 +77,57 @@ class DirectoryClient {
     );
   }
 
+  /// POST /v1/recover — unauthenticated, same shape as [register] but
+  /// requires a registration_token issued for purpose="recovery"
+  /// (apps/directory/views.py::recover). Mints a fresh directory
+  /// identity for an already-registered phone, replacing the mailbox
+  /// PhoneDirectoryEntry resolves that number to going forward. The
+  /// caller must have already generated a NEW local keypair (see
+  /// AuthRepositoryImpl.startRecovery) before calling this — the
+  /// ed25519/x25519 keys sent here come from whatever DeviceKeys is
+  /// currently unlocked with.
+  Future<Result<Failure, String>> recover({
+    required String registrationToken,
+    String? displayName,
+  }) async {
+    final String ed = await DeviceKeys.ed25519PublicHex();
+    final String x = await DeviceKeys.x25519PublicHex();
+    final Result<Failure, JsonMap> res = await _api.postJson(
+      '/v1/recover',
+      body: {
+        'ed25519_pub': ed,
+        'x25519_pub': x,
+        'registration_token': registrationToken,
+        if (displayName != null) 'display_name': displayName,
+      },
+    );
+    return res.fold(
+      Err.new,
+      (JsonMap json) => Ok(json['mailbox_id'] as String),
+    );
+  }
+
+  /// POST /v1/fcm/token — signed. Registers/updates this device's FCM
+  /// registration token so apps/common/fcm.py can wake it when no
+  /// live /ws/push socket is connected. Silently a no-op contract for
+  /// the caller on failure (FcmService.registerToken() doesn't
+  /// surface this to the UI) — a missed registration just means this
+  /// device falls back to the existing poll path.
+  Future<Result<Failure, void>> updateFcmToken(String token) async {
+    final Result<Failure, JsonMap> res = await _api.postJson(
+      '/v1/fcm/token',
+      signed: true,
+      body: {'fcm_token': token},
+    );
+    return res.fold(Err.new, (_) => const Ok(null));
+  }
+
   /// POST /v1/prekeys — signed. Generates and uploads a fresh
   /// signed-prekey + a pool of one-time prekeys; their private
-  /// halves are handed back so the caller can persist them (needed
-  /// later to actually consume an X3DH session — still gated on the
-  /// E2E seam for now).
+  /// halves are handed back so the caller can persist them via
+  /// PrekeyStore (infrastructure/crypto/prekey_store.dart) — without
+  /// that, this device could never complete X3DH when a peer starts
+  /// a session against this bundle.
   Future<Result<Failure, List<SimpleKeyPair>>> uploadPrekeys({
     int oneTimeCount = 20,
   }) async {
@@ -87,9 +159,11 @@ class DirectoryClient {
   }
 
   /// GET /v1/prekeys/{mailboxId} — signed. Pops one one-time prekey
-  /// server-side; returns the raw bundle fields (still needs a real
-  /// X3DH derivation to become a usable session — see
-  /// infrastructure/crypto/e2e_placeholder.dart).
-  Future<Result<Failure, JsonMap>> fetchPrekeys(String mailboxId) =>
-      _api.getJson('/v1/prekeys/$mailboxId', signed: true);
+  /// server-side (single-use — gone from the server after this call,
+  /// use it immediately or lose it).
+  Future<Result<Failure, PreKeyBundle>> fetchPrekeys(String mailboxId) async {
+    final Result<Failure, JsonMap> res =
+        await _api.getJson('/v1/prekeys/$mailboxId', signed: true);
+    return res.fold(Err.new, (JsonMap json) => Ok(PreKeyBundle.fromJson(json)));
+  }
 }

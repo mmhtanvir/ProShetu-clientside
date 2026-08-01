@@ -9,11 +9,11 @@ import '../controllers/call_controller.dart';
 /// Shows the current call (dial-out, connecting, or active). Pop it
 /// when [CallController]'s state clears or the call ends.
 ///
-/// Honest about a real limitation: mute/speaker are visual only.
-/// There is no audio engine in this build — see the doc comment on
-/// [CallController]. Rather than hide that, the active-call state
-/// says so plainly, matching this app's "truth over comfort" design
-/// principle for connection state.
+/// Honest about a real limitation: speaker/video/mute are visual
+/// only. There is no audio or video engine in this build — see the
+/// doc comment on [CallController]. Rather than hide that, the
+/// active-call state says so plainly, matching this app's "truth
+/// over comfort" design principle for connection state.
 class CallScreen extends ConsumerWidget {
   const CallScreen({super.key});
 
@@ -43,6 +43,23 @@ class CallScreen extends ConsumerWidget {
               AppAvatar(name: call.peerName, size: 96),
               const SizedBox(height: AppSpacing.md),
               Text(call.peerName, style: theme.textTheme.headlineSmall),
+              if (call.phase == CallPhase.active) ...[
+                const SizedBox(height: AppSpacing.xxs),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.lock_outline_rounded,
+                        size: 14, color: theme.colorScheme.onSurfaceVariant),
+                    const SizedBox(width: AppSpacing.xxs),
+                    Text(
+                      'End-to-end encrypted',
+                      style: theme.textTheme.bodySmall
+                          ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    ),
+                  ],
+                ),
+              ],
               const SizedBox(height: AppSpacing.xs),
               Text(
                 call.statusMessage ?? _phaseLabel(call.phase),
@@ -59,14 +76,20 @@ class CallScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _RoundIconButton(
-                      icon: Icons.mic_off_rounded,
-                      label: 'Mute',
+                      icon: Icons.volume_up_rounded,
+                      label: 'Speaker',
                       onTap: () {}, // visual only — no audio engine
                     ),
                     const SizedBox(width: AppSpacing.lg),
                     _RoundIconButton(
-                      icon: Icons.volume_up_rounded,
-                      label: 'Speaker',
+                      icon: Icons.videocam_rounded,
+                      label: 'Video',
+                      onTap: () {}, // visual only — no video engine
+                    ),
+                    const SizedBox(width: AppSpacing.lg),
+                    _RoundIconButton(
+                      icon: Icons.mic_off_rounded,
+                      label: 'Mute',
                       onTap: () {}, // visual only — no audio engine
                     ),
                   ],

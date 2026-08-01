@@ -72,9 +72,7 @@ final hazardEventsProvider =
 
 /// [hazardEventsProvider] reshaped into [CrisisAlert] — lets the
 /// dashboard's existing AlertCarousel widget show real hazard data
-/// without changing its type contract. Real data replaces the mock
-/// list in coordination_providers.dart's activeAlertsProvider, which
-/// stays defined for reference/fallback.
+/// without changing its type contract.
 ///
 /// Only alerts for earthquakes >= [kMinAlertMagnitude] and events
 /// within [kNearbyRadiusMeters] of the user's current position (both

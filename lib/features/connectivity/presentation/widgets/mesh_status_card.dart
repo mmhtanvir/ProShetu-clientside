@@ -33,23 +33,27 @@ class MeshStatusCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Overlapping avatar cluster.
-          SizedBox(
-            height: 40,
-            width: 40.0 + (shown.length - 1) * 24.0,
-            child: Stack(
-              children: [
-                for (int i = 0; i < shown.length; i++)
-                  Positioned(
-                    left: i * 24.0,
-                    child: AppAvatar(
-                      name: shown[i].name,
-                      online: shown[i].online,
+          // Overlapping avatar cluster. Peers are anonymous in Phase 1
+          // (see infrastructure/mesh/README.md) — AppAvatar's "?"
+          // initials from an empty name is the honest representation
+          // of "a nearby device, not yet linked to a contact."
+          if (shown.isNotEmpty)
+            SizedBox(
+              height: 40,
+              width: 40.0 + (shown.length - 1) * 24.0,
+              child: Stack(
+                children: [
+                  for (int i = 0; i < shown.length; i++)
+                    Positioned(
+                      left: i * 24.0,
+                      child: AppAvatar(
+                        name: shown[i].name ?? '',
+                        online: true,
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(

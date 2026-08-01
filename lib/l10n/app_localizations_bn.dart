@@ -186,6 +186,37 @@ class AppLocalizationsBn extends AppLocalizations {
   String get authSignUpHere => 'সাইন আপ করুন';
 
   @override
+  String get authForgotPassword => 'পাসওয়ার্ড ভুলে গেছেন?';
+
+  @override
+  String get authRecoveryTitle => 'অ্যাকাউন্ট পুনরুদ্ধার';
+
+  @override
+  String get authRecoveryPhoneIntro =>
+      'যে অ্যাকাউন্টটি পুনরুদ্ধার করতে চান তার ফোন নম্বর দিন। আমরা আপনাকে একটি যাচাইকরণ কোড পাঠাব।';
+
+  @override
+  String get authRecoveryWarningTitle =>
+      'এটি একটি নতুন নিরাপদ পরিচয় তৈরি করবে';
+
+  @override
+  String get authRecoveryWarningBody =>
+      'এই ডিভাইসে অ্যাক্সেস পুনরুদ্ধার করলে নতুন এনক্রিপশন কী তৈরি হয়। এই ডিভাইসে সংরক্ষিত বার্তাগুলি স্থায়ীভাবে অপঠনযোগ্য হয়ে যাবে। আপনি আগে যাদের সাথে বার্তা আদান-প্রদান করেছেন তাদের আপনার সাথে আবার যোগ করতে হবে (আপনার QR কোড স্ক্যান করে বা আপনার নম্বর দিয়ে) আপনার সাথে যোগাযোগ করার আগে।';
+
+  @override
+  String get authRecoveryCheckbox =>
+      'আমি বুঝতে পারছি এই ডিভাইসে আমার বার্তার ইতিহাস হারিয়ে যাবে এবং আমার পরিচিতিদের আমাকে আবার যোগ করতে হবে';
+
+  @override
+  String get authRecoveryContinue => 'নতুন পরিচয় তৈরি করুন';
+
+  @override
+  String get authRecoveryNewPassword => 'নতুন পাসওয়ার্ড';
+
+  @override
+  String get authRecoveryNewPasswordHint => 'একটি শক্তিশালী পাসওয়ার্ড';
+
+  @override
   String get pinTitle => 'এনক্রিপশন পিন সেট করুন';
 
   @override
@@ -218,12 +249,6 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get trustedAdd => 'বিশ্বস্ত পরিচিতি যোগ করুন';
-
-  @override
-  String get homePlaceholderTitle => 'সব প্রস্তুত';
-
-  @override
-  String get homePlaceholderMessage => 'হোম স্ক্রিন পরবর্তী বিল্ডে আসছে।';
 
   @override
   String get authCaptureFrontLabel => 'সামনের দিক';
@@ -277,6 +302,65 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get dashConnect => 'সংযুক্ত হন';
+
+  @override
+  String get meshUnknownDevice => 'অজানা কাছাকাছি ডিভাইস';
+
+  @override
+  String get meshUnknownDeviceHint => 'এখনও কোনো পরিচিতির সাথে যুক্ত নয়';
+
+  @override
+  String get meshBluetoothOffTitle => 'ব্লুটুথ বন্ধ আছে';
+
+  @override
+  String get meshBluetoothOffMessage =>
+      'কাছাকাছি ProShetu ব্যবহারকারী খুঁজে পেতে ব্লুটুথ চালু করুন।';
+
+  @override
+  String get meshPermissionDeniedTitle => 'ব্লুটুথ অনুমতি প্রয়োজন';
+
+  @override
+  String get meshPermissionDeniedMessage =>
+      'কাছাকাছি ProShetu ব্যবহারকারী খুঁজে পেতে ব্লুটুথ অনুমতি দিন।';
+
+  @override
+  String get meshUnsupportedTitle => 'ব্লুটুথ মেশ অনুপলব্ধ';
+
+  @override
+  String get meshUnsupportedMessage =>
+      'এই ডিভাইসটি ব্লুটুথ লো এনার্জি সমর্থন করে না।';
+
+  @override
+  String get meshOpenSettings => 'সেটিংস খুলুন';
+
+  @override
+  String get meshEmptyTitle => 'এখনো কাছাকাছি কেউ নেই';
+
+  @override
+  String get meshEmptyMessage =>
+      'এই স্ক্রিনটি খোলা রাখুন — কাছাকাছি ProShetu ব্যবহারকারীরা এখানে দেখা যাবে।';
+
+  @override
+  String get meshProximityVeryClose => 'খুব কাছে';
+
+  @override
+  String get meshProximityNearby => 'কাছাকাছি';
+
+  @override
+  String get meshProximityFar => 'দূরে';
+
+  @override
+  String meshPeersBadge(String count) {
+    return '$countজন';
+  }
+
+  @override
+  String meshScanningNear(String place) {
+    return '$place এর কাছে স্ক্যান হচ্ছে';
+  }
+
+  @override
+  String get meshLocationUnavailable => 'আপনার অবস্থান অনুপলব্ধ';
 
   @override
   String get dashInternet => 'ইন্টারনেট';
@@ -347,6 +431,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get sosLocation => 'অবস্থান';
 
   @override
+  String get sosLocationHint => 'আপনার বর্তমান অবস্থান লিখুন';
+
+  @override
   String get sosDescription => 'বিবরণ';
 
   @override
@@ -369,7 +456,7 @@ class AppLocalizationsBn extends AppLocalizations {
       'আপনার SOS সতর্কতা সফলভাবে তৈরি হয়েছে! নিরাপদ থাকুন এবং ডিভাইস চার্জে রাখুন।';
 
   @override
-  String get profileKycVerified => 'KYC যাচাইকৃত';
+  String get profileKycPendingReview => 'পর্যালোচনাধীন';
 
   @override
   String get profileVault => 'ব্ল্যাকবক্স ভল্ট';
@@ -427,4 +514,11 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get vaultToday => 'আজ';
+
+  @override
+  String get vaultEmptyTitle => 'আপনার ভল্ট খালি';
+
+  @override
+  String get vaultEmptyMessage =>
+      'আপনি এখানে সংরক্ষণ করা এনক্রিপ্টেড ছবি ও ফাইল এই জায়গায় দেখা যাবে।';
 }

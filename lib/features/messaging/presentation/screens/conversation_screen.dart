@@ -114,21 +114,12 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
         titleSpacing: 0,
         title: Row(
           children: [
-            AppAvatar(name: widget.peerName, size: 34, online: true),
+            // No presence system exists (see ChatSummary.online's own
+            // doc comment) — no online dot, no fabricated "last seen"
+            // timestamp, just the name.
+            AppAvatar(name: widget.peerName, size: 34),
             const SizedBox(width: AppSpacing.xs),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(widget.peerName,
-                    style: theme.textTheme.titleMedium),
-                Text(
-                  '15m ago',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                      fontSize: 10),
-                ),
-              ],
-            ),
+            Text(widget.peerName, style: theme.textTheme.titleMedium),
           ],
         ),
         actions: [

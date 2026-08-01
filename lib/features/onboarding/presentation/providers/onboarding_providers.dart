@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/di.dart';
+import '../../../../infrastructure/storage/storage_providers.dart';
 import '../../data/auth_repository_impl.dart';
 import '../../data/directory_client.dart';
 import '../../data/id_verify_client.dart';
@@ -32,5 +33,14 @@ final authRepositoryProvider = Provider<AuthRepository>(
     ref.watch(secureStorageProvider),
     ref.watch(directoryClientProvider),
     ref.watch(smsVerifyClientProvider),
+    ref.watch(prekeyStoreProvider),
+    ref.watch(sessionStoreProvider),
+    ref.watch(messageStoreProvider),
   ),
+);
+
+/// This device's own real registered phone number — never a
+/// placeholder. Feeds the profile screen.
+final myPhoneProvider = FutureProvider<String>(
+  (Ref ref) async => await ref.watch(authRepositoryProvider).myPhone() ?? '',
 );

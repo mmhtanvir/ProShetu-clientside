@@ -188,6 +188,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authSignUpHere => 'Sign Up here';
 
   @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authRecoveryTitle => 'Recover Account';
+
+  @override
+  String get authRecoveryPhoneIntro =>
+      'Enter the phone number for the account you want to recover. We\'ll text you a verification code.';
+
+  @override
+  String get authRecoveryWarningTitle =>
+      'This will create a new secure identity';
+
+  @override
+  String get authRecoveryWarningBody =>
+      'Recovering access on this device generates new encryption keys. Messages already stored on this device will become permanently unreadable. Everyone you\'ve messaged before will need to add you again (scan your QR code or your number) before they can reach you.';
+
+  @override
+  String get authRecoveryCheckbox =>
+      'I understand my message history on this device will be lost and my contacts will need to add me again';
+
+  @override
+  String get authRecoveryContinue => 'Create New Identity';
+
+  @override
+  String get authRecoveryNewPassword => 'New Password';
+
+  @override
+  String get authRecoveryNewPasswordHint => 'A Strong Password';
+
+  @override
   String get pinTitle => 'Set Encryption PIN';
 
   @override
@@ -221,13 +252,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trustedAdd => 'Add Trusted Contacts';
-
-  @override
-  String get homePlaceholderTitle => 'You\'re all set';
-
-  @override
-  String get homePlaceholderMessage =>
-      'The home experience is coming in the next build.';
 
   @override
   String get authCaptureFrontLabel => 'Front side';
@@ -281,6 +305,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashConnect => 'Connect';
+
+  @override
+  String get meshUnknownDevice => 'Unknown nearby device';
+
+  @override
+  String get meshUnknownDeviceHint => 'Not yet linked to a contact';
+
+  @override
+  String get meshBluetoothOffTitle => 'Bluetooth is off';
+
+  @override
+  String get meshBluetoothOffMessage =>
+      'Turn on Bluetooth to discover nearby ProShetu users.';
+
+  @override
+  String get meshPermissionDeniedTitle => 'Bluetooth permission needed';
+
+  @override
+  String get meshPermissionDeniedMessage =>
+      'Grant Bluetooth permission to discover nearby ProShetu users.';
+
+  @override
+  String get meshUnsupportedTitle => 'Bluetooth mesh unavailable';
+
+  @override
+  String get meshUnsupportedMessage =>
+      'This device doesn\'t support Bluetooth Low Energy.';
+
+  @override
+  String get meshOpenSettings => 'Open Settings';
+
+  @override
+  String get meshEmptyTitle => 'No one nearby yet';
+
+  @override
+  String get meshEmptyMessage =>
+      'Keep this screen open — nearby ProShetu users will appear here.';
+
+  @override
+  String get meshProximityVeryClose => 'Very close';
+
+  @override
+  String get meshProximityNearby => 'Nearby';
+
+  @override
+  String get meshProximityFar => 'Farther away';
+
+  @override
+  String meshPeersBadge(String count) {
+    return '$count peers';
+  }
+
+  @override
+  String meshScanningNear(String place) {
+    return 'Scanning near $place';
+  }
+
+  @override
+  String get meshLocationUnavailable => 'Your location is unavailable';
 
   @override
   String get dashInternet => 'Internet';
@@ -351,6 +434,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sosLocation => 'Location';
 
   @override
+  String get sosLocationHint => 'Enter your current location';
+
+  @override
   String get sosDescription => 'Description';
 
   @override
@@ -373,7 +459,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your SOS Alert has been successfully created! Stay safe and keep your device charged.';
 
   @override
-  String get profileKycVerified => 'KYC Verified';
+  String get profileKycPendingReview => 'Pending review';
 
   @override
   String get profileVault => 'Blackbox Vault';
@@ -431,4 +517,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vaultToday => 'Today';
+
+  @override
+  String get vaultEmptyTitle => 'Your vault is empty';
+
+  @override
+  String get vaultEmptyMessage =>
+      'Encrypted photos and files you save here will appear in this space.';
 }

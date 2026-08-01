@@ -3,37 +3,55 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// A locally-known contact: a display name paired with the mailbox_id
-/// their device registered under (apps/directory). This is the piece
-/// `/v1/sync`'s `recipient_mailbox` needs that nothing in this app
-/// currently collects.
+/// A locally-known contact: a display name + mailbox_id, plus (once
+/// paired via the updated QR payload) their long-term X25519/Ed25519
+/// identity public keys — pinned at pairing time (TOFU: the physical
+/// act of scanning their QR code in person is the trust-establishment
+/// event, same as `mailbox_id` already was). Without these two keys
+/// pinned, there is no way to resolve who sent an E2E-encrypted
+/// INITIAL message (sealed sender means no mailbox_id travels in the
+/// envelope — only the sender's identity public keys do) or to
+/// cross-check a session's provenance. Contacts paired before this
+/// field existed will have both null — see ScanQrScreen for the
+/// "re-pair to enable secure messaging" affordance that covers them.
 class DirectoryContact extends Equatable {
-  const DirectoryContact({required this.displayName, required this.mailboxId});
+  const DirectoryContact({
+    required this.displayName,
+    required this.mailboxId,
+    this.ed25519Pub,
+    this.x25519Pub,
+  });
 
   final String displayName;
   final String mailboxId;
+  final String? ed25519Pub;
+  final String? x25519Pub;
 
-  Map<String, dynamic> toJson() =>
-      {'displayName': displayName, 'mailboxId': mailboxId};
+  Map<String, dynamic> toJson() => {
+        'displayName': displayName,
+        'mailboxId': mailboxId,
+        if (ed25519Pub != null) 'ed25519Pub': ed25519Pub,
+        if (x25519Pub != null) 'x25519Pub': x25519Pub,
+      };
 
   static DirectoryContact fromJson(Map<String, dynamic> json) =>
       DirectoryContact(
         displayName: json['displayName'] as String,
         mailboxId: json['mailboxId'] as String,
+        ed25519Pub: json['ed25519Pub'] as String?,
+        x25519Pub: json['x25519Pub'] as String?,
       );
 
   @override
-  List<Object?> get props => [displayName, mailboxId];
+  List<Object?> get props =>
+      [displayName, mailboxId, ed25519Pub, x25519Pub];
 }
 
-/// Real, complete storage for [DirectoryContact]s. Nothing populates
-/// it yet: learning a contact's mailbox_id needs an out-of-band
-/// exchange (e.g. scan their QR code, which encodes their
-/// mailbox_id) that this app doesn't have a screen for today — see
-/// this class's use sites for the "add a real contact" gap. Once
-/// such a flow exists, call [add] with what it captures; everything
-/// downstream (SyncRepository, ChatRepository) is ready to consume
-/// mailbox-addressed contacts as soon as they exist here.
+/// Real, complete storage for [DirectoryContact]s, populated by QR
+/// pairing (my_qr_screen.dart / scan_qr_screen.dart) and by Add-by-
+/// number. Everything downstream (SyncRepository, ChatRepository,
+/// E2eCryptoService) consumes mailbox-addressed, key-pinned contacts
+/// straight from here.
 class ContactDirectoryStore {
   ContactDirectoryStore(this._storage);
 
@@ -87,6 +105,18 @@ class ContactDirectoryStore {
     final List<DirectoryContact> current = await all();
     for (final DirectoryContact c in current) {
       if (c.displayName.toLowerCase() == name.toLowerCase()) return c;
+    }
+    return null;
+  }
+
+  /// Resolves the sender of a decrypted INITIAL message: sealed
+  /// sender means the envelope carries the sender's X25519 identity
+  /// public key, never their mailbox_id, so this is the only way to
+  /// find out who actually sent it.
+  Future<DirectoryContact?> byX25519Pub(String x25519Pub) async {
+    final List<DirectoryContact> current = await all();
+    for (final DirectoryContact c in current) {
+      if (c.x25519Pub == x25519Pub) return c;
     }
     return null;
   }

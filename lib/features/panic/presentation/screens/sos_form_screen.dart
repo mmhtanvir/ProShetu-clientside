@@ -7,13 +7,18 @@ import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../connectivity/presentation/providers/connectivity_providers.dart';
+import '../../../onboarding/presentation/providers/onboarding_providers.dart';
 import '../../domain/sos_alert.dart';
 import '../controllers/sos_controller.dart';
 import 'sos_type_screen.dart';
 
-/// Step 2: the alert form. Name/number/location are prefilled from
-/// the profile (mock for now); `In Need` adds a "looking for" field.
+/// Step 2: the alert form. Name/number are prefilled from this
+/// device's own real registered identity (never a placeholder — a
+/// real SOS alert going out under someone else's fake name/number is
+/// a safety issue, not a cosmetic one). Location starts empty: the
+/// user must confirm it themselves rather than trust a stale
+/// auto-fill during an actual emergency. `In Need` adds a "looking
+/// for" field.
 class SosFormScreen extends ConsumerStatefulWidget {
   const SosFormScreen({super.key});
 
@@ -22,18 +27,25 @@ class SosFormScreen extends ConsumerStatefulWidget {
 }
 
 class _SosFormScreenState extends ConsumerState<SosFormScreen> {
-  late final TextEditingController _name;
-  final TextEditingController _number =
-      TextEditingController(text: '+88 01600-000000');
-  final TextEditingController _location =
-      TextEditingController(text: 'Dhanmondi Rd, Gulshan Ave');
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _number = TextEditingController();
+  final TextEditingController _location = TextEditingController();
   final TextEditingController _lookingFor = TextEditingController();
   final TextEditingController _description = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _name = TextEditingController(text: ref.read(displayNameProvider));
+    _loadRealProfileValues();
+  }
+
+  Future<void> _loadRealProfileValues() async {
+    final auth = ref.read(authRepositoryProvider);
+    final String? name = await auth.myDisplayName();
+    final String? phone = await auth.myPhone();
+    if (!mounted) return;
+    if (name != null) _name.text = name;
+    if (phone != null) _number.text = phone;
   }
 
   @override
@@ -113,6 +125,7 @@ class _SosFormScreenState extends ConsumerState<SosFormScreen> {
                 AppTextField(
                   label: l10n.sosLocation,
                   controller: _location,
+                  hint: l10n.sosLocationHint,
                   suffix: const Icon(Icons.edit_outlined, size: 18),
                 ),
                 const SizedBox(height: AppSpacing.md),

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -16,9 +17,9 @@ import 'hex.dart';
 /// encrypted at rest with a key derived from the user's password/PIN
 /// via Argon2id — so even if platform secure-storage were somehow
 /// read, the raw private keys aren't recoverable without that
-/// password. This wrapping is real, standard, well-specified crypto
-/// (unlike the sealed-sender payload encryption, which is
-/// intentionally left unimplemented — see e2e_placeholder.dart).
+/// password. This wrapping is real, standard, well-specified crypto,
+/// same as the sealed-sender payload encryption built on top of it —
+/// see e2e_crypto_service.dart.
 abstract final class DeviceKeys {
   static const String _wrappedKey = 'device_identity_wrapped_v1';
   static const String _saltKey = 'device_identity_salt_v1';
@@ -40,6 +41,12 @@ abstract final class DeviceKeys {
   /// never persisted unwrapped.
   static SimpleKeyPair? _ed25519KeyPair;
   static SimpleKeyPair? _x25519KeyPair;
+
+  /// Derived from the wrap key (one more HKDF step) alongside the
+  /// keypairs above — never persisted, cleared in [lock]. Backs
+  /// [deriveDomainKey] so PrekeyStore/SessionStore/MessageStore each
+  /// get an independent at-rest key without a second password prompt.
+  static SecretKey? _localStorageKey;
 
   static bool get isUnlocked => _ed25519KeyPair != null;
 
@@ -63,9 +70,10 @@ abstract final class DeviceKeys {
     try {
       final SimpleKeyPair ed = await _ed25519.newKeyPair();
       final SimpleKeyPair x = await _x25519.newKeyPair();
-      await _persistWrapped(storage, password, ed, x);
+      final SecretKey wrapKey = await _persistWrapped(storage, password, ed, x);
       _ed25519KeyPair = ed;
       _x25519KeyPair = x;
+      _localStorageKey = await _deriveLocalStorageKey(wrapKey);
       return const Ok(null);
     } catch (e) {
       return Err(CryptoFailure(message: 'Could not create identity', cause: e));
@@ -97,6 +105,7 @@ abstract final class DeviceKeys {
       final _SeedPair seeds = _SeedPair.decode(plain);
       _ed25519KeyPair = await _ed25519.newKeyPairFromSeed(seeds.edSeed);
       _x25519KeyPair = await _x25519.newKeyPairFromSeed(seeds.xSeed);
+      _localStorageKey = await _deriveLocalStorageKey(wrapKey);
       return const Ok(null);
     } on SecretBoxAuthenticationError catch (e) {
       return Err(CryptoFailure(message: 'Incorrect password', cause: e));
@@ -110,6 +119,7 @@ abstract final class DeviceKeys {
   static void lock() {
     _ed25519KeyPair = null;
     _x25519KeyPair = null;
+    _localStorageKey = null;
   }
 
   /// Permanently deletes the local identity (panic wipe / logout with
@@ -145,7 +155,7 @@ abstract final class DeviceKeys {
     return Hex.encode(sig.bytes);
   }
 
-  static Future<void> _persistWrapped(
+  static Future<SecretKey> _persistWrapped(
     FlutterSecureStorage storage,
     String password,
     SimpleKeyPair ed,
@@ -165,6 +175,43 @@ abstract final class DeviceKeys {
     await storage.write(
         key: _wrappedKey, value: Hex.encode(box.concatenation()));
     await storage.write(key: _saltKey, value: Hex.encode(salt));
+    return wrapKey;
+  }
+
+  /// One more HKDF step past the Argon2id wrap key — never reuse the
+  /// wrap key's raw bytes directly for anything else.
+  static Future<SecretKey> _deriveLocalStorageKey(SecretKey wrapKey) =>
+      Hkdf(hmac: Hmac.sha256(), outputLength: 32).deriveKey(
+        secretKey: wrapKey,
+        info: utf8.encode('ProShetuLocalStorage-v1'),
+      );
+
+  /// Derives a domain-separated local-storage key from this device's
+  /// wrap key, for [PrekeyStore]/[SessionStore]/message-history
+  /// storage — each domain gets its own independent key, and all of
+  /// them become unreadable the instant [lock] runs, matching the
+  /// existing security model (nothing decrypted survives past
+  /// lock/logout).
+  static Future<SecretKey> deriveDomainKey(String domain) async {
+    final SecretKey? key = _localStorageKey;
+    if (key == null) throw StateError('DeviceKeys not unlocked');
+    return Hkdf(hmac: Hmac.sha256(), outputLength: 32)
+        .deriveKey(secretKey: key, info: utf8.encode(domain));
+  }
+
+  /// ECDH with a peer's X25519 public key. Returns only the shared
+  /// secret — the private scalar never leaves this class, consistent
+  /// with every other method here.
+  static Future<SecretKey> agree({required String remoteX25519PublicHex}) {
+    final SimpleKeyPair? kp = _x25519KeyPair;
+    if (kp == null) throw StateError('DeviceKeys not unlocked');
+    return _x25519.sharedSecretKey(
+      keyPair: kp,
+      remotePublicKey: SimplePublicKey(
+        Hex.decode(remoteX25519PublicHex),
+        type: KeyPairType.x25519,
+      ),
+    );
   }
 
   static Uint8List _randomBytes(int length) =>

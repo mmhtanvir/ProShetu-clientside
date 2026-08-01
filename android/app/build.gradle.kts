@@ -11,7 +11,9 @@ val mapsApiKey: String = (project.findProperty("MAPS_API_KEY") as String?) ?: ""
 
 android {
     namespace = "com.example.proshetu"
-    compileSdk = flutter.compileSdkVersion
+    // permission_handler_android (added for BLE mesh) requires
+    // compileSdk 37 — flutter.compileSdkVersion (36) isn't enough.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

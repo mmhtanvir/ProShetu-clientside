@@ -48,3 +48,30 @@ final currentCountryIsoProvider = FutureProvider<String?>((Ref ref) async {
     return null;
   }
 });
+
+/// Human-readable label for the device's current GPS fix (e.g.
+/// "Dhanmondi, Dhaka"), reverse-geocoded on-device — used anywhere
+/// the UI wants to show a real place name rather than raw
+/// coordinates (nearby-mesh screen). Null on any failure; callers
+/// should fall back to raw lat/lng or an honest "unavailable" state,
+/// never a placeholder city name.
+final currentPlaceLabelProvider = FutureProvider<String?>((Ref ref) async {
+  final Position? position = await ref.watch(currentPositionProvider.future);
+  if (position == null) return null;
+  try {
+    final List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+    if (placemarks.isEmpty) return null;
+    final Placemark p = placemarks.first;
+    final List<String> parts = [
+      if (p.locality != null && p.locality!.isNotEmpty) p.locality!,
+      if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty)
+        p.administrativeArea!,
+    ];
+    return parts.isEmpty ? null : parts.join(', ');
+  } catch (_) {
+    return null;
+  }
+});

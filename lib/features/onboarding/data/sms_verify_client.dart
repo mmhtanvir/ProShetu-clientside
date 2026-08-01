@@ -11,11 +11,19 @@ class SmsVerifyClient {
 
   final ApiClient _api;
 
-  /// POST /v1/sms/request -> verification_id
-  Future<Result<Failure, int>> requestCode(String msisdn) async {
+  /// POST /v1/sms/request -> verification_id. [purpose] is 'signup'
+  /// (default — number must NOT already be registered) or 'recovery'
+  /// (number MUST already be registered); the backend enforces the
+  /// opposite RegisteredNumber check for each and carries it onto the
+  /// registration_token verifyCode() returns, so /v1/register and
+  /// /v1/recover each reject the other's tokens.
+  Future<Result<Failure, int>> requestCode(
+    String msisdn, {
+    String purpose = 'signup',
+  }) async {
     final Result<Failure, JsonMap> res = await _api.postJson(
       '/v1/sms/request',
-      body: {'msisdn': msisdn},
+      body: {'msisdn': msisdn, 'purpose': purpose},
     );
     return res.fold(Err.new, (JsonMap json) => Ok(json['verification_id'] as int));
   }

@@ -2,11 +2,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Live OS-level network state — Wi-Fi, mobile data, or none — for
-/// the dashboard's Internet status tile. Distinct from
-/// [MeshRepository.networkStatus]'s `internetOnline` bit (still mock,
-/// see mesh_repository_impl.dart): this is real, backed by the
-/// platform's actual connectivity APIs, and updates live as the
-/// device's network changes rather than being read once.
+/// the dashboard's Internet status tile. `MeshRepository.networkStatus`
+/// (see mesh_repository_impl.dart) independently checks the same
+/// underlying connectivity_plus state for its own `internetOnline`
+/// bit; this provider is the one the dashboard's Internet tile
+/// actually watches, since it updates live as the network changes
+/// rather than only re-checking each time the mesh peer count ticks.
 final connectivityProvider = StreamProvider<List<ConnectivityResult>>(
   (Ref ref) async* {
     yield await Connectivity().checkConnectivity();

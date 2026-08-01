@@ -12,6 +12,16 @@ import '../infrastructure/transport/signing_interceptor.dart';
 /// Riverpod providers *are* the DI container: everything below is
 /// lazily created on first read and disposable in tests via overrides.
 
+/// True once main.dart's Firebase.initializeApp() call has actually
+/// succeeded. FCM (fcm_service.dart) is real but genuinely optional
+/// infrastructure — this deployment may not have a Firebase project's
+/// google-services.json/GoogleService-Info.plist in place yet — so
+/// every FCM call site must check this rather than assume Firebase is
+/// ready, the same way pushSocketProvider callers already tolerate
+/// AppConfig.wsBaseUrl being unset. Overridden in main.dart's
+/// ProviderScope once the real value is known.
+final firebaseReadyProvider = Provider<bool>((Ref ref) => false);
+
 /// Secure at-rest key/value storage (Android Keystore / iOS Keychain).
 final secureStorageProvider = Provider<FlutterSecureStorage>((Ref ref) {
   return const FlutterSecureStorage(

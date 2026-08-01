@@ -21,6 +21,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _phone = TextEditingController();
   final _password = TextEditingController();
+  bool _obscurePassword = true;
   String? _phoneError, _passwordError;
 
   @override
@@ -98,11 +99,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   label: l10n.authPassword,
                   hint: l10n.authPasswordHint,
                   errorText: _passwordError,
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _submit(),
+                  suffix: IconButton(
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined),
+                    onPressed: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
+                  ),
                 ),
-                const SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.sm),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => context.goNamed(AppRoutes.recoverAccount),
+                    child: Text(l10n.authForgotPassword),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
                 AppButton(
                   label: l10n.authLogin,
                   variant: AppButtonVariant.inverse,

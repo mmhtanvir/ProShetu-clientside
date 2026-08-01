@@ -3,18 +3,20 @@ import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../infrastructure/crypto/e2e_placeholder.dart';
+import '../../../messaging/presentation/providers/messaging_providers.dart';
 import '../../domain/call_session.dart';
 import '../../domain/calling_repository.dart';
 import '../providers/voice_providers.dart';
 
 /// Drives one call at a time. Real signaling (POST /v1/call/signal,
-/// GET /v1/call/poll) — but every signal's content still needs the
-/// unimplemented E2E seam (infrastructure/crypto/e2e_placeholder.dart)
-/// to actually encrypt, so a real call attempt will fail there today.
-/// That's surfaced honestly via [CallSession.statusMessage] rather
-/// than silently retried or hidden — the design spec's "truth over
-/// comfort" principle for connection state applies to calls too.
+/// GET /v1/call/poll), and every signal's content is now really
+/// encrypted (E2eCryptoService, infrastructure/crypto/
+/// e2e_crypto_service.dart) — but calling's own signaling/UX wasn't
+/// redesigned as part of that work, so failures here (e.g. the peer
+/// hasn't published a prekey bundle yet) still surface honestly via
+/// [CallSession.statusMessage] rather than being silently retried or
+/// hidden — the design spec's "truth over comfort" principle for
+/// connection state applies to calls too.
 ///
 /// NOTE: this drives signaling only. No audio ever flows — there is
 /// no WebRTC (or other media) engine wired in this pass. See this
@@ -72,16 +74,19 @@ class CallController extends Notifier<CallSession?> {
     );
     try {
       // Recovers the caller's mailbox_id (needed to address the
-      // answer signal) from inside the sealed ciphertext. Always
-      // throws today — see this method's doc comment above.
-      await E2ePlaceholder.decryptFromSender(offer.ciphertext);
-    } on UnimplementedError catch (e) {
+      // answer signal) from inside the sealed ciphertext.
+      //
+      // NOTE (pre-existing gap, not fixed here — calling's own
+      // signaling/UX is out of scope for the E2E encryption work):
+      // the decrypted `[0x01, ...16-byte mailbox_id, ...plaintext]`
+      // result is discarded below rather than used to populate
+      // `state.peerMailboxId` (which stays ''). Wiring that up is a
+      // follow-up for whoever picks up calling's signaling next.
+      await ref.read(e2eCryptoServiceProvider).decryptFromSender(offer.ciphertext);
+    } catch (e) {
       state = state?.copyWith(
         phase: CallPhase.failed,
-        statusMessage:
-            "Can't accept — the caller's identity is sealed inside the "
-            'signal and end-to-end decryption is not implemented yet. '
-            '(${e.message})',
+        statusMessage: "Can't accept this call: $e",
       );
     }
   }
@@ -106,23 +111,17 @@ class CallController extends Notifier<CallSession?> {
     if (current == null) return;
     final CallingRepository repo = ref.read(callingRepositoryProvider);
     try {
-      final List<int> ciphertext = await E2ePlaceholder.encryptForRecipient(
-        recipientMailboxId: current.peerMailboxId,
-        plaintext: const [], // signal has no content beyond `kind` itself
-      );
+      final List<int> ciphertext =
+          await ref.read(e2eCryptoServiceProvider).encryptForRecipient(
+                recipientMailboxId: current.peerMailboxId,
+                plaintext: const [], // signal has no content beyond `kind` itself
+              );
       await repo.sendSignal(
         callId: current.callId,
         recipientMailboxId: current.peerMailboxId,
         kind: kind,
         seq: _seq++,
         ciphertext: ciphertext,
-      );
-    } on UnimplementedError catch (e) {
-      state = current.copyWith(
-        phase: CallPhase.failed,
-        statusMessage:
-            "Can't start a secure call yet — end-to-end call encryption "
-            'is not implemented. (${e.message})',
       );
     } catch (e) {
       state = current.copyWith(

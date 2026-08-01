@@ -12,6 +12,8 @@
 	<string>Used to record voice notes and voice calls.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Used to scan a contact's QR code to pair with them.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Lets you discover nearby ProShetu users over Bluetooth when the internet is down.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -57,6 +59,10 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

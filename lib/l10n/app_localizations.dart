@@ -434,6 +434,60 @@ abstract class AppLocalizations {
   /// **'Sign Up here'**
   String get authSignUpHere;
 
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authRecoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recover Account'**
+  String get authRecoveryTitle;
+
+  /// No description provided for @authRecoveryPhoneIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the phone number for the account you want to recover. We\'ll text you a verification code.'**
+  String get authRecoveryPhoneIntro;
+
+  /// No description provided for @authRecoveryWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This will create a new secure identity'**
+  String get authRecoveryWarningTitle;
+
+  /// No description provided for @authRecoveryWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovering access on this device generates new encryption keys. Messages already stored on this device will become permanently unreadable. Everyone you\'ve messaged before will need to add you again (scan your QR code or your number) before they can reach you.'**
+  String get authRecoveryWarningBody;
+
+  /// No description provided for @authRecoveryCheckbox.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand my message history on this device will be lost and my contacts will need to add me again'**
+  String get authRecoveryCheckbox;
+
+  /// No description provided for @authRecoveryContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Identity'**
+  String get authRecoveryContinue;
+
+  /// No description provided for @authRecoveryNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get authRecoveryNewPassword;
+
+  /// No description provided for @authRecoveryNewPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A Strong Password'**
+  String get authRecoveryNewPasswordHint;
+
   /// No description provided for @pinTitle.
   ///
   /// In en, this message translates to:
@@ -493,18 +547,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Trusted Contacts'**
   String get trustedAdd;
-
-  /// No description provided for @homePlaceholderTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re all set'**
-  String get homePlaceholderTitle;
-
-  /// No description provided for @homePlaceholderMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'The home experience is coming in the next build.'**
-  String get homePlaceholderMessage;
 
   /// No description provided for @authCaptureFrontLabel.
   ///
@@ -607,6 +649,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connect'**
   String get dashConnect;
+
+  /// No description provided for @meshUnknownDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown nearby device'**
+  String get meshUnknownDevice;
+
+  /// No description provided for @meshUnknownDeviceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet linked to a contact'**
+  String get meshUnknownDeviceHint;
+
+  /// No description provided for @meshBluetoothOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth is off'**
+  String get meshBluetoothOffTitle;
+
+  /// No description provided for @meshBluetoothOffMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Bluetooth to discover nearby ProShetu users.'**
+  String get meshBluetoothOffMessage;
+
+  /// No description provided for @meshPermissionDeniedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth permission needed'**
+  String get meshPermissionDeniedTitle;
+
+  /// No description provided for @meshPermissionDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Bluetooth permission to discover nearby ProShetu users.'**
+  String get meshPermissionDeniedMessage;
+
+  /// No description provided for @meshUnsupportedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth mesh unavailable'**
+  String get meshUnsupportedTitle;
+
+  /// No description provided for @meshUnsupportedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This device doesn\'t support Bluetooth Low Energy.'**
+  String get meshUnsupportedMessage;
+
+  /// No description provided for @meshOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get meshOpenSettings;
+
+  /// No description provided for @meshEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No one nearby yet'**
+  String get meshEmptyTitle;
+
+  /// No description provided for @meshEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this screen open — nearby ProShetu users will appear here.'**
+  String get meshEmptyMessage;
+
+  /// No description provided for @meshProximityVeryClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Very close'**
+  String get meshProximityVeryClose;
+
+  /// No description provided for @meshProximityNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby'**
+  String get meshProximityNearby;
+
+  /// No description provided for @meshProximityFar.
+  ///
+  /// In en, this message translates to:
+  /// **'Farther away'**
+  String get meshProximityFar;
+
+  /// No description provided for @meshPeersBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} peers'**
+  String meshPeersBadge(String count);
+
+  /// No description provided for @meshScanningNear.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning near {place}'**
+  String meshScanningNear(String place);
+
+  /// No description provided for @meshLocationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is unavailable'**
+  String get meshLocationUnavailable;
 
   /// No description provided for @dashInternet.
   ///
@@ -740,6 +884,12 @@ abstract class AppLocalizations {
   /// **'Location'**
   String get sosLocation;
 
+  /// No description provided for @sosLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current location'**
+  String get sosLocationHint;
+
   /// No description provided for @sosDescription.
   ///
   /// In en, this message translates to:
@@ -782,11 +932,11 @@ abstract class AppLocalizations {
   /// **'Your SOS Alert has been successfully created! Stay safe and keep your device charged.'**
   String get sosSuccessBody;
 
-  /// No description provided for @profileKycVerified.
+  /// No description provided for @profileKycPendingReview.
   ///
   /// In en, this message translates to:
-  /// **'KYC Verified'**
-  String get profileKycVerified;
+  /// **'Pending review'**
+  String get profileKycPendingReview;
 
   /// No description provided for @profileVault.
   ///
@@ -895,6 +1045,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get vaultToday;
+
+  /// No description provided for @vaultEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your vault is empty'**
+  String get vaultEmptyTitle;
+
+  /// No description provided for @vaultEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted photos and files you save here will appear in this space.'**
+  String get vaultEmptyMessage;
 }
 
 class _AppLocalizationsDelegate
