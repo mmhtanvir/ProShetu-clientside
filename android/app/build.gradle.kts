@@ -10,7 +10,7 @@ plugins {
 val mapsApiKey: String = (project.findProperty("MAPS_API_KEY") as String?) ?: ""
 
 android {
-    namespace = "com.example.proshetu"
+    namespace = "com.proshetu.app"
     // permission_handler_android (added for BLE mesh) requires
     // compileSdk 37 — flutter.compileSdkVersion (36) isn't enough.
     compileSdk = 37
@@ -25,8 +25,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.proshetu"
+        applicationId = "com.proshetu.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

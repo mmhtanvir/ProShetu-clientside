@@ -1,4 +1,4 @@
-package com.example.proshetu
+package com.proshetu.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../app/router.dart';
 import '../../../../app/theme/app_theme.dart';
@@ -44,9 +43,6 @@ class DashboardScreen extends ConsumerWidget {
     // data as if it were a live flood/earthquake feed would be worse
     // than showing nothing while it loads or if the fetch failed.
     final List<CrisisAlert> alerts = hazardAlerts.valueOrNull ?? const [];
-
-    final String stamp =
-        DateFormat('h:mm a  |  dd MMM yyyy').format(DateTime.now());
 
     return Scaffold(
       body: SafeArea(
@@ -93,12 +89,6 @@ class DashboardScreen extends ConsumerWidget {
                         color: AppColors.online,
                         shape: BoxShape.circle,
                       ),
-                    ),
-                    const SizedBox(width: AppSpacing.xxs),
-                    Text(
-                      stamp,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant),
                     ),
                   ],
                 ),
