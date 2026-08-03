@@ -191,6 +191,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authForgotPassword => 'Forgot password?';
 
   @override
+  String get authNoIdentityTitle => 'No account on this device';
+
+  @override
+  String get authNoIdentityMessage =>
+      'It looks like you reinstalled the app or are signing in from a new device. You can recover your account with your phone number.';
+
+  @override
   String get authRecoveryTitle => 'Recover Account';
 
   @override

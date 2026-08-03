@@ -74,6 +74,8 @@
   "authNoAccount": "Don't have an account?",
   "authSignUpHere": "Sign Up here",
   "authForgotPassword": "Forgot password?",
+  "authNoIdentityTitle": "No account on this device",
+  "authNoIdentityMessage": "It looks like you reinstalled the app or are signing in from a new device. You can recover your account with your phone number.",
   "authRecoveryTitle": "Recover Account",
   "authRecoveryPhoneIntro": "Enter the phone number for the account you want to recover. We'll text you a verification code.",
   "authRecoveryWarningTitle": "This will create a new secure identity",

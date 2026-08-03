@@ -440,6 +440,18 @@ abstract class AppLocalizations {
   /// **'Forgot password?'**
   String get authForgotPassword;
 
+  /// No description provided for @authNoIdentityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No account on this device'**
+  String get authNoIdentityTitle;
+
+  /// No description provided for @authNoIdentityMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'It looks like you reinstalled the app or are signing in from a new device. You can recover your account with your phone number.'**
+  String get authNoIdentityMessage;
+
   /// No description provided for @authRecoveryTitle.
   ///
   /// In en, this message translates to:

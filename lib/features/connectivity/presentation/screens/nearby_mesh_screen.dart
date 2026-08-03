@@ -9,8 +9,12 @@ import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../infrastructure/location/location_providers.dart';
-import '../../../../infrastructure/mesh/ble_mesh_types.dart' show MeshAvailability, ProximityBucket;
+import '../../../../infrastructure/mesh/ble_mesh_types.dart'
+    show MeshAvailability, ProximityBucket;
+import '../../../../infrastructure/storage/contact_directory_store.dart';
+import '../../../../infrastructure/storage/storage_providers.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../messaging/presentation/providers/messaging_providers.dart';
 import '../../domain/mesh_peer.dart';
 import '../providers/connectivity_providers.dart';
 
@@ -82,7 +86,8 @@ class _ReadyView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AsyncValue<List<MeshPeer>> peersAsync = ref.watch(nearbyPeersProvider);
+    final AsyncValue<List<MeshPeer>> peersAsync =
+        ref.watch(nearbyPeersProvider);
     final int peerCount = peersAsync.valueOrNull?.length ?? 0;
 
     return Column(
@@ -95,7 +100,8 @@ class _ReadyView extends ConsumerWidget {
         Expanded(
           child: peersAsync.when(
             loading: () => const AppLoading(),
-            error: (_, __) => AppStatusView.error(title: l10n.errorGenericTitle),
+            error: (_, __) =>
+                AppStatusView.error(title: l10n.errorGenericTitle),
             data: (List<MeshPeer> peers) => peers.isEmpty
                 ? AppStatusView.empty(
                     icon: Icons.bluetooth_searching_rounded,
@@ -111,37 +117,58 @@ class _ReadyView extends ConsumerWidget {
                       final MeshPeer peer = peers[i];
                       final ThemeData theme = Theme.of(context);
                       final String name = peer.name ?? l10n.meshUnknownDevice;
-                      return Row(
-                        children: [
-                          AppAvatar(name: peer.name ?? '', online: true),
-                          const SizedBox(width: AppSpacing.sm),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(name, style: theme.textTheme.titleMedium),
-                                Text(
-                                  peer.isIdentified
-                                      ? _proximityLabel(l10n, peer.proximity)
-                                      : '${_proximityLabel(l10n, peer.proximity)} · ${l10n.meshUnknownDeviceHint}',
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                      color: theme.colorScheme.onSurfaceVariant),
-                                ),
-                              ],
+                      return FadeSlideIn(
+                        key: ValueKey(peer.bleDeviceId),
+                        delay: Duration(milliseconds: i * 50),
+                        child: Row(
+                          children: [
+                            AppAvatar(name: peer.name ?? '', online: true),
+                            const SizedBox(width: AppSpacing.sm),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(name,
+                                      style: theme.textTheme.titleMedium),
+                                  Text(
+                                    peer.isIdentified
+                                        ? _proximityLabel(l10n, peer.proximity)
+                                        : '${_proximityLabel(l10n, peer.proximity)} · ${l10n.meshUnknownDeviceHint}',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                        color:
+                                            theme.colorScheme.onSurfaceVariant),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.chat_bubble_outline_rounded,
-                                size: 20),
-                            onPressed: peer.isIdentified
-                                ? () => context.pushNamed(
-                                      AppRoutes.conversation,
-                                      pathParameters: {'id': peer.mailboxId!},
-                                      extra: peer.name,
-                                    )
-                                : null,
-                          ),
-                        ],
+                            IconButton(
+                              icon: const Icon(
+                                  Icons.chat_bubble_outline_rounded,
+                                  size: 20),
+                              onPressed: peer.isIdentified
+                                  ? () async {
+                                      // Saved as a contact first (same as
+                                      // add-by-number/QR) so this chat
+                                      // survives leaving the screen and
+                                      // shows up in the main chat list.
+                                      await ref
+                                          .read(contactDirectoryStoreProvider)
+                                          .add(DirectoryContact(
+                                            displayName: peer.name!,
+                                            mailboxId: peer.mailboxId!,
+                                          ));
+                                      ref.invalidate(chatsProvider);
+                                      if (!context.mounted) return;
+                                      context.pushNamed(
+                                        AppRoutes.conversation,
+                                        pathParameters: {'id': peer.mailboxId!},
+                                        extra: peer.name,
+                                      );
+                                    }
+                                  : null,
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -227,8 +254,8 @@ class _RadarHeroState extends State<_RadarHero>
                 color: AppColors.primary.withValues(alpha: 0.5),
               ),
             ),
-            child: Icon(Icons.sensors_rounded,
-                color: AppColors.primary, size: 34),
+            child:
+                Icon(Icons.sensors_rounded, color: AppColors.primary, size: 34),
           ),
           Positioned(
             bottom: 46,
@@ -240,7 +267,8 @@ class _RadarHeroState extends State<_RadarHero>
                 borderRadius: BorderRadius.circular(AppRadius.pill),
               ),
               child: Text(
-                l10n.meshPeersBadge(widget.peerCount.toString().padLeft(2, '0')),
+                l10n.meshPeersBadge(
+                    widget.peerCount.toString().padLeft(2, '0')),
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,

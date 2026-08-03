@@ -66,6 +66,15 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
               _pushAndMaybeRefresh(AppRoutes.addByNumber);
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.sensors_rounded),
+            title: const Text('Nearby mesh'),
+            subtitle: const Text('Chat with people discovered over Bluetooth'),
+            onTap: () {
+              Navigator.of(sheetContext).pop();
+              context.pushNamed(AppRoutes.nearbyMesh);
+            },
+          ),
         ],
       ),
     );
@@ -113,8 +122,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
                 final List<ChatSummary> filtered = query.isEmpty
                     ? chats
                     : chats
-                        .where((c) =>
-                            c.name.toLowerCase().contains(query))
+                        .where((c) => c.name.toLowerCase().contains(query))
                         .toList();
                 final List<ChatSummary> active =
                     chats.where((c) => c.online).toList();
@@ -169,8 +177,12 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
                         style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant)),
                     const SizedBox(height: AppSpacing.sm),
-                    for (final ChatSummary chat in filtered)
-                      _ChatTile(chat: chat),
+                    for (int i = 0; i < filtered.length; i++)
+                      FadeSlideIn(
+                        key: ValueKey(filtered[i].id),
+                        delay: Duration(milliseconds: i * 40),
+                        child: _ChatTile(chat: filtered[i]),
+                      ),
                   ],
                 );
               },
@@ -224,8 +236,8 @@ class _ChatTile extends ConsumerWidget {
                     chat.lastMessage,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant),
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
                 ],
               ),

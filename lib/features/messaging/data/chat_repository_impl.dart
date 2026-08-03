@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:intl/intl.dart';
 
+import '../../../core/demo/demo_mesh_data.dart';
 import '../../../infrastructure/crypto/content_id.dart';
 import '../../../infrastructure/crypto/e2e_crypto_service.dart';
 import '../../../infrastructure/storage/contact_directory_store.dart';
@@ -72,8 +73,22 @@ final class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<List<ChatMessage>> messages(String chatId) async {
-    final List<store.StoredMessage> stored =
-        await _messages.messagesFor(chatId);
+    List<store.StoredMessage> stored = await _messages.messagesFor(chatId);
+    // Hackathon demo: nearby-mesh peers are fake identities (see
+    // core/demo/demo_mesh_data.dart) with no one to actually reply —
+    // seed one incoming line so opening the chat doesn't look dead.
+    final String? greeting = demoMeshGreetings[chatId];
+    if (stored.isEmpty && greeting != null) {
+      await _messages.insert(store.StoredMessage(
+        localId: 'demo-greeting-$chatId',
+        chatId: chatId,
+        direction: store.MessageDirection.incoming,
+        timestamp: DateTime.now().subtract(const Duration(minutes: 2)),
+        deliveryState: store.DeliveryState.sent,
+        content: {'text': greeting},
+      ));
+      stored = await _messages.messagesFor(chatId);
+    }
     return stored.map(_toChatMessage).toList();
   }
 
@@ -154,31 +169,38 @@ final class ChatRepositoryImpl implements ChatRepository {
     String? eventId;
     store.DeliveryState state = store.DeliveryState.pending;
 
-    try {
-      final List<int> plaintext = utf8.encode(jsonEncode(content));
-      final List<int> envelope = await _e2e.encryptForRecipient(
-        recipientMailboxId: chatId,
-        plaintext: plaintext,
-      );
-      final String computedEventId =
-          await ContentId.ofBytes(Uint8List.fromList(envelope));
-      final SyncResult result = await _sync.sync(carrying: [
-        OutgoingEvent(
-          eventId: computedEventId,
+    if (demoMeshGreetings.containsKey(chatId)) {
+      // Demo mesh peer (core/demo/demo_mesh_data.dart) — no real
+      // identity behind this mailboxId to encrypt/sync to, so a real
+      // send would just sit `pending` forever. Local-only "sent".
+      state = store.DeliveryState.sent;
+    } else {
+      try {
+        final List<int> plaintext = utf8.encode(jsonEncode(content));
+        final List<int> envelope = await _e2e.encryptForRecipient(
           recipientMailboxId: chatId,
-          priority: _priority,
-          ttlSeconds: _ttlSeconds,
-          ciphertext: envelope,
-        ),
-      ]);
-      if (result.accepted.contains(computedEventId)) {
-        eventId = computedEventId;
-        state = store.DeliveryState.sent;
+          plaintext: plaintext,
+        );
+        final String computedEventId =
+            await ContentId.ofBytes(Uint8List.fromList(envelope));
+        final SyncResult result = await _sync.sync(carrying: [
+          OutgoingEvent(
+            eventId: computedEventId,
+            recipientMailboxId: chatId,
+            priority: _priority,
+            ttlSeconds: _ttlSeconds,
+            ciphertext: envelope,
+          ),
+        ]);
+        if (result.accepted.contains(computedEventId)) {
+          eventId = computedEventId;
+          state = store.DeliveryState.sent;
+        }
+      } catch (_) {
+        // Stays `pending` — MessageSyncCoordinator retries on the next
+        // sync cycle rather than this send() throwing and losing the
+        // message entirely.
       }
-    } catch (_) {
-      // Stays `pending` — MessageSyncCoordinator retries on the next
-      // sync cycle rather than this send() throwing and losing the
-      // message entirely.
     }
 
     await _messages.insert(store.StoredMessage(

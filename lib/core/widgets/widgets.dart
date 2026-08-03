@@ -7,6 +7,7 @@ export 'app_card.dart';
 export 'app_code_slots.dart';
 export 'app_dialog.dart';
 export 'app_info_note.dart';
+export 'fade_slide_in.dart';
 export 'app_loading.dart';
 export 'app_numpad.dart';
 export 'app_phone_field.dart';

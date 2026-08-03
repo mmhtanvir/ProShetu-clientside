@@ -41,6 +41,34 @@ abstract interface class AuthRepository {
   Future<Result<Failure, void>> verifyRecoveryOtp(String code);
   Future<void> resendRecoveryOtp();
 
+  /// Encrypts the CURRENT device's identity under a user-chosen
+  /// [encryptionId] and uploads it (POST /v1/backup) — the non-
+  /// destructive alternative to [startRecovery]/[verifyRecoveryOtp]:
+  /// this is what makes [verifyBackupRestoreOtp] able to restore the
+  /// SAME identity (contacts stay trusted) on a different device,
+  /// instead of minting a new one. Requires SMS-verified registration
+  /// (a phone-linked account) to have something to key the backup by.
+  Future<Result<Failure, void>> setEncryptionId(String encryptionId);
+
+  /// Starts a non-destructive restore for an already-registered
+  /// [phone]: requests an SMS code with purpose='recovery'. Unlike
+  /// [startRecovery], this does NOT touch local key material yet —
+  /// nothing is overwritten until [verifyBackupRestoreOtp] succeeds.
+  Future<void> startBackupRestore({required String phone});
+
+  /// Verifies the code from [startBackupRestore], fetches the
+  /// encrypted backup (POST /v1/backup/fetch), decrypts it with
+  /// [encryptionId], and installs it as this device's identity
+  /// (wrapped locally under [localPassword]) — restoring the exact
+  /// same account/contacts, not a fresh one. Returns the real backend
+  /// [Failure] on error (wrong code, wrong Encryption ID, or no
+  /// backup ever set up for this number).
+  Future<Result<Failure, void>> verifyBackupRestoreOtp(
+    String code, {
+    required String encryptionId,
+    required String localPassword,
+  });
+
   /// This device's own registered mailbox_id, or null before signup
   /// completes. What a "my QR code" screen encodes for pairing.
   Future<String?> myMailboxId();

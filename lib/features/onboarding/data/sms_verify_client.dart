@@ -50,8 +50,21 @@ class SmsVerifyClient {
   /// display name at signup are findable (apps/directory/views.py's
   /// register()). Fails with a NetworkFailure(message: "no account
   /// found for this number") on a 404, same as any other API error.
-  Future<Result<Failure, ({String mailboxId, String displayName})>>
-      lookupByPhone(String msisdn) async {
+  ///
+  /// Returns the peer's ed25519_pub/x25519_pub alongside mailboxId/
+  /// displayName — callers MUST pin these into ContactDirectoryStore
+  /// (same as the QR-pairing path already does), or this contact's
+  /// first incoming message can never be resolved and is silently
+  /// dropped forever (see e2e_crypto_service.dart's _decryptInitial).
+  Future<
+      Result<
+          Failure,
+          ({
+            String mailboxId,
+            String displayName,
+            String ed25519Pub,
+            String x25519Pub,
+          })>> lookupByPhone(String msisdn) async {
     final Result<Failure, JsonMap> res = await _api.postJson(
       '/v1/sms/lookup',
       signed: true,
@@ -62,6 +75,8 @@ class SmsVerifyClient {
       (JsonMap json) => Ok((
         mailboxId: json['mailbox_id'] as String,
         displayName: json['display_name'] as String,
+        ed25519Pub: json['ed25519_pub'] as String,
+        x25519Pub: json['x25519_pub'] as String,
       )),
     );
   }

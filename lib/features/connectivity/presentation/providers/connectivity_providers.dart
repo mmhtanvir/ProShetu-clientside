@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/demo/demo_mesh_data.dart';
 import '../../../../infrastructure/mesh/ble_mesh_repository.dart';
 import '../../../../infrastructure/mesh/ble_mesh_types.dart' show MeshAvailability;
 import '../../../onboarding/presentation/providers/onboarding_providers.dart';
@@ -29,6 +30,7 @@ final meshRepositoryProvider = Provider<MeshRepository>(
 /// an endlessly-empty peer list.
 final meshAvailabilityProvider =
     StreamProvider.autoDispose<MeshAvailability>((Ref ref) {
+  if (kDemoMeshMode) return Stream.value(MeshAvailability.ready);
   final MeshRepository repo = ref.watch(meshRepositoryProvider);
   ref.onDispose(() => repo.stop());
   unawaited(repo.start());
@@ -36,6 +38,13 @@ final meshAvailabilityProvider =
 });
 
 final networkStatusProvider = StreamProvider.autoDispose<NetworkStatus>((Ref ref) {
+  if (kDemoMeshMode) {
+    return Stream.value(NetworkStatus(
+      meshDeviceCount: demoMeshPeers.length,
+      internetOnline: true,
+      gpsLocked: true,
+    ));
+  }
   final MeshRepository repo = ref.watch(meshRepositoryProvider);
   ref.onDispose(() => repo.stop());
   unawaited(repo.start());
@@ -43,6 +52,7 @@ final networkStatusProvider = StreamProvider.autoDispose<NetworkStatus>((Ref ref
 });
 
 final nearbyPeersProvider = StreamProvider.autoDispose<List<MeshPeer>>((Ref ref) {
+  if (kDemoMeshMode) return Stream.value(demoMeshPeers);
   final MeshRepository repo = ref.watch(meshRepositoryProvider);
   ref.onDispose(() => repo.stop());
   unawaited(repo.start());

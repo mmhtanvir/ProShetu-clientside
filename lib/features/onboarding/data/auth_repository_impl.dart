@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -253,6 +254,92 @@ final class AuthRepositoryImpl implements AuthRepository {
       value: (recovered as Ok<Failure, String>).value,
     );
 
+    final Result<Failure, List<SimpleKeyPair>> prekeys =
+        await _directory.uploadPrekeys();
+    if (prekeys is Ok<Failure, List<SimpleKeyPair>>) {
+      final List<SimpleKeyPair> keyPairs = prekeys.value;
+      if (keyPairs.isNotEmpty) {
+        await _prekeys.saveSignedPrekey(keyPairs.first);
+        await _prekeys.saveOneTimePrekeys(keyPairs.skip(1).toList());
+      }
+    }
+
+    return const Ok(null);
+  }
+
+  @override
+  Future<Result<Failure, void>> setEncryptionId(String encryptionId) async {
+    final Result<Failure, Uint8List> exported =
+        await DeviceKeys.exportEncrypted(encryptionId);
+    if (exported is Err<Failure, Uint8List>) return Err(exported.value);
+    final String blob = base64Encode((exported as Ok<Failure, Uint8List>).value);
+    return _directory.uploadBackup(blob);
+  }
+
+  @override
+  Future<void> startBackupRestore({required String phone}) async {
+    await _storage.write(key: _phoneKey, value: phone);
+    final Result<Failure, int> sent =
+        await _sms.requestCode(phone, purpose: 'recovery');
+    switch (sent) {
+      case Ok<Failure, int>(:final value):
+        await _storage.write(
+            key: _verificationIdKey, value: value.toString());
+      case Err<Failure, int>(:final value):
+        throw StateError(value.message);
+    }
+  }
+
+  @override
+  Future<Result<Failure, void>> verifyBackupRestoreOtp(
+    String code, {
+    required String encryptionId,
+    required String localPassword,
+  }) async {
+    final String? verificationIdStr =
+        await _storage.read(key: _verificationIdKey);
+    if (verificationIdStr == null) {
+      return const Err(
+        UnknownFailure(message: 'No pending recovery — start over.'),
+      );
+    }
+
+    final Result<Failure, String> verified = await _sms.verifyCode(
+      verificationId: int.parse(verificationIdStr),
+      code: code,
+    );
+    if (verified is Err<Failure, String>) return Err(verified.value);
+    final String registrationToken = (verified as Ok<Failure, String>).value;
+
+    final Result<Failure, ({String encryptedBundle, String mailboxId})>
+        fetched = await _directory.fetchBackup(registrationToken);
+    if (fetched is Err<Failure, ({String encryptedBundle, String mailboxId})>) {
+      return Err(fetched.value);
+    }
+    final ({String encryptedBundle, String mailboxId}) result =
+        (fetched as Ok<Failure, ({String encryptedBundle, String mailboxId})>)
+            .value;
+
+    final Uint8List blob;
+    try {
+      blob = base64Decode(result.encryptedBundle);
+    } catch (e) {
+      return Err(CryptoFailure(message: 'Malformed backup data', cause: e));
+    }
+
+    final Result<Failure, void> imported = await DeviceKeys.importFromBackup(
+      _storage,
+      blob,
+      encryptionId,
+      localPassword,
+    );
+    if (imported is Err<Failure, void>) return Err(imported.value);
+
+    await _storage.write(key: _mailboxIdKey, value: result.mailboxId);
+
+    // This device's own prekeys — the ones from wherever the backup
+    // was originally created may be stale/exhausted, so republish
+    // fresh ones rather than assume they're still usable.
     final Result<Failure, List<SimpleKeyPair>> prekeys =
         await _directory.uploadPrekeys();
     if (prekeys is Ok<Failure, List<SimpleKeyPair>>) {

@@ -32,8 +32,7 @@ class ConversationScreen extends ConsumerStatefulWidget {
   final String peerName;
 
   @override
-  ConsumerState<ConversationScreen> createState() =>
-      _ConversationScreenState();
+  ConsumerState<ConversationScreen> createState() => _ConversationScreenState();
 }
 
 class _ConversationScreenState extends ConsumerState<ConversationScreen> {
@@ -138,16 +137,19 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
                 Expanded(
                   child: messagesAsync.when(
                     loading: () => const AppLoading(),
-                    error: (_, __) => AppStatusView.error(
-                        title: l10n.errorGenericTitle),
-                    data: (List<ChatMessage> messages) =>
-                        ListView.builder(
+                    error: (_, __) =>
+                        AppStatusView.error(title: l10n.errorGenericTitle),
+                    data: (List<ChatMessage> messages) => ListView.builder(
                       controller: _scroll,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       itemCount: messages.length,
-                      itemBuilder: (_, int i) => _MessageBubble(
-                        message: messages[i],
-                        onReply: _setReplyTarget,
+                      itemBuilder: (_, int i) => FadeSlideIn(
+                        key: ValueKey(messages[i].id),
+                        beginDy: 0.15,
+                        child: _MessageBubble(
+                          message: messages[i],
+                          onReply: _setReplyTarget,
+                        ),
                       ),
                     ),
                   ),
@@ -330,7 +332,9 @@ class _MessageBubbleState extends ConsumerState<_MessageBubble>
         .animate(CurvedAnimation(parent: _snapBack, curve: Curves.easeOut));
     void listener() => setState(() => _dragDx = anim.value);
     anim.addListener(listener);
-    _snapBack.forward(from: 0).whenComplete(() => anim.removeListener(listener));
+    _snapBack
+        .forward(from: 0)
+        .whenComplete(() => anim.removeListener(listener));
   }
 
   @override
@@ -400,8 +404,7 @@ class _MessageBubbleState extends ConsumerState<_MessageBubble>
                             decoration: BoxDecoration(
                               border: Border(
                                 left: BorderSide(
-                                    color: fg.withValues(alpha: 0.5),
-                                    width: 2),
+                                    color: fg.withValues(alpha: 0.5), width: 2),
                               ),
                             ),
                             child: Text(
@@ -636,8 +639,8 @@ class _ComposerState extends ConsumerState<_Composer>
                       widget.replyPreview!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant),
+                      style: theme.textTheme.bodySmall
+                          ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                     ),
                   ),
                   InkWell(
@@ -675,9 +678,9 @@ class _ComposerState extends ConsumerState<_Composer>
                     const SizedBox(width: AppSpacing.sm),
                     Expanded(
                       child: Opacity(
-                        opacity: (1 +
-                                _cancelDragDx / (_cancelThreshold.abs() * 1.4))
-                            .clamp(0.0, 1.0),
+                        opacity:
+                            (1 + _cancelDragDx / (_cancelThreshold.abs() * 1.4))
+                                .clamp(0.0, 1.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -749,8 +752,8 @@ class _ComposerState extends ConsumerState<_Composer>
                 const Spacer(),
                 TextButton.icon(
                   onPressed: widget.onSend,
-                  icon: Text(l10n.commonSend,
-                      style: theme.textTheme.labelLarge),
+                  icon:
+                      Text(l10n.commonSend, style: theme.textTheme.labelLarge),
                   label: const Icon(Icons.send_rounded, size: 16),
                 ),
               ],

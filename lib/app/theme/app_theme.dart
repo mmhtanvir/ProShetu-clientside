@@ -71,16 +71,14 @@ abstract final class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize:
-              const Size.fromHeight(AppSpacing.minTouchTarget + 4),
+          minimumSize: const Size.fromHeight(AppSpacing.minTouchTarget + 4),
           shape: const RoundedRectangleBorder(borderRadius: AppRadius.lgAll),
           textStyle: textTheme.labelLarge,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize:
-              const Size.fromHeight(AppSpacing.minTouchTarget + 4),
+          minimumSize: const Size.fromHeight(AppSpacing.minTouchTarget + 4),
           shape: const RoundedRectangleBorder(borderRadius: AppRadius.lgAll),
           side: BorderSide(color: scheme.outline),
           foregroundColor: scheme.onSurface,
@@ -89,8 +87,8 @@ abstract final class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          minimumSize: const Size(AppSpacing.minTouchTarget,
-              AppSpacing.minTouchTarget),
+          minimumSize:
+              const Size(AppSpacing.minTouchTarget, AppSpacing.minTouchTarget),
           textStyle: textTheme.labelLarge,
         ),
       ),
@@ -150,6 +148,55 @@ abstract final class AppTheme {
       dividerTheme: DividerThemeData(color: scheme.outline, thickness: 1),
       progressIndicatorTheme:
           const ProgressIndicatorThemeData(color: AppColors.primary),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: _FadeThroughPageTransitionsBuilder(),
+          TargetPlatform.iOS: _FadeThroughPageTransitionsBuilder(),
+          TargetPlatform.macOS: _FadeThroughPageTransitionsBuilder(),
+          TargetPlatform.linux: _FadeThroughPageTransitionsBuilder(),
+          TargetPlatform.windows: _FadeThroughPageTransitionsBuilder(),
+        },
+      ),
+    );
+  }
+}
+
+/// One consistent transition across every platform and all ~30 routes
+/// (go_router's default `builder:` pages ride on this via the Theme,
+/// no per-route wiring needed): fade + a short upward slide, quicker
+/// than Flutter's stock transitions so it reads as polish rather than
+/// a delay. Respects `MediaQuery.disableAnimations` — the same
+/// reduced-motion opt-out SplashScreen and FadeSlideIn honor — by
+/// deferring to the platform default (effectively instant) when set.
+class _FadeThroughPageTransitionsBuilder extends PageTransitionsBuilder {
+  const _FadeThroughPageTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    if (MediaQuery.disableAnimationsOf(context)) {
+      return const FadeUpwardsPageTransitionsBuilder().buildTransitions(
+          route, context, animation, secondaryAnimation, child);
+    }
+    final Animation<double> curved = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
+      reverseCurve: Curves.easeInCubic,
+    );
+    return FadeTransition(
+      opacity: curved,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, 0.04),
+          end: Offset.zero,
+        ).animate(curved),
+        child: child,
+      ),
     );
   }
 }

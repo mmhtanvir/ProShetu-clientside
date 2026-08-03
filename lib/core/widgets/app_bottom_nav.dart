@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../utils/responsive.dart';
 
 /// Item descriptor for [AppBottomNav].
 class AppBottomNavItem {
@@ -35,9 +36,8 @@ class AppBottomNav extends StatelessWidget {
 
     Widget tab(int index) {
       final bool selected = index == currentIndex;
-      final Color color = selected
-          ? theme.colorScheme.onSurface
-          : theme.colorScheme.onSurfaceVariant;
+      final Color selectedColor = theme.colorScheme.onSurface;
+      final Color unselectedColor = theme.colorScheme.onSurfaceVariant;
       final AppBottomNavItem item = items[index];
 
       return Expanded(
@@ -52,15 +52,30 @@ class AppBottomNav extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(item.icon, size: 22, color: color),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: selected ? 1 : 0),
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOut,
+                    builder: (BuildContext context, double t, Widget? child) {
+                      return Transform.scale(
+                        scale: 1 + (t * 0.12),
+                        child: Icon(
+                          item.icon,
+                          size: 22,
+                          color: Color.lerp(unselectedColor, selectedColor, t),
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 2),
-                  Text(
-                    item.label,
-                    style:
-                        theme.textTheme.labelSmall?.copyWith(
-                      color: color,
-                      letterSpacing: 0,
-                    ),
+                  AnimatedDefaultTextStyle(
+                    duration: const Duration(milliseconds: 200),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                          color: selected ? selectedColor : unselectedColor,
+                          letterSpacing: 0,
+                        ) ??
+                        const TextStyle(),
+                    child: Text(item.label),
                   ),
                 ],
               ),
@@ -90,20 +105,7 @@ class AppBottomNav extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: const BoxDecoration(
-                            gradient: AppColors.brandGradient,
-                            shape: BoxShape.circle,
-                            boxShadow: AppShadows.brandGlow,
-                          ),
-                          child: const Icon(
-                            Icons.warning_amber_rounded,
-                            color: Colors.white,
-                            size: 22,
-                          ),
-                        ),
+                        _PulsingSosIcon(sosLabel: sosLabel),
                         const SizedBox(height: 2),
                         Text(
                           sosLabel,
@@ -120,6 +122,70 @@ class AppBottomNav extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// A slow breathing glow around the SOS icon — draws the eye to the
+/// one action that matters most in this app without being frantic
+/// (long duration, subtle range). Skipped under reduced motion, same
+/// convention as FadeSlideIn/SplashScreen.
+class _PulsingSosIcon extends StatefulWidget {
+  const _PulsingSosIcon({required this.sosLabel});
+
+  final String sosLabel;
+
+  @override
+  State<_PulsingSosIcon> createState() => _PulsingSosIconState();
+}
+
+class _PulsingSosIconState extends State<_PulsingSosIcon>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1400),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (!context.reduceMotion) _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (BuildContext context, Widget? child) {
+        final double t = _controller.value;
+        return Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            gradient: AppColors.brandGradient,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withValues(alpha: 0.35 + t * 0.25),
+                blurRadius: 10 + t * 8,
+                spreadRadius: t * 2,
+              ),
+            ],
+          ),
+          child: child,
+        );
+      },
+      child: const Icon(
+        Icons.warning_amber_rounded,
+        color: Colors.white,
+        size: 22,
       ),
     );
   }

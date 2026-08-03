@@ -166,4 +166,38 @@ class DirectoryClient {
         await _api.getJson('/v1/prekeys/$mailboxId', signed: true);
     return res.fold(Err.new, (JsonMap json) => Ok(PreKeyBundle.fromJson(json)));
   }
+
+  /// POST /v1/backup — signed. Uploads/replaces this identity's
+  /// already-encrypted (client-side, under the user's Encryption ID —
+  /// see DeviceKeys.exportEncrypted) key backup. [encryptedBundle] is
+  /// opaque base64 to this client too by the time it gets here.
+  Future<Result<Failure, void>> uploadBackup(String encryptedBundle) async {
+    final Result<Failure, JsonMap> res = await _api.postJson(
+      '/v1/backup',
+      signed: true,
+      body: {'encrypted_bundle': encryptedBundle},
+    );
+    return res.fold(Err.new, (_) => const Ok(null));
+  }
+
+  /// POST /v1/backup/fetch — unauthenticated (a fresh device has no
+  /// identity yet), gated on a recovery-purpose registration_token
+  /// (same SMS-verification /v1/recover uses). Returns the opaque
+  /// base64 blob for DeviceKeys.importFromBackup to decrypt locally,
+  /// plus the mailbox_id it belongs to (the blob only carries the
+  /// Ed25519/X25519 seeds, not the routing address).
+  Future<Result<Failure, ({String encryptedBundle, String mailboxId})>>
+      fetchBackup(String registrationToken) async {
+    final Result<Failure, JsonMap> res = await _api.postJson(
+      '/v1/backup/fetch',
+      body: {'registration_token': registrationToken},
+    );
+    return res.fold(
+      Err.new,
+      (JsonMap json) => Ok((
+        encryptedBundle: json['encrypted_bundle'] as String,
+        mailboxId: json['mailbox_id'] as String,
+      )),
+    );
+  }
 }

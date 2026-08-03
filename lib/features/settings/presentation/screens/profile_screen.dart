@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/router.dart';
 import '../../../../app/theme/app_theme.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/utils/responsive.dart';
+import '../../../../core/utils/result.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../connectivity/presentation/providers/connectivity_providers.dart';
@@ -18,6 +20,61 @@ class ProfileScreen extends ConsumerWidget {
   Future<void> _logout(BuildContext context, WidgetRef ref) async {
     await ref.read(authRepositoryProvider).clearSession();
     if (context.mounted) context.goNamed(AppRoutes.login);
+  }
+
+  Future<void> _setEncryptionId(BuildContext context, WidgetRef ref) async {
+    final TextEditingController controller = TextEditingController();
+    final String? encryptionId = await showDialog<String>(
+      context: context,
+      builder: (BuildContext ctx) => AlertDialog(
+        title: const Text('Set your Encryption ID'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'A secret only you know. On a new device, your phone '
+              'number + this Encryption ID restores this exact account '
+              '— we cannot recover it for you if you forget it.',
+            ),
+            const SizedBox(height: AppSpacing.md),
+            TextField(
+              controller: controller,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Encryption ID'),
+            ),
+          ],
+        ),
+        actionsPadding: const EdgeInsets.all(AppSpacing.md),
+        actions: [
+          AppButton(
+            label: 'Cancel',
+            variant: AppButtonVariant.ghost,
+            expanded: false,
+            onPressed: () => Navigator.of(ctx).pop(),
+          ),
+          AppButton(
+            label: 'Save',
+            expanded: false,
+            onPressed: () => Navigator.of(ctx).pop(controller.text),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (encryptionId == null || encryptionId.isEmpty || !context.mounted) {
+      return;
+    }
+
+    final Result<Failure, void> result =
+        await ref.read(authRepositoryProvider).setEncryptionId(encryptionId);
+    if (!context.mounted) return;
+    switch (result) {
+      case Ok<Failure, void>():
+        showAppSnackbar(context, 'Encryption ID set.',
+            kind: AppSnackbarKind.success);
+      case Err<Failure, void>(:final value):
+        showAppSnackbar(context, value.message, kind: AppSnackbarKind.error);
+    }
   }
 
   Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
@@ -141,7 +198,7 @@ class ProfileScreen extends ConsumerWidget {
                 SettingsTile(
                   icon: Icons.lock_outline_rounded,
                   title: l10n.profileEncryptionKeys,
-                  onTap: () {},
+                  onTap: () => _setEncryptionId(context, ref),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 SettingsTile(

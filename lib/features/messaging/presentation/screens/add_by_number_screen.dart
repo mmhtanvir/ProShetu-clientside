@@ -26,7 +26,12 @@ class _AddByNumberScreenState extends ConsumerState<AddByNumberScreen> {
   String _phone = '';
   bool _loading = false;
   String? _error;
-  ({String mailboxId, String displayName})? _result;
+  ({
+    String mailboxId,
+    String displayName,
+    String ed25519Pub,
+    String x25519Pub,
+  })? _result;
 
   Future<void> _search() async {
     final String phone = _phone.trim();
@@ -36,16 +41,36 @@ class _AddByNumberScreenState extends ConsumerState<AddByNumberScreen> {
       _error = null;
       _result = null;
     });
-    final Result<Failure, ({String mailboxId, String displayName})> res =
-        await ref.read(smsVerifyClientProvider).lookupByPhone(phone);
+    final Result<
+        Failure,
+        ({
+          String mailboxId,
+          String displayName,
+          String ed25519Pub,
+          String x25519Pub,
+        })> res = await ref.read(smsVerifyClientProvider).lookupByPhone(phone);
     if (!mounted) return;
     switch (res) {
-      case Ok<Failure, ({String mailboxId, String displayName})>(:final value):
+      case Ok<
+          Failure,
+          ({
+            String mailboxId,
+            String displayName,
+            String ed25519Pub,
+            String x25519Pub,
+          })>(:final value):
         setState(() {
           _loading = false;
           _result = value;
         });
-      case Err<Failure, ({String mailboxId, String displayName})>(:final value):
+      case Err<
+          Failure,
+          ({
+            String mailboxId,
+            String displayName,
+            String ed25519Pub,
+            String x25519Pub,
+          })>(:final value):
         setState(() {
           _loading = false;
           _error = value.message;
@@ -54,12 +79,19 @@ class _AddByNumberScreenState extends ConsumerState<AddByNumberScreen> {
   }
 
   Future<void> _addContact() async {
-    final ({String mailboxId, String displayName})? result = _result;
+    final ({
+      String mailboxId,
+      String displayName,
+      String ed25519Pub,
+      String x25519Pub,
+    })? result = _result;
     if (result == null) return;
     await ref.read(contactDirectoryStoreProvider).add(
           DirectoryContact(
             displayName: result.displayName,
             mailboxId: result.mailboxId,
+            ed25519Pub: result.ed25519Pub,
+            x25519Pub: result.x25519Pub,
           ),
         );
     if (!mounted) return;

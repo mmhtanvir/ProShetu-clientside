@@ -214,6 +214,80 @@ abstract final class DeviceKeys {
     );
   }
 
+  /// Encrypts the CURRENTLY UNLOCKED identity's key material under
+  /// [encryptionId] — a secret the user chooses themselves, separate
+  /// from the local unlock password, whose only purpose is restoring
+  /// this SAME identity on a different device via POST /v1/backup.
+  /// The server only ever sees the resulting opaque bytes.
+  static Future<Result<Failure, Uint8List>> exportEncrypted(
+    String encryptionId,
+  ) async {
+    final SimpleKeyPair? ed = _ed25519KeyPair;
+    final SimpleKeyPair? x = _x25519KeyPair;
+    if (ed == null || x == null) {
+      return const Err(CryptoFailure(message: 'DeviceKeys not unlocked'));
+    }
+    try {
+      final List<int> edSeed = await ed.extractPrivateKeyBytes();
+      final List<int> xSeed = await x.extractPrivateKeyBytes();
+      final Uint8List plain = _SeedPair(edSeed, xSeed).encode();
+
+      final Uint8List salt = _randomBytes(16);
+      final SecretKey wrapKey = await _kdf.deriveKeyFromPassword(
+        password: encryptionId,
+        nonce: salt,
+      );
+      final SecretBox box = await _aead.encrypt(plain, secretKey: wrapKey);
+      return Ok(Uint8List.fromList([...salt, ...box.concatenation()]));
+    } catch (e) {
+      return Err(CryptoFailure(message: 'Could not export identity', cause: e));
+    }
+  }
+
+  /// Decrypts a blob from [exportEncrypted] with [encryptionId] and
+  /// installs it as this device's identity, wrapped locally under
+  /// [localPassword] — same end state as [createAndUnlock]/[unlock],
+  /// just sourced from a restored backup rather than fresh generation
+  /// or existing local storage. Overwrites any identity already on
+  /// this device, same caveat as [createAndUnlock].
+  static Future<Result<Failure, void>> importFromBackup(
+    FlutterSecureStorage storage,
+    Uint8List blob,
+    String encryptionId,
+    String localPassword,
+  ) async {
+    try {
+      if (blob.length <= 16) {
+        return const Err(CryptoFailure(message: 'Malformed backup'));
+      }
+      final Uint8List salt = blob.sublist(0, 16);
+      final Uint8List rest = blob.sublist(16);
+      final SecretKey wrapKey = await _kdf.deriveKeyFromPassword(
+        password: encryptionId,
+        nonce: salt,
+      );
+      final SecretBox box = SecretBox.fromConcatenation(
+        rest,
+        nonceLength: _nonceLength,
+        macLength: _macLength,
+      );
+      final List<int> plain = await _aead.decrypt(box, secretKey: wrapKey);
+      final _SeedPair seeds = _SeedPair.decode(plain);
+      final SimpleKeyPair ed = await _ed25519.newKeyPairFromSeed(seeds.edSeed);
+      final SimpleKeyPair x = await _x25519.newKeyPairFromSeed(seeds.xSeed);
+      final SecretKey localWrapKey =
+          await _persistWrapped(storage, localPassword, ed, x);
+      _ed25519KeyPair = ed;
+      _x25519KeyPair = x;
+      _localStorageKey = await _deriveLocalStorageKey(localWrapKey);
+      return const Ok(null);
+    } on SecretBoxAuthenticationError catch (e) {
+      return Err(CryptoFailure(message: 'Incorrect Encryption ID', cause: e));
+    } catch (e) {
+      return Err(CryptoFailure(message: 'Could not restore identity', cause: e));
+    }
+  }
+
   static Uint8List _randomBytes(int length) =>
       Uint8List.fromList(List<int>.generate(length, (_) => _secureRandom.nextInt(256)));
 }

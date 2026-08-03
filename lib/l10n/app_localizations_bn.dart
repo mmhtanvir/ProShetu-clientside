@@ -189,6 +189,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get authForgotPassword => 'পাসওয়ার্ড ভুলে গেছেন?';
 
   @override
+  String get authNoIdentityTitle => 'এই ডিভাইসে কোনো অ্যাকাউন্ট নেই';
+
+  @override
+  String get authNoIdentityMessage =>
+      'মনে হচ্ছে আপনি অ্যাপটি পুনরায় ইনস্টল করেছেন বা নতুন ডিভাইস থেকে সাইন ইন করছেন। আপনি আপনার ফোন নম্বর দিয়ে অ্যাকাউন্ট পুনরুদ্ধার করতে পারবেন।';
+
+  @override
   String get authRecoveryTitle => 'অ্যাকাউন্ট পুনরুদ্ধার';
 
   @override
