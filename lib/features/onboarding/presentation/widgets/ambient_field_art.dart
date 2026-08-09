@@ -2,28 +2,68 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils/responsive.dart';
+
 /// Visual variants matching the onboarding designs.
 enum AmbientFieldVariant { goldWave, tealFlow, duskSwirl }
 
 /// Decorative particle-field backdrop, generated procedurally.
 ///
 /// Why a painter instead of bundled images: zero asset bytes, zero
-/// decode memory, resolution-independent, and it repaints exactly
-/// once ([shouldRepaint] is false, host wraps in [RepaintBoundary]).
-/// Deliberately static — animating thousands of points would cost
-/// battery and GPU on the low-end devices we target.
-class AmbientFieldArt extends StatelessWidget {
+/// decode memory, resolution-independent, and it repaints inside its
+/// own [RepaintBoundary] so the drift below never invalidates the
+/// rest of the onboarding page.
+///
+/// Drifts slowly and continuously (a phase offset feeds the same
+/// sine displacement the static version used) — requested explicitly
+/// ("those dots & designs should move"). Kept cheap: one slow-period
+/// [AnimationController] per page, long duration so it reads as an
+/// ambient current rather than a busy redraw, and skipped entirely
+/// under the OS "reduce motion" setting, same convention as
+/// FadeSlideIn/SplashScreen/AppBottomNav's SOS pulse.
+class AmbientFieldArt extends StatefulWidget {
   const AmbientFieldArt({required this.variant, super.key});
 
   final AmbientFieldVariant variant;
 
   @override
+  State<AmbientFieldArt> createState() => _AmbientFieldArtState();
+}
+
+class _AmbientFieldArtState extends State<AmbientFieldArt>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 26),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (!context.reduceMotion) _controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ExcludeSemantics(
       child: RepaintBoundary(
-        child: CustomPaint(
-          painter: _AmbientFieldPainter(variant),
-          size: Size.infinite,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (BuildContext context, Widget? child) {
+            return CustomPaint(
+              painter: _AmbientFieldPainter(
+                widget.variant,
+                phase: _controller.value * math.pi * 2,
+              ),
+              size: Size.infinite,
+            );
+          },
         ),
       ),
     );
@@ -31,9 +71,13 @@ class AmbientFieldArt extends StatelessWidget {
 }
 
 class _AmbientFieldPainter extends CustomPainter {
-  const _AmbientFieldPainter(this.variant);
+  const _AmbientFieldPainter(this.variant, {required this.phase});
 
   final AmbientFieldVariant variant;
+
+  /// 0 → 2π, looping. Fed into the wave/flow math below as a slow
+  /// drift offset so the field never has a visible seam or reset.
+  final double phase;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -86,10 +130,15 @@ class _AmbientFieldPainter extends CustomPainter {
         final double baseX = c * cw;
         final double baseY = r * ch;
 
-        // Layered sine displacement → organic wave sheets.
-        final double wave = math.sin(r * 0.18 + c * 0.10) * cw * 2.2 +
-            math.sin(r * 0.05 - c * 0.22) * cw * 1.4;
-        final Offset p = Offset(baseX + wave, baseY + math.sin(c * 0.3) * ch);
+        // Layered sine displacement → organic wave sheets, drifting
+        // with `phase` so the sheets slowly roll rather than sit still.
+        final double wave =
+            math.sin(r * 0.18 + c * 0.10 + phase) * cw * 2.2 +
+                math.sin(r * 0.05 - c * 0.22 - phase * 0.6) * cw * 1.4;
+        final Offset p = Offset(
+          baseX + wave,
+          baseY + math.sin(c * 0.3 + phase * 0.4) * ch,
+        );
 
         final double dist = (p - focus).distance;
         if (dist > maxDist) continue;
@@ -114,9 +163,13 @@ class _AmbientFieldPainter extends CustomPainter {
     const Color a = Color(0xFF5FD3C8);
     const Color b = Color(0xFF1E4E55);
 
+    // Gentle horizontal breathing so the whole sheaf of lines sways,
+    // rather than each line independently — reads as one current.
+    final double sway = math.sin(phase) * size.width * 0.02;
+
     for (int i = 0; i < lines; i++) {
       final double t = i / (lines - 1);
-      final double x = size.width * (0.30 + t * 0.42);
+      final double x = size.width * (0.30 + t * 0.42) + sway;
 
       paint.color =
           Color.lerp(a, b, t)!.withValues(alpha: 0.55 * (1 - (t - 0.5).abs()));
@@ -137,5 +190,5 @@ class _AmbientFieldPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _AmbientFieldPainter oldDelegate) =>
-      oldDelegate.variant != variant;
+      oldDelegate.variant != variant || oldDelegate.phase != phase;
 }
