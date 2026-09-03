@@ -48,8 +48,8 @@ class VerifyPhoneState extends Equatable {
 }
 
 /// OTP verification: owns the expiry countdown and the verify call.
-/// AutoDispose ensures the timer dies with the screen.
-class VerifyPhoneController extends AutoDisposeNotifier<VerifyPhoneState> {
+/// Auto-dispose is the default in Riverpod 3, so the timer dies with the screen.
+class VerifyPhoneController extends Notifier<VerifyPhoneState> {
   static const int _expirySeconds = 5 * 60;
 
   Timer? _timer;
@@ -95,6 +95,6 @@ class VerifyPhoneController extends AutoDisposeNotifier<VerifyPhoneState> {
 }
 
 final verifyPhoneControllerProvider =
-    AutoDisposeNotifierProvider<VerifyPhoneController, VerifyPhoneState>(
+    NotifierProvider<VerifyPhoneController, VerifyPhoneState>(
   VerifyPhoneController.new,
 );

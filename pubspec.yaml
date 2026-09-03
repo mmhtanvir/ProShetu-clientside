@@ -14,13 +14,13 @@ dependencies:
     sdk: flutter
 
   # State management — compile-safe DI + reactive state, no BuildContext coupling.
-  flutter_riverpod: ^2.5.1
+  flutter_riverpod: ^3.4.2
 
   # Declarative routing with guards, redirects, deep links.
-  go_router: ^14.2.0
+  go_router: ^18.0.1
 
   # Immutable models + unions (used later for domain entities).
-  freezed_annotation: ^2.4.4
+  freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   equatable: ^2.0.5
 
@@ -28,11 +28,11 @@ dependencies:
   dio: ^5.5.0
 
   # Secure at-rest storage for keys/tokens (Keystore / Keychain).
-  flutter_secure_storage: ^9.2.2
+  flutter_secure_storage: ^11.0.0
 
   # Assets & media.
   flutter_svg: ^2.0.10
-  cached_network_image: ^3.3.1
+  cached_network_image: ^4.0.0
 
   # i18n.
   intl: any
@@ -49,7 +49,7 @@ dependencies:
 
   # Device GPS position, needed to pick a coordination geohash shard
   # when publishing/fetching coordination data.
-  geolocator: ^13.0.1
+  geolocator: ^14.0.3
 
   # Live push channel (/ws/push) — event/call wake-up hints.
   # Pinned to 3.x (not 2.x): 2.x pulls in `web ^0.5.0`, which conflicts
@@ -65,7 +65,7 @@ dependencies:
   # Local (not push-service) notifications — used ONLY for new-message
   # hints. See infrastructure/notifications/notification_service.dart:
   # coordination/SOS updates are pull-only by design and never notify.
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^22.3.0
 
   # Background push (FCM) — wakes the app for a new message or an
   # incoming call when no live /ws/push socket is connected (e.g. app
@@ -74,8 +74,8 @@ dependencies:
   # exist for a real Firebase project, Firebase.initializeApp() in
   # main.dart fails gracefully and the app runs exactly as before —
   # see that file's doc comment.
-  firebase_core: ^3.8.0
-  firebase_messaging: ^15.1.5
+  firebase_core: ^4.14.0
+  firebase_messaging: ^16.6.0
 
   # Voice note recording/playback in the message composer.
   # record 5.2.x has an upstream bug: its own record_linux and
@@ -83,7 +83,7 @@ dependencies:
   # compatible pair (record_linux is missing methods the interface
   # requires). 6.x fixes this; the AudioRecorder API used in
   # infrastructure/media/voice_recorder.dart is unchanged.
-  record: ^6.1.2
+  record: ^6.2.1
   audioplayers: ^6.1.0
   path_provider: ^2.1.4
 
@@ -92,17 +92,17 @@ dependencies:
   # contact_directory_store.dart) — the out-of-band exchange that
   # class's doc comment says nothing populates yet.
   qr_flutter: ^4.1.0
-  mobile_scanner: ^6.0.2
+  mobile_scanner: ^7.4.0
 
   # Real-time network state (Wi-Fi / mobile / offline) for the
   # dashboard's Internet status tile.
-  connectivity_plus: ^6.1.0
+  connectivity_plus: ^7.3.1
 
   # Phone-number country code entry: detect the caller's current
   # country from GPS (reverse-geocoded natively, no Maps/Google API
   # key involved) to preselect a dial code, with a picker to change
   # it — used by signup and Add-by-number's phone fields.
-  geocoding: ^4.0.0
+  geocoding: ^5.0.0
   country_code_picker: ^3.4.1
 
   # Real message-history persistence (infrastructure/storage/
@@ -120,15 +120,15 @@ dependencies:
   # the Android 12+ three-way BLUETOOTH_SCAN/ADVERTISE/CONNECT runtime
   # prompt, which nothing else in this app currently needs.
   flutter_blue_plus: ^2.3.11
-  flutter_ble_peripheral: ^2.1.1
+  flutter_ble_peripheral: ^3.1.0
   permission_handler: ^13.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.4.11
-  freezed: ^2.5.7
+  freezed: ^3.2.5
   json_serializable: ^6.8.0
   flutter_launcher_icons: ^0.14.1
 

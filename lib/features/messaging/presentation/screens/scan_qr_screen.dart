@@ -83,15 +83,13 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen> {
           MobileScanner(
             controller: _controller,
             onDetect: _onDetect,
-            placeholderBuilder: (BuildContext context, Widget? child) =>
-                const ColoredBox(
+            placeholderBuilder: (BuildContext context) => const ColoredBox(
               color: Colors.black,
               child: Center(
                 child: CircularProgressIndicator(color: Colors.white),
               ),
             ),
-            errorBuilder: (BuildContext context, MobileScannerException error,
-                    Widget? child) =>
+            errorBuilder: (BuildContext context, MobileScannerException error) =>
                 ColoredBox(
               color: Colors.black,
               child: Center(

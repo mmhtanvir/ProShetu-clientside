@@ -74,7 +74,7 @@ class _MapScreenState extends ConsumerState<MapScreen>
             top: AppSpacing.sm,
             child: _StatusBanner(
               hazards: hazards,
-              coordinationCount: coordination.valueOrNull?.length ?? 0,
+              coordinationCount: coordination.value?.length ?? 0,
             ),
           ),
         ],
@@ -115,7 +115,7 @@ class _StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final int hazardCount = hazards.valueOrNull?.length ?? 0;
+    final int hazardCount = hazards.value?.length ?? 0;
     final bool hazardsLoading = hazards.isLoading;
     final bool hazardsError = hazards.hasError;
 

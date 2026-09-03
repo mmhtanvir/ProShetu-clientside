@@ -5,7 +5,7 @@ import '../providers/onboarding_providers.dart';
 /// Post-login destination, decided by security setup state.
 enum PostLoginDestination { setPin, home }
 
-class LoginController extends AutoDisposeAsyncNotifier<void> {
+class LoginController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
@@ -29,6 +29,6 @@ class LoginController extends AutoDisposeAsyncNotifier<void> {
 }
 
 final loginControllerProvider =
-    AutoDisposeAsyncNotifierProvider<LoginController, void>(
+    AsyncNotifierProvider<LoginController, void>(
   LoginController.new,
 );

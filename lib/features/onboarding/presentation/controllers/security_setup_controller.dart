@@ -5,7 +5,7 @@ import '../providers/onboarding_providers.dart';
 /// Persists the encryption PIN and trusted contacts during first-run
 /// security setup. Screens own the transient input state; this
 /// controller owns the writes.
-class SecuritySetupController extends AutoDisposeAsyncNotifier<void> {
+class SecuritySetupController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
@@ -44,6 +44,6 @@ class SecuritySetupController extends AutoDisposeAsyncNotifier<void> {
 }
 
 final securitySetupControllerProvider =
-    AutoDisposeAsyncNotifierProvider<SecuritySetupController, void>(
+    AsyncNotifierProvider<SecuritySetupController, void>(
   SecuritySetupController.new,
 );

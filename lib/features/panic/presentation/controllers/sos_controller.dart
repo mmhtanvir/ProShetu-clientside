@@ -17,7 +17,7 @@ final sosTypeProvider =
     NotifierProvider<SosTypeSelection, SosType?>(SosTypeSelection.new);
 
 /// Submits the composed SOS alert.
-class SosSubmitController extends AutoDisposeAsyncNotifier<void> {
+class SosSubmitController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
@@ -36,6 +36,6 @@ class SosSubmitController extends AutoDisposeAsyncNotifier<void> {
 }
 
 final sosSubmitControllerProvider =
-    AutoDisposeAsyncNotifierProvider<SosSubmitController, void>(
+    AsyncNotifierProvider<SosSubmitController, void>(
   SosSubmitController.new,
 );

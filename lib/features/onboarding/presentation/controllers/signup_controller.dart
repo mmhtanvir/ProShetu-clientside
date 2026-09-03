@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/onboarding_providers.dart';
 
 /// Submits the signup form. Returns success so the screen can route.
-class SignupController extends AutoDisposeAsyncNotifier<void> {
+class SignupController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
@@ -29,6 +29,6 @@ class SignupController extends AutoDisposeAsyncNotifier<void> {
 }
 
 final signupControllerProvider =
-    AutoDisposeAsyncNotifierProvider<SignupController, void>(
+    AsyncNotifierProvider<SignupController, void>(
   SignupController.new,
 );

@@ -64,7 +64,7 @@ class NotificationService {
       requestSoundPermission: false,
     );
     await _plugin.initialize(
-      const InitializationSettings(android: android, iOS: ios),
+      settings: const InitializationSettings(android: android, iOS: ios),
     );
     final AndroidFlutterLocalNotificationsPlugin? androidPlugin = _plugin
         .resolvePlatformSpecificImplementation<
@@ -92,10 +92,10 @@ class NotificationService {
   Future<void> showNewMessage() async {
     await init();
     await _plugin.show(
-      DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
-      'New message',
-      null, // no body — nothing sensitive on a lock screen, ever
-      const NotificationDetails(
+      id: DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
+      title: 'New message',
+      body: null, // no body — nothing sensitive on a lock screen, ever
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'messages',
           'Messages',
@@ -113,10 +113,10 @@ class NotificationService {
   Future<void> showIncomingCall() async {
     await init();
     await _plugin.show(
-      DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
-      'Incoming call',
-      null, // no caller name — same policy as showNewMessage()
-      const NotificationDetails(
+      id: DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
+      title: 'Incoming call',
+      body: null, // no caller name — same policy as showNewMessage()
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'calls',
           'Calls',

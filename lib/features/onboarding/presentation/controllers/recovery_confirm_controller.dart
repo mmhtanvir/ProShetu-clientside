@@ -6,7 +6,7 @@ import '../providers/onboarding_providers.dart';
 /// has been shown and its confirmation checkbox checked). Mirrors
 /// SignupController's shape — see that file — but calls
 /// AuthRepository.startRecovery() instead of signUp().
-class RecoveryConfirmController extends AutoDisposeAsyncNotifier<void> {
+class RecoveryConfirmController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
@@ -30,6 +30,6 @@ class RecoveryConfirmController extends AutoDisposeAsyncNotifier<void> {
 }
 
 final recoveryConfirmControllerProvider =
-    AutoDisposeAsyncNotifierProvider<RecoveryConfirmController, void>(
+    AsyncNotifierProvider<RecoveryConfirmController, void>(
   RecoveryConfirmController.new,
 );

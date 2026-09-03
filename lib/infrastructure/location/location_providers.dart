@@ -39,7 +39,7 @@ final currentCountryIsoProvider = FutureProvider<String?>((Ref ref) async {
   final Position? position = await ref.watch(currentPositionProvider.future);
   if (position == null) return null;
   try {
-    final List<Placemark> placemarks = await placemarkFromCoordinates(
+    final List<Placemark> placemarks = await Geocoding().placemarkFromCoordinates(
       position.latitude,
       position.longitude,
     );
@@ -59,7 +59,7 @@ final currentPlaceLabelProvider = FutureProvider<String?>((Ref ref) async {
   final Position? position = await ref.watch(currentPositionProvider.future);
   if (position == null) return null;
   try {
-    final List<Placemark> placemarks = await placemarkFromCoordinates(
+    final List<Placemark> placemarks = await Geocoding().placemarkFromCoordinates(
       position.latitude,
       position.longitude,
     );

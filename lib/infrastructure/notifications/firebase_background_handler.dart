@@ -20,7 +20,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();
   await plugin.initialize(
-    const InitializationSettings(
+    settings: const InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
       iOS: DarwinInitializationSettings(
         requestAlertPermission: false,
@@ -35,10 +35,10 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     case 'call_signal':
       if (message.data['kind'] != 'offer') return;
       await plugin.show(
-        DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
-        'Incoming call',
-        null,
-        const NotificationDetails(
+        id: DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
+        title: 'Incoming call',
+        body: null,
+        notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
             'calls',
             'Calls',
@@ -51,10 +51,10 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       );
     case 'event':
       await plugin.show(
-        DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
-        'New message',
-        null,
-        const NotificationDetails(
+        id: DateTime.now().millisecondsSinceEpoch.remainder(1 << 31),
+        title: 'New message',
+        body: null,
+        notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
             'messages',
             'Messages',

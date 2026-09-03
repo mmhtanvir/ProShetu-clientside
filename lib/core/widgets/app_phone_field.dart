@@ -70,7 +70,7 @@ class _AppPhoneFieldState extends ConsumerState<AppPhoneField> {
     final AsyncValue<String?> gpsCountry =
         ref.watch(currentCountryIsoProvider);
     if (!_userPickedCountry) {
-      _iso = gpsCountry.valueOrNull ?? _localeCountryFallback ?? _iso;
+      _iso = gpsCountry.value ?? _localeCountryFallback ?? _iso;
     }
 
     final ThemeData theme = Theme.of(context);

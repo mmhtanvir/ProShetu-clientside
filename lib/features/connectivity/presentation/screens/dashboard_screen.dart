@@ -32,7 +32,7 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    final String name = ref.watch(displayNameProvider).valueOrNull ?? '';
+    final String name = ref.watch(displayNameProvider).value ?? '';
     final statusAsync = ref.watch(networkStatusProvider);
     final peersAsync = ref.watch(nearbyPeersProvider);
     final connectivityAsync = ref.watch(connectivityProvider);
@@ -42,7 +42,7 @@ class DashboardScreen extends ConsumerWidget {
     // silently falling back to the mock alerts — showing stale mock
     // data as if it were a live flood/earthquake feed would be worse
     // than showing nothing while it loads or if the fetch failed.
-    final List<CrisisAlert> alerts = hazardAlerts.valueOrNull ?? const [];
+    final List<CrisisAlert> alerts = hazardAlerts.value ?? const [];
 
     return Scaffold(
       body: SafeArea(

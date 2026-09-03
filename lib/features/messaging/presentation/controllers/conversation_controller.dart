@@ -4,10 +4,13 @@ import '../../domain/chat_models.dart';
 import '../providers/messaging_providers.dart';
 
 /// Messages for one chat; sending appends optimistically.
-class ConversationController
-    extends AutoDisposeFamilyAsyncNotifier<List<ChatMessage>, String> {
+class ConversationController extends AsyncNotifier<List<ChatMessage>> {
+  ConversationController(this.chatId);
+
+  final String chatId;
+
   @override
-  Future<List<ChatMessage>> build(String chatId) =>
+  Future<List<ChatMessage>> build() =>
       ref.watch(chatRepositoryProvider).messages(chatId);
 
   Future<void> send(String text, {String? replyToPreview}) async {
@@ -15,7 +18,7 @@ class ConversationController
     if (trimmed.isEmpty) return;
     final ChatMessage msg = await ref
         .read(chatRepositoryProvider)
-        .send(arg, trimmed, replyToPreview: replyToPreview);
+        .send(chatId, trimmed, replyToPreview: replyToPreview);
     state = AsyncData([...state.value ?? const [], msg]);
   }
 
@@ -25,7 +28,7 @@ class ConversationController
     String? replyToPreview,
   }) async {
     final ChatMessage msg = await ref.read(chatRepositoryProvider).sendVoiceNote(
-          arg,
+          chatId,
           audioPath,
           duration,
           replyToPreview: replyToPreview,
@@ -34,7 +37,7 @@ class ConversationController
   }
 }
 
-final conversationControllerProvider = AutoDisposeAsyncNotifierProviderFamily<
+final conversationControllerProvider = AsyncNotifierProvider.family<
     ConversationController, List<ChatMessage>, String>(
   ConversationController.new,
 );

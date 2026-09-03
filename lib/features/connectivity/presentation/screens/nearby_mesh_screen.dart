@@ -88,7 +88,7 @@ class _ReadyView extends ConsumerWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final AsyncValue<List<MeshPeer>> peersAsync =
         ref.watch(nearbyPeersProvider);
-    final int peerCount = peersAsync.valueOrNull?.length ?? 0;
+    final int peerCount = peersAsync.value?.length ?? 0;
 
     return Column(
       children: [
@@ -300,10 +300,10 @@ class _LocationLine extends ConsumerWidget {
         ref.watch(currentPositionProvider);
 
     String label;
-    if (placeAsync.valueOrNull != null) {
-      label = l10n.meshScanningNear(placeAsync.valueOrNull!);
-    } else if (positionAsync.valueOrNull != null) {
-      final Position pos = positionAsync.valueOrNull!;
+    if (placeAsync.value != null) {
+      label = l10n.meshScanningNear(placeAsync.value!);
+    } else if (positionAsync.value != null) {
+      final Position pos = positionAsync.value!;
       label = l10n.meshScanningNear(
         '${pos.latitude.toStringAsFixed(4)}, ${pos.longitude.toStringAsFixed(4)}',
       );

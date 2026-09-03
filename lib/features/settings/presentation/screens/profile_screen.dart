@@ -97,8 +97,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    final String name = ref.watch(displayNameProvider).valueOrNull ?? '';
-    final String phone = ref.watch(myPhoneProvider).valueOrNull ?? '';
+    final String name = ref.watch(displayNameProvider).value ?? '';
+    final String phone = ref.watch(myPhoneProvider).value ?? '';
 
     Widget section(String title) => Padding(
           padding: const EdgeInsets.only(

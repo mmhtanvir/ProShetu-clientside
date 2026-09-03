@@ -47,7 +47,7 @@ class RecoveryVerifyState extends Equatable {
 /// because its verify() must call AuthRepository.verifyRecoveryOtp()
 /// (-> /v1/recover), never verifyOtp() (-> /v1/register) — the two
 /// endpoints reject each other's tokens by design.
-class RecoveryVerifyController extends AutoDisposeNotifier<RecoveryVerifyState> {
+class RecoveryVerifyController extends Notifier<RecoveryVerifyState> {
   static const int _expirySeconds = 5 * 60;
 
   Timer? _timer;
@@ -93,6 +93,6 @@ class RecoveryVerifyController extends AutoDisposeNotifier<RecoveryVerifyState> 
 }
 
 final recoveryVerifyControllerProvider =
-    AutoDisposeNotifierProvider<RecoveryVerifyController, RecoveryVerifyState>(
+    NotifierProvider<RecoveryVerifyController, RecoveryVerifyState>(
   RecoveryVerifyController.new,
 );

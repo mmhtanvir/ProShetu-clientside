@@ -18,7 +18,7 @@ class BlePeripheralAdvertiser {
   Future<bool> get isSupported => _peripheral.isSupported;
 
   Future<void> start() => _peripheral.start(
-        advertiseData: AdvertiseData(serviceUuids: [kMeshServiceUuid]),
+        advertiseData: AdvertiseDataCore(serviceUuids: [kMeshServiceUuid]),
       );
 
   Future<void> stop() => _peripheral.stop().then((_) {});

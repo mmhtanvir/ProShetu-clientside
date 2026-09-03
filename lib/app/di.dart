@@ -25,7 +25,7 @@ final firebaseReadyProvider = Provider<bool>((Ref ref) => false);
 /// Secure at-rest key/value storage (Android Keystore / iOS Keychain).
 final secureStorageProvider = Provider<FlutterSecureStorage>((Ref ref) {
   return const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
   );
 });
 

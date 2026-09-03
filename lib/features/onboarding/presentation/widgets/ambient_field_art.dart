@@ -38,9 +38,11 @@ class _AmbientFieldArtState extends State<AmbientFieldArt>
   );
 
   @override
-  void initState() {
-    super.initState();
-    if (!context.reduceMotion) _controller.repeat();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!context.reduceMotion && !_controller.isAnimating) {
+      _controller.repeat();
+    }
   }
 
   @override
