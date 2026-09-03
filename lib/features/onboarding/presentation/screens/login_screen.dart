@@ -55,55 +55,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  Future<void> _offerRecovery(AppLocalizations l10n) async {
-    await showAppBottomSheet<void>(
-      context,
-      builder: (BuildContext sheetContext) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.authNoIdentityTitle,
-                    style: Theme.of(sheetContext).textTheme.titleMedium),
-                const SizedBox(height: AppSpacing.xxs),
-                Text(
-                  l10n.authNoIdentityMessage,
-                  style: Theme.of(sheetContext).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(sheetContext)
-                          .colorScheme
-                          .onSurfaceVariant),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.key_rounded),
-            title: const Text('Restore with Encryption ID'),
-            subtitle: const Text(
-                'Keeps your existing account and contacts (recommended)'),
-            onTap: () {
-              Navigator.of(sheetContext).pop();
-              context.goNamed(AppRoutes.restoreBackup);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.refresh_rounded),
-            title: Text(l10n.authRecoveryTitle),
-            subtitle: const Text(
-                'Starts over with a new identity — old messages unreadable'),
-            onTap: () {
-              Navigator.of(sheetContext).pop();
-              context.goNamed(AppRoutes.recoverAccount);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
@@ -118,10 +69,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       // DeviceKeys.unlock's specific "nothing stored" failure — the
       // password itself may well be correct, there's just no local
       // identity to check it against (fresh install / new device).
-      // A plain error toast is a dead end here, so offer the one
-      // path that actually gets the user back in.
+      // A plain error toast is a dead end here, so go straight into
+      // the one non-destructive path back in: OTP + Encryption ID.
+      // No branching options shown — the destructive "start fresh"
+      // path lives one tap further, inside RestoreBackupScreen.
       if (message == 'No identity on this device') {
-        _offerRecovery(l10n);
+        context.goNamed(AppRoutes.restoreBackup,
+            extra: _phone.text.trim());
         return;
       }
       showAppSnackbar(context, message, kind: AppSnackbarKind.error);
@@ -170,7 +124,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () => context.goNamed(AppRoutes.recoverAccount),
+                    onPressed: () => context.goNamed(AppRoutes.restoreBackup,
+                        extra: _phone.text.trim()),
                     child: Text(l10n.authForgotPassword),
                   ),
                 ),

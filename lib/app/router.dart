@@ -19,6 +19,7 @@ import '../features/onboarding/presentation/screens/recover_account_screen.dart'
 import '../features/onboarding/presentation/screens/recovery_confirm_screen.dart';
 import '../features/onboarding/presentation/screens/recovery_verify_screen.dart';
 import '../features/onboarding/presentation/screens/restore_backup_screen.dart';
+import '../features/onboarding/presentation/screens/set_encryption_id_screen.dart';
 import '../features/onboarding/presentation/screens/set_pin_screen.dart';
 import '../features/onboarding/presentation/screens/signup_screen.dart';
 import '../features/onboarding/presentation/screens/splash_screen.dart';
@@ -65,6 +66,8 @@ abstract final class AppRoutes {
   static const String restoreBackupPath = '/restore';
   static const String setPin = 'set-pin';
   static const String setPinPath = '/setup/pin';
+  static const String setEncryptionId = 'set-encryption-id';
+  static const String setEncryptionIdPath = '/setup/encryption-id';
   static const String trustedContacts = 'trusted-contacts';
   static const String trustedContactsPath = '/setup/trusted-contacts';
 
@@ -178,12 +181,18 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
       GoRoute(
         path: AppRoutes.restoreBackupPath,
         name: AppRoutes.restoreBackup,
-        builder: (_, __) => const RestoreBackupScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            RestoreBackupScreen(initialPhone: state.extra as String? ?? ''),
       ),
       GoRoute(
         path: AppRoutes.setPinPath,
         name: AppRoutes.setPin,
         builder: (_, __) => const SetPinScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.setEncryptionIdPath,
+        name: AppRoutes.setEncryptionId,
+        builder: (_, __) => const SetEncryptionIdScreen(),
       ),
       GoRoute(
         path: AppRoutes.trustedContactsPath,

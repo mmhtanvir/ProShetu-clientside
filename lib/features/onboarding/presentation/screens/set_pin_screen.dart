@@ -37,7 +37,7 @@ class _SetPinScreenState extends ConsumerState<SetPinScreen> {
     final bool ok = await ref
         .read(securitySetupControllerProvider.notifier)
         .savePin(_pin);
-    if (ok && mounted) context.goNamed(AppRoutes.trustedContacts);
+    if (ok && mounted) context.goNamed(AppRoutes.setEncryptionId);
   }
 
   @override

@@ -11,13 +11,19 @@ import '../../../../core/utils/result.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../providers/onboarding_providers.dart';
 
-/// Non-destructive restore: phone + SMS code proves ownership, then
-/// the user-chosen Encryption ID (set once via Settings > Encryption
-/// Keys, see AuthRepository.setEncryptionId) decrypts the SAME
-/// identity that was backed up — unlike RecoverAccountScreen, this
-/// does NOT mint a new identity, so existing contacts stay trusted.
+/// Non-destructive restore: OTP + the user-chosen Encryption ID (set
+/// once at signup, see SetEncryptionIdScreen / AuthRepository's
+/// setEncryptionId) decrypts the SAME identity that was backed up —
+/// unlike RecoverAccountScreen, this does NOT mint a new identity, so
+/// existing contacts stay trusted. The phone number is normally
+/// already known (carried over from LoginScreen), so the only fields
+/// the user ever sees here are the OTP and the Encryption ID; the
+/// phone-entry step below only appears if this screen is somehow
+/// reached without one.
 class RestoreBackupScreen extends ConsumerStatefulWidget {
-  const RestoreBackupScreen({super.key});
+  const RestoreBackupScreen({super.key, this.initialPhone = ''});
+
+  final String initialPhone;
 
   @override
   ConsumerState<RestoreBackupScreen> createState() =>
@@ -29,7 +35,6 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
   String? _phoneError;
   final TextEditingController _code = TextEditingController();
   final TextEditingController _encryptionId = TextEditingController();
-  final TextEditingController _localPassword = TextEditingController();
 
   bool _codeSent = false;
   bool _loading = false;
@@ -37,10 +42,18 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
   bool _obscure = true;
 
   @override
+  void initState() {
+    super.initState();
+    _phone = widget.initialPhone;
+    if (_phone.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _sendCode());
+    }
+  }
+
+  @override
   void dispose() {
     _code.dispose();
     _encryptionId.dispose();
-    _localPassword.dispose();
     super.dispose();
   }
 
@@ -74,9 +87,7 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
   }
 
   Future<void> _restore() async {
-    if (_code.text.length != 6 ||
-        _encryptionId.text.isEmpty ||
-        _localPassword.text.isEmpty) {
+    if (_code.text.length != 6 || _encryptionId.text.isEmpty) {
       return;
     }
     setState(() {
@@ -87,7 +98,10 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
         await ref.read(authRepositoryProvider).verifyBackupRestoreOtp(
               _code.text,
               encryptionId: _encryptionId.text,
-              localPassword: _localPassword.text,
+              // The Encryption ID also wraps local storage on this
+              // device — one secret, not two, per DeviceKeys.importFromBackup's
+              // independent Argon2id derivation (own random salt).
+              localPassword: _encryptionId.text,
             );
     if (!mounted) return;
     switch (result) {
@@ -121,7 +135,7 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
                 Text(
                   'Restores your existing account and contacts on this '
                   'device — not a new identity. Requires the Encryption '
-                  'ID you set earlier under Settings > Encryption Keys.',
+                  'ID you set at signup.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant),
                 ),
@@ -180,14 +194,6 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.md),
-                  AppTextField(
-                    controller: _localPassword,
-                    label: 'New unlock password for this device',
-                    hint: 'A strong password',
-                    obscureText: true,
-                    onChanged: (_) => setState(() {}),
-                  ),
                   if (_error != null) ...[
                     const SizedBox(height: AppSpacing.sm),
                     Text(
@@ -204,8 +210,7 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
                     pill: true,
                     isLoading: _loading,
                     onPressed: _code.text.length == 6 &&
-                            _encryptionId.text.isNotEmpty &&
-                            _localPassword.text.isNotEmpty
+                            _encryptionId.text.isNotEmpty
                         ? _restore
                         : null,
                   ),
@@ -214,6 +219,16 @@ class _RestoreBackupScreenState extends ConsumerState<RestoreBackupScreen> {
                     variant: AppButtonVariant.ghost,
                     onPressed: () =>
                         ref.read(authRepositoryProvider).resendRecoveryOtp(),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Center(
+                    child: TextButton(
+                      onPressed: () =>
+                          context.goNamed(AppRoutes.recoverAccount),
+                      child: const Text(
+                        "Lost your Encryption ID? Start fresh",
+                      ),
+                    ),
                   ),
                 ],
               ],
